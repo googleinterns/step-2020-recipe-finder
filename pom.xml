@@ -45,7 +45,7 @@
         <version>2.2.0</version>
         <configuration>
           <!-- TODO: set project ID. -->
-          <deploy.projectId>/*project-id*/</deploy.projectId>
+          <deploy.projectId>step-2020-recipe-finder</deploy.projectId>
           <deploy.version>1</deploy.version>
         </configuration>
       </plugin>
