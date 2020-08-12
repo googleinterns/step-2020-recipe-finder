@@ -69,14 +69,14 @@ class RecommendedRecipes extends Component {
           <Recipe
             key={i}
             recipe={recipe}
-            onClick={() => this.onClick(recipe)}
+            onClickLetsCook={() => this.setRecipeAndRedirect(recipe)}
           />
         ))}
       </div>
     );
   }
 
-  onClick(recipe) {
+  setRecipeAndRedirect(recipe) {
     localStorage.setItem("recipe", JSON.stringify(recipe));
     this.setState({ isRedirect: true });
   }
@@ -84,8 +84,8 @@ class RecommendedRecipes extends Component {
 
 function Recipe(props) {
   const recipe = props.recipe;
-  const popover = (
-    <Popover id="popover-basic">
+  const previewPopover = (
+    <Popover>
       <Popover.Title as="h3">Recipe preview</Popover.Title>
       <Popover.Content>
         {recipe.instructions.map((step, i) => (
@@ -99,7 +99,7 @@ function Recipe(props) {
     <div className="dish">
       <div className="dish-header">
         <h1 className="dish-name">{recipe.name}</h1>
-        <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+        <OverlayTrigger trigger="click" placement="left" overlay={previewPopover}>
           <div className="right-side-btn">
             <Button variant="link">
               <img src={EyeIcon} alt="recipe-preview" /> Preview
@@ -115,7 +115,7 @@ function Recipe(props) {
         </div>
 
         <div className="right-side-btn">
-          <Button variant="primary" onClick={props.onClick}>
+          <Button variant="primary" onClick={props.onClickLetsCook}>
             Let's cook!
           </Button>
         </div>

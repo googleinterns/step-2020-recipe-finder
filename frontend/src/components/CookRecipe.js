@@ -35,13 +35,7 @@ class CookRecipe extends Component {
           </Tab>
           <Tab eventKey="tutorial" title="Tutorial">
             {/* to do */}
-            <div className="tab-content">
-              <ol>
-                {recipe.instructions.map((step, i) => (
-                  <li key={i}>{step}</li>
-                ))}
-              </ol>
-            </div>
+            <div className="tab-content"></div>
           </Tab>
         </Tabs>
       </div>
