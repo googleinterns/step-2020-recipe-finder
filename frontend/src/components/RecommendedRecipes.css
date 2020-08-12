@@ -1,0 +1,33 @@
+.dish-name {
+  width: 70%;
+  float: left;
+}
+
+.dish-header {
+  padding-bottom: 10px;
+  position: relative;
+  display: flex;
+  margin: auto;
+}
+
+.dish {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  border-bottom: solid 1px;
+}
+
+.dish-contents-container {
+  display: flex;
+  margin: auto;
+}
+
+.dish-contents {
+  width: 70%;
+  float: left;
+}
+
+.right-side-btn {
+  height: 50px;
+  margin: auto;
+  display: block;
+}

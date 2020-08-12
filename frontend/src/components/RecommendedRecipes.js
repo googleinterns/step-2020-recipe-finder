@@ -1,5 +1,10 @@
+import Button from "react-bootstrap/Button";
+import EyeIcon from "../icons/eye.svg";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import "./RecommendedRecipes.css";
 
 class RecommendedRecipes extends Component {
   constructor(props) {
@@ -46,16 +51,18 @@ class RecommendedRecipes extends Component {
     if (this.state.isLoading) {
       return (
         <div>
-          <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
+          <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
           </div>
           <h3>Scanning recipes...</h3>
         </div>
       );
     }
+
     if (this.state.isRedirect) {
       return <Redirect to="/cook" />;
     }
+
     return (
       <div>
         {this.state.recipes.map((recipe, i) => (
@@ -77,13 +84,42 @@ class RecommendedRecipes extends Component {
 
 function Recipe(props) {
   const recipe = props.recipe;
+  const popover = (
+    <Popover id="popover-basic">
+      <Popover.Title as="h3">Recipe preview</Popover.Title>
+      <Popover.Content>
+        {recipe.instructions.map((step, i) => (
+          <p key={i}>{step}</p>
+        ))}
+      </Popover.Content>
+    </Popover>
+  );
+
   return (
-    <div>
-      <h1>{recipe.name}</h1>
-      <h3>Cooking time: {recipe.time}</h3>
-      <h3>Level: {recipe.level}</h3>
-      <h3>Per serving: {recipe.calories}</h3>
-      <button onClick={props.onClick}>Let's cook</button>
+    <div className="dish">
+      <div className="dish-header">
+        <h1 className="dish-name">{recipe.name}</h1>
+        <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+          <div className="right-side-btn">
+            <Button variant="link">
+              <img src={EyeIcon} alt="recipe-preview" /> Preview
+            </Button>
+          </div>
+        </OverlayTrigger>
+      </div>
+      <div className="dish-contents-container">
+        <div className="dish-contents">
+          <p>Cooking time: {recipe.time}</p>
+          <p>Level: {recipe.level}</p>
+          <p>Per serving: {recipe.calories}</p>
+        </div>
+
+        <div className="right-side-btn">
+          <Button variant="primary" onClick={props.onClick}>
+            Let's cook!
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

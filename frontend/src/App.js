@@ -2,25 +2,15 @@ import React from "react";
 import "./App.css";
 import CookRecipe from "./components/CookRecipe";
 import InputText from "./components/InputText";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <div className="App">
       <Router>
         <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/text">Input Text</Link>
-              </li>
-              <li>
-                <Link to="/recommendations">Recommendations</Link>
-              </li>
-            </ul>
-          </nav>
-
           <Switch>
             <Route exact path="/text" component={InputText} />
             <Route exact path="/cook" component={CookRecipe} />
