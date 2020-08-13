@@ -75,7 +75,7 @@ class RecommendedRecipes extends Component {
         {
           name: "Dish 1",
           time: "18 min",
-          level: "Easy",
+          difficulty: "Easy",
           calories: "383 kcal",
           ingredients: ["broccoli", "tomato"],
           instructions: ["step1: broccoli", "step2: tomato"],
@@ -83,7 +83,7 @@ class RecommendedRecipes extends Component {
         {
           name: "Dish 2",
           time: "25 min",
-          level: "Hard",
+          difficulty: "Hard",
           calories: "243 kcal",
           ingredients: ["egg", "tomato"],
           instructions: ["step1: egg", "step2: tomato"],
@@ -91,7 +91,7 @@ class RecommendedRecipes extends Component {
         {
           name: "Dish 3",
           time: "20 min",
-          level: "Easy",
+          difficulty: "Easy",
           calories: "342 kcal",
           ingredients: ["egg", "pasta"],
           instructions: ["step1: egg", "step2: pasta"],
@@ -168,7 +168,7 @@ function Recipe(props) {
       <div className="dish-contents-container">
         <div className="dish-contents">
           <p>Cooking time: {recipe.time}</p>
-          <p>Level: {recipe.level}</p>
+          <p>Difficulty: {recipe.difficulty}</p>
           <p>Per serving: {recipe.calories}</p>
         </div>
 
