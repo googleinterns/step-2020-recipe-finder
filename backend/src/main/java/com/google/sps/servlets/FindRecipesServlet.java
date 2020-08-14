@@ -25,26 +25,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /* Servlet that:
- * in Post request, returns an array of recommended recipes based on the ingredients in the request
+ * in Post request, returns a list of recommended recipes based on the ingredients in the request
  */
 @WebServlet("/api/find-recipes")
 public class FindRecipesServlet extends HttpServlet {
 
-//   @Override
-//   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//     response.setContentType("text/plain;");
-//     response.getWriter().println("hi");
-//     response.addHeader("Access-Control-Allow-Origin", "*");
-//   }
-
+  // returns hard-coded list of recipes
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     List<Recipe> recipes = new ArrayList<>();
     String[] ingredients = {"broccoli", "tomato"};
     String[] instructions = {"step1: broccoli", "step2: tomato"};
-    Recipe recipe = new Recipe(0, "Dish 1", "18 min", "383 kcal", "Easy", ingredients, instructions);
+    Recipe recipe =
+        new Recipe(0, "Dish 1", "18 min", "383 kcal", "Easy", ingredients, instructions);
     recipes.add(recipe);
-    System.out.println(recipe);
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(recipes));
     response.addHeader("Access-Control-Allow-Origin", "*");

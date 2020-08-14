@@ -34,34 +34,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import React from "react";
-import "./App.css";
-import CookRecipe from "./components/CookRecipe";
-import InputText from "./components/InputText";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import RecommendedRecipes from "./components/RecommendedRecipes";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./components/Home";
+// The MIT License (MIT)
 
-function App() {
-  return (
-    <div className="App">
-      <Router>
-        <div>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/text" component={InputText} />
-            <Route exact path="/cook" component={CookRecipe} />
-            <Route
-              exact
-              path="/recommendations"
-              component={RecommendedRecipes}
-            />
-          </Switch>
-        </div>
-      </Router>
-    </div>
-  );
+// Copyright (c) 2014-present Stephen J. Collings, Matthew Honnibal, Pieter Vanderwerff
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+import Button from "react-bootstrap/Button";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+
+class Home extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Recipe Finder</h1>
+        <Link to="/text">
+          <Button>Input Ingredients</Button>
+        </Link>
+      </div>
+    );
+  }
 }
-
-export default App;
+export default Home;
