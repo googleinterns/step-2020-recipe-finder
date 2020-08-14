@@ -76,17 +76,14 @@ class RecommendedRecipes extends Component {
 
   // post request to get recommended recipes
   post() {
-      console.log("here");
     const request = new Request('/api/find-recipes', {method: 'GET',
           headers : { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'
        }});
-    fetch(request).then((response) => response.text()).then((json) => console.log(json)).catch((err) => console.log(err));
-    let state = this.state;
-    state.isRedirect = false;
-    // state.recipes = recipes;
-    this.setState(state);
+    fetch(request).then((response) => response.json())
+    .then((json) => this.setState({recipes: json, isLoading: false}))
+    .catch((err) => console.log(err));
   }
 
   componentDidMount() {
@@ -96,7 +93,7 @@ class RecommendedRecipes extends Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <div>
+        <div className="spinner-div">
           <div className="spinner-border" role="status">
             <span className="sr-only">Loading...</span>
           </div>
@@ -108,6 +105,7 @@ class RecommendedRecipes extends Component {
     if (this.state.isRedirect) {
       return <Redirect to="/cook" />;
     }
+    console.log(this.state.recipes);
 
     return (
       <div>

@@ -14,9 +14,7 @@
     "react-scripts": "3.4.2"
   },
   "scripts": {
-    "start": "serve -s build",
-    "prestart": "npm install -g serve",
-    "loca": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
