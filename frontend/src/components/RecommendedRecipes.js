@@ -70,39 +70,28 @@ class RecommendedRecipes extends Component {
     this.state = {
       isLoading: true,
       isRedirect: false,
-      // hard-coded data
-      recipes: [
-        {
-          name: "Dish 1",
-          time: "18 min",
-          difficulty: "Easy",
-          calories: "383 kcal",
-          ingredients: ["broccoli", "tomato"],
-          instructions: ["step1: broccoli", "step2: tomato"],
-        },
-        {
-          name: "Dish 2",
-          time: "25 min",
-          difficulty: "Hard",
-          calories: "243 kcal",
-          ingredients: ["egg", "tomato"],
-          instructions: ["step1: egg", "step2: tomato"],
-        },
-        {
-          name: "Dish 3",
-          time: "20 min",
-          difficulty: "Easy",
-          calories: "342 kcal",
-          ingredients: ["egg", "pasta"],
-          instructions: ["step1: egg", "step2: pasta"],
-        },
-      ],
+      recipes: []
     };
   }
 
+  // post request to get recommended recipes
+  async post() {
+    const request = new Request('https://8080-0c203df0-003a-4ba0-bc7c-c41d1e3a56ad.europe-west1.cloudshell.dev/find-recipes', {method: 'POST',
+    body: {ingredients: []},
+          headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }});
+    const response = await fetch(request);
+    const recipes = await response.json();
+    let state = this.state;
+    state.isRedirect = false;
+    state.recipes = recipes;
+    this.setState(state);
+  }
+
   componentDidMount() {
-    // post request to get recommended recipes
-    this.setState({ isLoading: false });
+    this.post();
   }
 
   render() {
