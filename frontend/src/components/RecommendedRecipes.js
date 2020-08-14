@@ -74,7 +74,7 @@ class RecommendedRecipes extends Component {
     };
   }
 
-  // retrives recommended recipes from the back end 
+  // retrieves recommended recipes from the back end 
   componentDidMount() {
     const request = new Request("/api/find-recipes", {
       method: "POST",

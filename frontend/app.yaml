@@ -18,8 +18,6 @@ env: standard
 instance_class: F1
 handlers:
   - url: /api/.*
-# secure: always
-# redirect_http_response_code: 301
     script: auto
   - url: /static/js/(.*)
     static_files: build/static/js/\1
