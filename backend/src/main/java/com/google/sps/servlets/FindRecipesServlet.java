@@ -27,18 +27,18 @@ import javax.servlet.http.HttpServletResponse;
 /* Servlet that:
  * in Post request, returns an array of recommended recipes based on the ingredients in the request
  */
-@WebServlet("/find-recipes")
+@WebServlet("/api/find-recipes")
 public class FindRecipesServlet extends HttpServlet {
+
+//   @Override
+//   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//     response.setContentType("text/plain;");
+//     response.getWriter().println("hi");
+//     response.addHeader("Access-Control-Allow-Origin", "*");
+//   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/plain;");
-    response.getWriter().println("hi");
-    response.addHeader("Access-Control-Allow-Origin", "*");
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     List<Recipe> recipes = new ArrayList<>();
     String[] ingredients = {"broccoli", "tomato"};
     String[] instructions = {"step1: broccoli", "step2: tomato"};

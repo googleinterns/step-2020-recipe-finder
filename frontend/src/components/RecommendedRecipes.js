@@ -75,18 +75,17 @@ class RecommendedRecipes extends Component {
   }
 
   // post request to get recommended recipes
-  async post() {
-    const request = new Request('https://8080-0c203df0-003a-4ba0-bc7c-c41d1e3a56ad.europe-west1.cloudshell.dev/find-recipes', {method: 'POST',
-    body: {ingredients: []},
+  post() {
+      console.log("here");
+    const request = new Request('/api/find-recipes', {method: 'GET',
           headers : { 
         'Content-Type': 'application/json',
         'Accept': 'application/json'
        }});
-    const response = await fetch(request);
-    const recipes = await response.json();
+    fetch(request).then((response) => response.text()).then((json) => console.log(json)).catch((err) => console.log(err));
     let state = this.state;
     state.isRedirect = false;
-    state.recipes = recipes;
+    // state.recipes = recipes;
     this.setState(state);
   }
 
