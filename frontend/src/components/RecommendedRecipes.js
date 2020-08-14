@@ -77,7 +77,7 @@ class RecommendedRecipes extends Component {
   // retrives recommended recipes from the back end 
   componentDidMount() {
     const request = new Request("/api/find-recipes", {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
