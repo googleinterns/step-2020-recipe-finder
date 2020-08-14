@@ -10,8 +10,8 @@ class InputTextItems extends Component {
         this.props.delete(key);
     }
     createTasks(item) {
-    return <li onClick={() => this.delete(item.key)} 
-              key={item.key}>{item.text}</li>
+    return <li><div>{item.text}</div><a onClick={() => this.delete(item.key)} 
+    key={item.key}>x</a></li>
     }
  
   render() {
