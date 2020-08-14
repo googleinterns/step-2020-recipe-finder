@@ -24,8 +24,14 @@ public final class Recipe {
   private final String[] ingredients;
   private final String[] instructions;
 
-  public Recipe(long id, String name, String time, String calories, 
-                String difficulty, String[] ingredients, String[] instructions) {
+  public Recipe(
+      long id,
+      String name,
+      String time,
+      String calories,
+      String difficulty,
+      String[] ingredients,
+      String[] instructions) {
     this.id = id;
     this.name = name;
     this.time = time;

@@ -70,24 +70,23 @@ class RecommendedRecipes extends Component {
     this.state = {
       isLoading: true,
       isRedirect: false,
-      recipes: []
+      recipes: [],
     };
   }
 
-  // post request to get recommended recipes
-  post() {
-    const request = new Request('/api/find-recipes', {method: 'GET',
-          headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       }});
-    fetch(request).then((response) => response.json())
-    .then((json) => this.setState({recipes: json, isLoading: false}))
-    .catch((err) => console.log(err));
-  }
-
+  // retrives recommended recipes from the back end 
   componentDidMount() {
-    this.post();
+    const request = new Request("/api/find-recipes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    fetch(request)
+      .then((response) => response.json())
+      .then((json) => this.setState({ recipes: json, isLoading: false }))
+      .catch((err) => console.log(err));
   }
 
   render() {
@@ -105,7 +104,6 @@ class RecommendedRecipes extends Component {
     if (this.state.isRedirect) {
       return <Redirect to="/cook" />;
     }
-    console.log(this.state.recipes);
 
     return (
       <div>
@@ -143,7 +141,11 @@ function Recipe(props) {
     <div className="dish">
       <div className="dish-header">
         <h1 className="dish-name">{recipe.name}</h1>
-        <OverlayTrigger trigger="click" placement="left" overlay={previewPopover}>
+        <OverlayTrigger
+          trigger="click"
+          placement="left"
+          overlay={previewPopover}
+        >
           <div className="right-side-btn">
             <Button variant="link">
               <img src={EyeIcon} alt="recipe-preview" /> Preview
