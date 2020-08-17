@@ -157,7 +157,11 @@ function Recipe(props) {
     <div className="dish">
       <div className="dish-header">
         <h1 className="dish-name">{recipe.name}</h1>
-        <OverlayTrigger trigger="click" placement="left" overlay={previewPopover}>
+        <OverlayTrigger
+          trigger="click"
+          placement="left"
+          overlay={previewPopover}
+        >
           <div className="right-side-btn">
             <Button variant="link">
               <img src={EyeIcon} alt="recipe-preview" /> Preview
