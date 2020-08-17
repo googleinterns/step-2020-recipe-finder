@@ -65,6 +65,7 @@ import Tabs from "react-bootstrap/Tabs";
 import "./CookRecipe.css";
 import navigateNext from "../icons/navigate_next.svg";
 import navigatePrevious from "../icons/navigate_previous.svg";
+import speaker from "../icons/speaker.svg";
 
 class CookRecipe extends Component {
   constructor(props) {
@@ -133,6 +134,9 @@ class CookRecipe extends Component {
                 {recipe.instructions.map((step, i) => (
                   <Carousel.Item key={i} className="carousel-step">
                     {step}
+                    <Button variant="" onClick={this.readStep}>
+                      <img src={speaker} alt="read the step" />
+                    </Button>
                   </Carousel.Item>
                 ))}
               </Carousel>
@@ -168,6 +172,10 @@ class CookRecipe extends Component {
         </div>
       );
     }
+  }
+
+  readStep() {
+    // to do
   }
 }
 export default CookRecipe;
