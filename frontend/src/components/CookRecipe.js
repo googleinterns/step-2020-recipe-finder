@@ -68,14 +68,18 @@ import navigatePrevious from "../icons/navigate_previous.svg";
 class CookRecipe extends Component {
   constructor(props) {
     super(props);
-    this.state = { recipe: JSON.parse(localStorage.getItem("recipe")) };
+    this.state = {
+      recipe: JSON.parse(localStorage.getItem("recipe")),
+      isLastStep: false,
+    };
+  }
+
+  componentDidMount() {
+    this.checkIsLastStep();
   }
 
   render() {
     const recipe = this.state.recipe;
-    const isLastStep =
-      this.getSelectedStep() === this.state.recipe.instructions.length;
-
     return (
       <div>
         <h1>{recipe.name}</h1>
@@ -125,13 +129,7 @@ class CookRecipe extends Component {
                   </Carousel.Item>
                 ))}
               </Carousel>
-              {isLastStep ? (
-                <div className="finished-btn">
-                  <Button>I finished cooking</Button>
-                </div>
-              ) : (
-                "Not done"
-              )}
+              {this.displayFinishedIfLastStep()}
             </div>
           </Tab>
         </Tabs>
@@ -141,11 +139,28 @@ class CookRecipe extends Component {
 
   setSelectedStep = (selectedIndex, e) => {
     localStorage.setItem("tutorial-step", selectedIndex);
+    this.checkIsLastStep();
   };
 
   getSelectedStep() {
     const step = JSON.parse(localStorage.getItem("tutorial-step"));
     return step ? step : 0;
+  }
+
+  checkIsLastStep() {
+    const step = this.getSelectedStep();
+    const isLastStep = this.state.recipe.instructions.length === step + 1;
+    this.setState({ isLastStep: isLastStep });
+  }
+
+  displayFinishedIfLastStep() {
+    if (this.state.isLastStep) {
+      return (
+        <div className="finished-btn">
+          <Button>I finished cooking</Button>
+        </div>
+      );
+    }
   }
 }
 export default CookRecipe;
