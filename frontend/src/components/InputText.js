@@ -31,7 +31,6 @@ class InputText extends Component {
           this._inputElement.value = "";
         }
          
-        console.log(this.state.items);
            
         e.preventDefault();
     }
@@ -47,7 +46,7 @@ class InputText extends Component {
     
     render() {
         return (
-          <div className="todoListMain">
+          <div className="ingredientList">
             <div className="header">
               <h1>Input Ingredients</h1>
               <form onSubmit={this.addItem}>
