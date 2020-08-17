@@ -56,10 +56,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Button from "react-bootstrap/Button";
+import Carousel from "react-bootstrap/Carousel";
 import React, { Component } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./CookRecipe.css";
+import navigateNext from "../icons/navigate_next.svg";
+import navigatePrevious from "../icons/navigate_previous.svg";
 
 class CookRecipe extends Component {
   constructor(props) {
@@ -69,10 +73,13 @@ class CookRecipe extends Component {
 
   render() {
     const recipe = this.state.recipe;
+    const isLastStep =
+      this.getSelectedStep() === this.state.recipe.instructions.length;
+
     return (
       <div>
         <h1>{recipe.name}</h1>
-        <Tabs>
+        <Tabs defaultActiveKey="tutorial">
           <Tab eventKey="ingredients" title="Ingredients">
             <div className="tab-content">
               <ul>
@@ -92,12 +99,53 @@ class CookRecipe extends Component {
             </div>
           </Tab>
           <Tab eventKey="tutorial" title="Tutorial">
-            {/* to do */}
-            <div className="tab-content"></div>
+            <div className="tab-content">
+              <Carousel
+                interval={null}
+                onSelect={this.setSelectedStep}
+                defaultActiveIndex={this.getSelectedStep}
+                nextIcon={
+                  <img
+                    src={navigateNext}
+                    alt="next step"
+                    className="carousel-control"
+                  />
+                }
+                prevIcon={
+                  <img
+                    src={navigatePrevious}
+                    alt="previous step"
+                    className="carousel-control"
+                  />
+                }
+              >
+                {recipe.instructions.map((step, i) => (
+                  <Carousel.Item key={i} className="carousel-step">
+                    {step}
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+              {isLastStep ? (
+                <div className="finished-btn">
+                  <Button>I finished cooking</Button>
+                </div>
+              ) : (
+                "Not done"
+              )}
+            </div>
           </Tab>
         </Tabs>
       </div>
     );
+  }
+
+  setSelectedStep = (selectedIndex, e) => {
+    localStorage.setItem("tutorial-step", selectedIndex);
+  };
+
+  getSelectedStep() {
+    const step = JSON.parse(localStorage.getItem("tutorial-step"));
+    return step ? step : 0;
   }
 }
 export default CookRecipe;
