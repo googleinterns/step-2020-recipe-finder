@@ -27,7 +27,7 @@ limitations under the License. */
 .dish {
   padding-top: 30px;
   padding-bottom: 20px;
-  border-bottom: solid 1px #44bb99;
+  border-bottom: solid 1px rgb(222, 226, 230);
 }
 
 .dish-contents-container {

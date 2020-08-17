@@ -1,8 +1,15 @@
 .App {
-  padding-left: 7%;
+  padding-left: 20%;
+  padding-right: 20%;
   padding-top: 4%;
-  padding-right: 7%;
   font-family: "Noto Sans JP", sans-serif;
+}
+
+@media only screen and (max-width: 600px) {
+  .App {
+    padding-left: 7%;
+    padding-right: 7%;
+  }
 }
 
 .App-logo {
