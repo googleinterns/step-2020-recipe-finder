@@ -1,7 +1,8 @@
 .App {
   padding-left: 7%;
-  padding-top: 7%;
-  padding-right: 10%;
+  padding-top: 4%;
+  padding-right: 7%;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
 .App-logo {
@@ -37,4 +38,31 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App .btn-primary,
+.App .btn-primary:focus,
+.App .btn-primary:not(:disabled):not(.disabled):active {
+  background-color: #339966;
+  border-color: #339966;
+}
+
+.App .btn-primary:hover {
+  background-color: #44bb99;
+  border-color: #44bb99;
+}
+
+.App a,
+.App .btn-link {
+  color: #339966;
+}
+
+.App a:hover,
+.App .btn-link:hover {
+  color: #44bb99;
+}
+
+.App h1,
+.App h3 {
+  font-weight: 700;
 }

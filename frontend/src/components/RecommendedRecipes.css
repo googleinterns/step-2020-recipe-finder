@@ -27,7 +27,7 @@ limitations under the License. */
 .dish {
   padding-top: 30px;
   padding-bottom: 20px;
-  border-bottom: solid 1px;
+  border-bottom: solid 1px #44bb99;
 }
 
 .dish-contents-container {
@@ -44,4 +44,12 @@ limitations under the License. */
   height: 50px;
   margin: auto;
   display: block;
+}
+
+.popover h3 {
+  font-weight: 700;
+}
+
+.popover {
+  font-family: "Noto Sans JP", sans-serif;
 }

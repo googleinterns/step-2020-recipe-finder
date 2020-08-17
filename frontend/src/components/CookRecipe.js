@@ -59,6 +59,7 @@
 import Button from "react-bootstrap/Button";
 import Carousel from "react-bootstrap/Carousel";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./CookRecipe.css";
@@ -82,6 +83,12 @@ class CookRecipe extends Component {
     const recipe = this.state.recipe;
     return (
       <div>
+        <Link to="/recommendations">
+          <Button variant="" className="back-btn">
+            <img src={navigatePrevious} alt="go to recomendations" />
+            Back
+          </Button>
+        </Link>
         <h1>{recipe.name}</h1>
         <Tabs defaultActiveKey="tutorial">
           <Tab eventKey="ingredients" title="Ingredients">
