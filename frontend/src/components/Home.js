@@ -57,116 +57,19 @@
 // THE SOFTWARE.
 
 import Button from "react-bootstrap/Button";
-import EyeIcon from "../icons/eye.svg";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Popover from "react-bootstrap/Popover";
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import "./RecommendedRecipes.css";
+import { Link } from "react-router-dom";
 
-class RecommendedRecipes extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true,
-      isRedirect: false,
-      recipes: [],
-    };
-  }
-
-  // retrieves recommended recipes from the back end 
-  componentDidMount() {
-    const request = new Request("/api/find-recipes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
-    fetch(request)
-      .then((response) => response.json())
-      .then((json) => this.setState({ recipes: json, isLoading: false }))
-      .catch((err) => console.log(err));
-  }
-
+class Home extends Component {
   render() {
-    if (this.state.isLoading) {
-      return (
-        <div className="spinner-div">
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <h3>Scanning recipes...</h3>
-        </div>
-      );
-    }
-
-    if (this.state.isRedirect) {
-      return <Redirect to="/cook" />;
-    }
-
     return (
       <div>
-        {this.state.recipes.map((recipe, i) => (
-          <Recipe
-            key={i}
-            recipe={recipe}
-            onClickLetsCook={() => this.setRecipeAndRedirect(recipe)}
-          />
-        ))}
+        <h1>Recipe Finder</h1>
+        <Link to="/text">
+          <Button>Input Ingredients</Button>
+        </Link>
       </div>
     );
   }
-
-  setRecipeAndRedirect(recipe) {
-    localStorage.setItem("recipe", JSON.stringify(recipe));
-    this.setState({ isRedirect: true });
-  }
 }
-
-function Recipe(props) {
-  const recipe = props.recipe;
-  const previewPopover = (
-    <Popover>
-      <Popover.Title as="h3">Recipe preview</Popover.Title>
-      <Popover.Content>
-        {recipe.instructions.map((step, i) => (
-          <p key={i}>{step}</p>
-        ))}
-      </Popover.Content>
-    </Popover>
-  );
-
-  return (
-    <div className="dish">
-      <div className="dish-header">
-        <h1 className="dish-name">{recipe.name}</h1>
-        <OverlayTrigger
-          trigger="click"
-          placement="left"
-          overlay={previewPopover}
-        >
-          <div className="right-side-btn">
-            <Button variant="link">
-              <img src={EyeIcon} alt="recipe-preview" /> Preview
-            </Button>
-          </div>
-        </OverlayTrigger>
-      </div>
-      <div className="dish-contents-container">
-        <div className="dish-contents">
-          <p>Cooking time: {recipe.time}</p>
-          <p>Difficulty: {recipe.difficulty}</p>
-          <p>Per serving: {recipe.calories}</p>
-        </div>
-
-        <div className="right-side-btn">
-          <Button variant="primary" onClick={props.onClickLetsCook}>
-            Let's cook!
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-export default RecommendedRecipes;
+export default Home;

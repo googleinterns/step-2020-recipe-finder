@@ -41,6 +41,7 @@ import InputText from "./components/InputText";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Home from "./components/Home";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
       <Router>
         <div>
           <Switch>
+            <Route exact path="/" component={Home} />
             <Route exact path="/text" component={InputText} />
             <Route exact path="/cook" component={CookRecipe} />
             <Route
