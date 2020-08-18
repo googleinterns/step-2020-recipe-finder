@@ -136,6 +136,7 @@ class RecommendedRecipes extends Component {
 
   setRecipeAndRedirect(recipe) {
     localStorage.setItem("recipe", JSON.stringify(recipe));
+    localStorage.setItem("tutorial-step", 0);
     this.setState({ isRedirect: true });
   }
 }
