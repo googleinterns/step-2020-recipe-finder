@@ -86,7 +86,7 @@ class CookRecipe extends Component {
       <div>
         <Link to="/recommendations">
           <Button variant="" className="back-btn">
-            <img src={navigatePrevious} alt="go to recomendations" />
+            <img src={navigatePrevious} alt="go back to recommendations" />
             Back
           </Button>
         </Link>
@@ -113,7 +113,7 @@ class CookRecipe extends Component {
           <Tab eventKey="tutorial" title="Tutorial">
             <div className="tab-content">
               <Carousel
-                interval={null}
+                interval={null} // to disable auto play of the carousel
                 onSelect={this.setSelectedStep}
                 defaultActiveIndex={this.getSelectedStep}
                 nextIcon={
