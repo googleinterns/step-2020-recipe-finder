@@ -20,3 +20,24 @@ limitations under the License. */
 li {
   padding-bottom: 10px;
 }
+
+.carousel-step {
+  width: 100%;
+  padding-left: 17%;
+  padding-right: 17%;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.carousel-control {
+  width: 40px;
+}
+
+.finished-btn {
+  margin: auto;
+  width: 50%;
+}
+
+.back-btn {
+  margin-bottom: 20px;
+}

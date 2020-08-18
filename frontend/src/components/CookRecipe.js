@@ -56,23 +56,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import Button from "react-bootstrap/Button";
+import Carousel from "react-bootstrap/Carousel";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./CookRecipe.css";
+import navigateNext from "../icons/navigate_next.svg";
+import navigatePrevious from "../icons/navigate_previous.svg";
+import speaker from "../icons/speaker.svg";
 
 class CookRecipe extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { recipe: JSON.parse(localStorage.getItem("recipe")) };
+  constructor(properties) {
+    super(properties);
+    this.state = {
+      recipe: JSON.parse(localStorage.getItem("recipe")),
+      isLastStep: false,
+    };
+  }
+
+  componentDidMount() {
+    this.checkIsLastStep();
   }
 
   render() {
     const recipe = this.state.recipe;
     return (
       <div>
+        <Link to="/recommendations">
+          <Button variant="" className="back-btn">
+            <img src={navigatePrevious} alt="go to recomendations" />
+            Back
+          </Button>
+        </Link>
         <h1>{recipe.name}</h1>
-        <Tabs>
+        <Tabs defaultActiveKey="tutorial">
           <Tab eventKey="ingredients" title="Ingredients">
             <div className="tab-content">
               <ul>
@@ -92,12 +111,71 @@ class CookRecipe extends Component {
             </div>
           </Tab>
           <Tab eventKey="tutorial" title="Tutorial">
-            {/* to do */}
-            <div className="tab-content"></div>
+            <div className="tab-content">
+              <Carousel
+                interval={null}
+                onSelect={this.setSelectedStep}
+                defaultActiveIndex={this.getSelectedStep}
+                nextIcon={
+                  <img
+                    src={navigateNext}
+                    alt="next step"
+                    className="carousel-control"
+                  />
+                }
+                prevIcon={
+                  <img
+                    src={navigatePrevious}
+                    alt="previous step"
+                    className="carousel-control"
+                  />
+                }
+              >
+                {recipe.instructions.map((step, i) => (
+                  <Carousel.Item key={i} className="carousel-step">
+                    {step}
+                    <Button variant="" onClick={this.readStep}>
+                      <img src={speaker} alt="read the step" />
+                    </Button>
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+              {this.displayFinishedIfLastStep()}
+            </div>
           </Tab>
         </Tabs>
       </div>
     );
+  }
+
+  setSelectedStep = (selectedIndex, e) => {
+    localStorage.setItem("tutorial-step", selectedIndex);
+    this.checkIsLastStep();
+  };
+
+  getSelectedStep() {
+    const step = JSON.parse(localStorage.getItem("tutorial-step"));
+    return step ? step : 0;
+  }
+
+  checkIsLastStep() {
+    const step = this.getSelectedStep();
+    const isLastStep = this.state.recipe.instructions.length === step + 1;
+    this.setState({ isLastStep: isLastStep });
+  }
+
+  displayFinishedIfLastStep() {
+    if (this.state.isLastStep) {
+      return (
+        <div className="finished-btn">
+          <Button>I finished cooking</Button>
+        </div>
+      );
+    }
+  }
+
+  readStep() {
+    // to do
   }
 }
 export default CookRecipe;
