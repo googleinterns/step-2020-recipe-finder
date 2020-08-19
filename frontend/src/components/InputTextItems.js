@@ -4,21 +4,20 @@ class InputTextItems extends Component {
     constructor(properties) {
         super(properties);
      
-        this.createTasks = this.createTasks.bind(this);
+        this.createItems = this.createItems.bind(this);
     }
+    
     delete(key) {
         this.props.delete(key);
     }
-    createTasks(item) {
+
+    createItems(item) {
       return <li><div>{item.text}</div><a onClick={() => this.delete(item.key)} 
         key={item.key}>x</a></li>
     }
-    
  
   render() {
-    
-    var todoEntries = this.props.entries;
-    var listItems = todoEntries.map(this.createTasks);
+    var listItems = this.props.entries.map(this.createItems);
     return (
       <ul className="theList">
           {listItems}
