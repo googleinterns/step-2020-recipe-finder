@@ -77,7 +77,7 @@ class CookRecipe extends Component {
   }
 
   componentDidMount() {
-    this.checkIsLastStep();
+    this.noteIfLastStep();
   }
 
   render() {
@@ -150,7 +150,7 @@ class CookRecipe extends Component {
 
   setSelectedStep = (selectedIndex, e) => {
     localStorage.setItem("tutorial-step", selectedIndex);
-    this.checkIsLastStep();
+    this.noteIfLastStep();
   };
 
   getSelectedStep() {
@@ -158,7 +158,7 @@ class CookRecipe extends Component {
     return step ? step : 0;
   }
 
-  checkIsLastStep() {
+  noteIfLastStep() {
     const step = this.getSelectedStep();
     const isLastStep = this.state.recipe.instructions.length === step + 1;
     this.setState({ isLastStep: isLastStep });
