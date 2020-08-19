@@ -15,7 +15,7 @@ class InputText extends Component {
 
       }
 
-    addItem(e) {
+    addItem(event) {
         if (this._inputElement.value !== "") {
           const name = this._inputElement.value;
           const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
@@ -39,7 +39,7 @@ class InputText extends Component {
           this._inputElement.value = "";
         }
          
-        e.preventDefault();
+        event.preventDefault();
     }
     deleteItem(key) {
         var filteredItems = this.state.items.filter(function (item) {
