@@ -3,8 +3,8 @@ import InputTextItems from './InputTextItems'
 import './InputText.css'
 
 class InputText extends Component {
-    constructor(props) {
-        super(props);
+    constructor(properties) {
+        super(properties);
        
         this.state = {
           items: []
@@ -17,21 +17,28 @@ class InputText extends Component {
 
     addItem(e) {
         if (this._inputElement.value !== "") {
+          const name = this._inputElement.value;
+          const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
           var newItem = {
-            text: this._inputElement.value,
+            text: nameCapitalized,
             key: Date.now()
           };
-       
+                 
           this.setState((prevState) => {
+            prevState.items.forEach(function(item, index, object) {
+              if (item.text===newItem.text){
+                object.splice(index, 1);
+              }
+            });
             return { 
-              items: prevState.items.concat(newItem) 
+              items: [newItem].concat(prevState.items)
             };
+            
           });
          
           this._inputElement.value = "";
         }
          
-           
         e.preventDefault();
     }
     deleteItem(key) {

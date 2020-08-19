@@ -1,8 +1,8 @@
 import React, { Component } from "react";
  
 class InputTextItems extends Component {
-    constructor(props) {
-        super(props);
+    constructor(properties) {
+        super(properties);
      
         this.createTasks = this.createTasks.bind(this);
     }
@@ -10,14 +10,15 @@ class InputTextItems extends Component {
         this.props.delete(key);
     }
     createTasks(item) {
-        return <li><div>{item.text}</div><a onClick={() => this.delete(item.key)} 
+      return <li><div>{item.text}</div><a onClick={() => this.delete(item.key)} 
         key={item.key}>x</a></li>
     }
+    
  
   render() {
+    
     var todoEntries = this.props.entries;
     var listItems = todoEntries.map(this.createTasks);
- 
     return (
       <ul className="theList">
           {listItems}
