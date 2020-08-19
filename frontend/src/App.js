@@ -38,6 +38,8 @@ import React from "react";
 import "./App.css";
 import CookRecipe from "./components/CookRecipe";
 import InputText from "./components/InputText";
+import ShoppingList from "./components/ShoppingList";
+import Inventory from "./components/Inventory";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -49,6 +51,8 @@ function App() {
         <div>
           <Switch>
             <Route exact path="/text" component={InputText} />
+            <Route exact path="/shop" component={ShoppingList} />
+            <Route exact path="/inventory" component={Inventory} />
             <Route exact path="/cook" component={CookRecipe} />
             <Route
               exact
