@@ -15,6 +15,7 @@
 import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import './Home.css';
 
 class Home extends Component {
   constructor(properties) {
@@ -37,12 +38,11 @@ class Home extends Component {
     return (
       <div>
         <h1>Recipe Finder</h1>
-        <Link to={this.state.logUrl}>
-          <Button>{this.getLoginOrLogoutLabel()}</Button>
-        </Link>
-
+        <a href={this.state.logUrl} className="home-buttons">
+          {this.getLoginOrLogoutLabel()}
+        </a>
         <Link to="/text">
-          <Button>Input Ingredients</Button>
+          <Button className="home-buttons">Input Ingredients</Button>
         </Link>
       </div>
     );
