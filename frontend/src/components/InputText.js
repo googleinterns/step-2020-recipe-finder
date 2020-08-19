@@ -13,33 +13,37 @@ class InputText extends Component {
         this.addItem = this.addItem.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
 
-      }
-
+    }
     addItem(event) {
-        if (this._inputElement.value !== "") {
-          const name = this._inputElement.value;
-          const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-          var newItem = {
-            text: nameCapitalized,
-            key: Date.now()
+      if (this._inputElement.value === "") {
+        return;
+      }
+      const name = this._inputElement.value;
+      const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+      var dupe = 0;
+      var newItem = {
+        text: nameCapitalized,
+        key: Date.now()
+      };
+      this.setState((prevState) => {
+        prevState.items.forEach(function(item, index, object) {
+          if (item.text===newItem.text){
+            dupe=1;
+            window.alert("Duplicate Ingredient");
+          }
+        });
+        if (dupe === 0) {
+          return { 
+            items: [newItem].concat(prevState.items)
           };
-                 
-          this.setState((prevState) => {
-            prevState.items.forEach(function(item, index, object) {
-              if (item.text===newItem.text){
-                object.splice(index, 1);
-              }
-            });
-            return { 
-              items: [newItem].concat(prevState.items)
-            };
-            
-          });
-         
-          this._inputElement.value = "";
+        } else {
+          return { 
+            items: prevState.items
+          };
         }
-         
-        event.preventDefault();
+      });
+      this._inputElement.value = "";
+      event.preventDefault();
     }
     deleteItem(key) {
         var filteredItems = this.state.items.filter(function (item) {
@@ -50,7 +54,6 @@ class InputText extends Component {
           items: filteredItems
         });
     }
-    
     render() {
         return (
           <div className="ingredientList">
