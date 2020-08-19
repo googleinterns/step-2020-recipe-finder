@@ -180,5 +180,6 @@ class CookRecipe extends Component {
 
   finishCooking() {
     // to do
+  }
 }
 export default CookRecipe;
