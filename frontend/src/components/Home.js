@@ -17,15 +17,39 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class Home extends Component {
+  constructor(properties) {
+    super(properties);
+    this.state = {
+      isLoggedIn: false,
+      logUrl: "",
+    };
+  }
+
+  componentDidMount() {
+    fetch("/api/login-status")
+      .then((response) => response.json())
+      .then((json) =>
+        this.setState({ isLoggedIn: json.isLoggedIn, logUrl: json.logUrl })
+      );
+  }
+
   render() {
     return (
       <div>
         <h1>Recipe Finder</h1>
+        <Link to={this.state.logUrl}>
+          <Button>{this.getLoginOrLogoutLabel()}</Button>
+        </Link>
+
         <Link to="/text">
           <Button>Input Ingredients</Button>
         </Link>
       </div>
     );
+  }
+
+  getLoginOrLogoutLabel() {
+    return this.state.isLoggedIn ? "Logout" : "Login";
   }
 }
 export default Home;
