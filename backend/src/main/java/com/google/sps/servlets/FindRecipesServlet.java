@@ -14,6 +14,11 @@
 
 package com.google.sps.servlets;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
 import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import java.io.IOException;
@@ -30,17 +35,67 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/api/find-recipes")
 public class FindRecipesServlet extends HttpServlet {
 
-  // returns hard-coded list of recipes
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    List<Recipe> recipes = new ArrayList<>();
-    String[] ingredients = {"broccoli", "tomato"};
-    String[] instructions = {"step1: broccoli", "step2: tomato"};
-    Recipe recipe =
-        new Recipe(0, "Dish 1", "18 min", "383 kcal", "Easy", ingredients, instructions);
-    recipes.add(recipe);
-    response.setContentType("application/json;");
-    response.getWriter().println(new Gson().toJson(recipes));
-    response.addHeader("Access-Control-Allow-Origin", "*");
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String url = "https://www.bbcgoodfood.com/recipes/flourless-brownies";
+    WebClient client = new WebClient();
+	client.getOptions().setCssEnabled(false);
+	client.getOptions().setJavaScriptEnabled(false);
+    try {
+      HtmlPage page = client.getPage(url);
+
+      // Name
+      HtmlElement itemName = (HtmlElement) page.getFirstByXPath("//h1[@class='masthead__title heading-1']");
+      String name = itemName.asText();
+
+
+      // Time
+      List<HtmlElement> itemsTime = (List<HtmlElement>) page.getByXPath("//time") ;
+      for (HtmlElement item: itemsTime) {
+        String time = item.asText();
+        System.out.println("time: " + time);
+      }
+
+      // Calories
+      List<HtmlElement> itemsNutrition = (List<HtmlElement>) page.getByXPath("//tr[@class='key-value-blocks__item']");
+      for (HtmlElement item: itemsNutrition) {
+        HtmlElement title = (HtmlElement) item.getFirstByXPath("//td[@class='key-value-blocks__key']");
+        if (title.asText().equals("kcal")) {
+          HtmlElement calories = (HtmlElement) item.getFirstByXPath("//td[@class='key-value-blocks__value']");
+          System.out.println("calories: " + calories.asText());
+          break;
+        }
+      }
+
+      // Difficulty
+      List<HtmlElement> itemsInfo = (List<HtmlElement>) page.getByXPath("//li[@class='mb-sm mr-xl list-item']");
+      HtmlElement itemDiff = itemsInfo.get(1);
+      HtmlElement itemDifficulty = itemDiff.getFirstByXPath("//div[@class='icon-with-text__children']");
+      System.out.println("difficulty: " + itemDifficulty.asText());
+
+
+      // Ingredients
+      List<String> ingredients = new ArrayList<>();
+      List<HtmlElement> itemsIngr = (List<HtmlElement>) page.getByXPath("//li[@class='pb-xxs pt-xxs list-item list-item--separator']") ;
+      for (HtmlElement item : itemsIngr) {
+        ingredients.add(item.asText());
+      }
+
+      // Instructions
+      List<String> instructions = new ArrayList<>();
+      HtmlElement method = (HtmlElement) page.getFirstByXPath("//ul[@class='grouped-list__list list']");
+      System.out.println(method.asText());
+      List<HtmlElement> itemsInstr = (List<HtmlElement>) method.getByXPath("//p") ;      
+      for (HtmlElement item : itemsInstr) {
+        instructions.add(item.asText());
+      }
+
+      response.setContentType("application/json;");
+      response.getWriter().println(new Gson().toJson(instructions));
+      response.addHeader("Access-Control-Allow-Origin", "*");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
   }
 }
