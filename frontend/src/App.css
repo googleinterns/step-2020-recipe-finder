@@ -13,9 +13,17 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 .App {
-  padding-left: 7%;
-  padding-top: 7%;
-  padding-right: 10%;
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 4%;
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+@media only screen and (max-width: 600px) {
+  .App {
+    padding-left: 7%;
+    padding-right: 7%;
+  }
 }
 
 .App-logo {
@@ -51,4 +59,32 @@ limitations under the License. */
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.App .btn-primary,
+.App .btn-primary:focus,
+.App .btn-primary:not(:disabled):not(.disabled):active {
+  background-color: #339966;
+  border-color: #339966;
+}
+
+.App .btn-primary:hover {
+  background-color: #44bb99;
+  border-color: #44bb99;
+}
+
+.App a,
+.App .btn-link {
+  color: #339966;
+}
+
+.App a:hover,
+.App .btn-link:hover {
+  color: #44bb99;
+}
+
+.App h1,
+.App h3 {
+  font-weight: 700;
 }

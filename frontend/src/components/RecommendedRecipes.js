@@ -118,7 +118,7 @@ function Recipe(props) {
 
         <div className="right-side-btn">
           <Button variant="primary" onClick={props.onClickLetsCook}>
-            Let's cook!
+            Let's Go!
           </Button>
         </div>
       </div>

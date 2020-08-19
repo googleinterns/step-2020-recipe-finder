@@ -18,7 +18,6 @@ import CookRecipe from "./components/CookRecipe";
 import InputText from "./components/InputText";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home";
 
 function App() {
