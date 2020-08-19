@@ -168,7 +168,7 @@ class CookRecipe extends Component {
     if (this.state.isLastStep) {
       return (
         <div className="finished-btn">
-          <Button onClick={this.finishCooking}>I finished cooking</Button>
+          <Button onClick={this.finishCooking}>All done!</Button>
         </div>
       );
     }
