@@ -26,7 +26,7 @@ class Tutorial extends Component {
     super(properties);
     this.state = {
       isLastStep: false,
-      isSpeakerOff: true,
+      isSpeakerOff: false,
     };
     this.switchSpeaker = this.switchSpeaker.bind(this);
   }
