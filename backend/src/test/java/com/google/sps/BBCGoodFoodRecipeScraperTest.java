@@ -33,7 +33,7 @@ public final class BBCGoodFoodRecipeScraperTest {
   private static final String[] diet = {"Vegetarian"};
   private static final String[] ingredients = {"3 unwaxed lemons, roughly chopped", 
             "140g caster sugar", 
-            "1l cold water"};
+            "1l cold  water"};
   private static final String[] instructions = {"Tip the lemons, sugar and half the water " 
                                + "into a food processor and blend until the lemon is finely chopped.", 
                                  "Pour the mixture into a sieve over a bowl, then press through as much " 

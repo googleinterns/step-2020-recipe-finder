@@ -14,6 +14,8 @@
 
 package com.google.sps.data;
 
+import java.util.Arrays;
+
 public final class Recipe {
 
   private final String name;
@@ -39,5 +41,26 @@ public final class Recipe {
     this.dietaryRequirements = dietaryRequirements;
     this.ingredients = ingredients;
     this.instructions = instructions;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other == this) { 
+        return true; 
+    } 
+
+    if (!(other instanceof Recipe)) { 
+        return false; 
+    } 
+        
+    Recipe otherRecipe = (Recipe) other; 
+
+    return this.name.equals(otherRecipe.name)
+        && this.time.equals(otherRecipe.time)
+        && this.difficulty.equals(otherRecipe.difficulty)
+        && this.calories.equals(otherRecipe.calories)
+        && Arrays.equals(this.dietaryRequirements, otherRecipe.dietaryRequirements)
+        && Arrays.equals(this.ingredients, otherRecipe.ingredients)
+        && Arrays.equals(this.instructions, otherRecipe.instructions);
   }
 }
