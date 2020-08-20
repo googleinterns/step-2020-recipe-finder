@@ -16,27 +16,27 @@ package com.google.sps.data;
 
 public final class Recipe {
 
-  private final long id;
   private final String name;
   private final String time;
   private final String calories;
   private final String difficulty;
+  private final String[] dietaryRequirements;
   private final String[] ingredients;
   private final String[] instructions;
 
   public Recipe(
-      long id,
       String name,
       String time,
       String calories,
       String difficulty,
+      String[] dietaryRequirements,
       String[] ingredients,
       String[] instructions) {
-    this.id = id;
     this.name = name;
     this.time = time;
     this.calories = calories;
     this.difficulty = difficulty;
+    this.dietaryRequirements = dietaryRequirements;
     this.ingredients = ingredients;
     this.instructions = instructions;
   }
