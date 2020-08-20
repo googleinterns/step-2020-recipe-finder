@@ -118,9 +118,7 @@ class Tutorial extends Component {
   }
 
   getSpeakerMessage() {
-    return this.state.isSpeakerOff
-      ? "I want to hear the instructions"
-      : "Don't read the instructions";
+    return this.state.isSpeakerOff ? "Always read steps" : "Don't read steps";
   }
 }
 export default Tutorial;
