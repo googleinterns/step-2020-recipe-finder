@@ -65,7 +65,8 @@ import Tabs from "react-bootstrap/Tabs";
 import "./CookRecipe.css";
 import navigateNext from "../icons/navigate_next.svg";
 import navigatePrevious from "../icons/navigate_previous.svg";
-import speaker from "../icons/speaker.svg";
+import speakerOn from "../icons/speaker-on.svg";
+import speakerOff from "../icons/speaker-off.svg";
 
 class CookRecipe extends Component {
   constructor(properties) {
@@ -73,7 +74,9 @@ class CookRecipe extends Component {
     this.state = {
       recipe: JSON.parse(localStorage.getItem("recipe")),
       isLastStep: false,
+      isSpeakerOn: true,
     };
+    this.switchSpeaker = this.switchSpeaker.bind(this);
   }
 
   componentDidMount() {
@@ -112,6 +115,9 @@ class CookRecipe extends Component {
           </Tab>
           <Tab eventKey="tutorial" title="Tutorial">
             <div className="tab-content">
+              <Button variant="" onClick={this.switchSpeaker}>
+                <img src={this.getSpeaker()} alt="read the step" />
+              </Button>
               <Carousel
                 interval={null} // to disable auto play of the carousel
                 onSelect={this.setSelectedStep}
@@ -134,9 +140,6 @@ class CookRecipe extends Component {
                 {recipe.instructions.map((step, i) => (
                   <Carousel.Item key={i} className="carousel-step">
                     {step}
-                    <Button variant="" onClick={this.readStep}>
-                      <img src={speaker} alt="read the step" />
-                    </Button>
                   </Carousel.Item>
                 ))}
               </Carousel>
@@ -174,12 +177,17 @@ class CookRecipe extends Component {
     }
   }
 
-  readStep() {
-    // to do
+  switchSpeaker() {
+    const previousStateIsSpeakerOn = this.state.isSpeakerOn;
+    this.setState({ isSpeakerOn: !previousStateIsSpeakerOn });
   }
 
   finishCooking() {
     // to do
+  }
+
+  getSpeaker() {
+    return this.state.isSpeakerOn ? speakerOff : speakerOn;
   }
 }
 export default CookRecipe;
