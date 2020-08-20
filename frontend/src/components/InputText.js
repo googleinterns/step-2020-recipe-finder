@@ -19,13 +19,12 @@ class InputText extends Component {
       if (this._inputElement.value === "") {
         return;
       }
-      const name = this._inputElement.value;
-      const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-      var isDuplicate = false;
       var newItem = {
-        text: nameCapitalized,
+        text: this._inputElement.value.charAt(0).toUpperCase()
+            + this._inputElement.value.slice(1).toLowerCase(),
         key: Date.now()
       };
+      var isDuplicate = false;
       this.setState((prevState) => {
         prevState.items.forEach(function(item, index, object) {
           if (item.text===newItem.text){
@@ -33,13 +32,13 @@ class InputText extends Component {
             window.alert("Duplicate Ingredient");
           }
         });
-        if (!isDuplicate) {
+        if (isDuplicate) {
           return { 
-            items: [newItem].concat(prevState.items)
+            items: prevState.items
           };
         } else {
           return { 
-            items: prevState.items
+            items: [newItem].concat(prevState.items)
           };
         }
       });
