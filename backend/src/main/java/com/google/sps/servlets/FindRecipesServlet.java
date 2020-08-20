@@ -29,11 +29,13 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/api/find-recipes")
 public class FindRecipesServlet extends HttpServlet {
 
+  // TODO: based on the ingredients in the request, retrieve 5 links to scrape recipes from
+  // now: returns a recipe scraped from bbc good food
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Recipe recipe =
-        BBCGoodFoodRecipeScraper.scrapeRecipe(
-            "https://www.bbcgoodfood.com/recipes/flourless-brownies");
+        BBCGoodFoodRecipeScraper.scrapeRecipe( /* url */
+            "https://www.bbcgoodfood.com/recipes/smoky-mushroom-burgers-roasted-garlic-mayo");
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(recipe));
     response.addHeader("Access-Control-Allow-Origin", "*");

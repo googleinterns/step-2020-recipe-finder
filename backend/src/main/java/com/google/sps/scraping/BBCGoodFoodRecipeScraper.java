@@ -19,6 +19,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.sps.data.Recipe;
+import java.time.Duration;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -40,7 +41,7 @@ public class BBCGoodFoodRecipeScraper {
       // Get all values for a Recipe object
       String name = jsonObject.get("name").getAsString();
 
-      String time = jsonObject.get("totalTime").getAsString();
+      String time = getTimeFromJson(jsonObject);
 
       String calories = getCaloriesFromJson(jsonObject);
 
@@ -60,21 +61,53 @@ public class BBCGoodFoodRecipeScraper {
     }
   }
 
+  /* Time in the JSON object is in ISO 8601 duration format
+   * This converts it into "H hours M mintues" format
+   */
+  private static String getTimeFromJson(JsonObject jsonObject) {
+    String formattedTime = jsonObject.get("totalTime").getAsString();
+    Duration duration = Duration.parse(formattedTime);
+    long hours = duration.toHours();
+    long minutes = duration.minusHours(hours).toMinutes();
+
+    String time = "";
+    if (hours != 0) {
+      time += hours + " hr ";
+    } 
+
+    if (minutes != 0) {
+      time += minutes + " min ";
+    }
+    return time;
+  }
+
+  /*
+   * Structure of HTML page: 
+   *  
+   *  <div class=className>
+   *    <div> icon </div>
+   *    <div> Difficulty level </div>
+   *  </div>
+   */
   private static String getDifficultyFromDocument(Document document) {
+    String className = "icon-with-text masthead__skill-level body-copy-small body-copy-bold"
+                + " icon-with-text--aligned";
     return document
         .select(
-            "div[class='icon-with-text masthead__skill-level body-copy-small body-copy-bold"
-                + " icon-with-text--aligned']")
+            "div[class='" + className +"']")
         .first()
         .child(1)
         .text();
   }
 
+  /* Structure of jsonObject: {nutrition: {calories: "calories", ..} ..} */
   private static String getCaloriesFromJson(JsonObject jsonObject) {
     JsonObject nutrition = jsonObject.get("nutrition").getAsJsonObject();
     return nutrition.get("calories").getAsString();
   }
 
+  /* Structure of jsonObject: 
+   * {suitableForDiet: "http://schema.org/VegetarianDiet, http://schema.org/GlutenFreeDiet .."} */
   private static String[] getDietFromJson(JsonObject jsonObject) {
     String dietElements = jsonObject.get("suitableForDiet").getAsString();
     String[] diet = dietElements.split(", ");
@@ -85,7 +118,8 @@ public class BBCGoodFoodRecipeScraper {
     return diet;
   }
 
-  private static String[] getIngredientsFromJson(JsonObject jsonObject) {
+  /* Structure of jsonObject: {recipeIngredient: {"ingredient", "ingredient", ..]..} */
+  private static String[] getIngredientsFromJson(JsonObject jsonObject) {    
     JsonArray ingredientsElements = jsonObject.get("recipeIngredient").getAsJsonArray();
     String[] ingredients = new String[ingredientsElements.size()];
     int counter = 0;
@@ -95,7 +129,8 @@ public class BBCGoodFoodRecipeScraper {
     return ingredients;
   }
 
-  private static String[] getInstructionsFromJson(JsonObject jsonObject) {
+  /* Structure of jsonObject: {recipeInstructions: [ {text: "<p>step</p>", ..} ]..} */
+  private static String[] getInstructionsFromJson(JsonObject jsonObject) {    
     JsonArray instructionsElements = jsonObject.get("recipeInstructions").getAsJsonArray();
     String[] instructions = new String[instructionsElements.size()];
     int counter = 0;
