@@ -74,7 +74,7 @@ class CookRecipe extends Component {
     this.state = {
       recipe: JSON.parse(localStorage.getItem("recipe")),
       isLastStep: false,
-      isSpeakerOn: true,
+      isSpeakerOff: true,
     };
     this.switchSpeaker = this.switchSpeaker.bind(this);
   }
@@ -115,12 +115,20 @@ class CookRecipe extends Component {
           </Tab>
           <Tab eventKey="tutorial" title="Tutorial">
             <div className="tab-content">
-              <Button variant="" onClick={this.switchSpeaker}>
-                <img src={this.getSpeaker()} alt="read the step" />
-              </Button>
+              <div className="centered-div">
+                <Button
+                  variant="primary"
+                  onClick={this.switchSpeaker}
+                >
+                  <img src={this.getSpeakerIcon()} alt="switch speaker" />
+                  <div></div>
+                  {this.getSpeakerMessage()}
+                </Button>
+              </div>
+
               <Carousel
                 interval={null} // to disable auto play of the carousel
-                onSelect={this.setSelectedStep}
+                onSelect={this.setSelectedStepAndMaybeRead}
                 defaultActiveIndex={this.getSelectedStep}
                 nextIcon={
                   <img
@@ -151,9 +159,13 @@ class CookRecipe extends Component {
     );
   }
 
-  setSelectedStep = (selectedIndex, e) => {
+  setSelectedStepAndMaybeRead = (selectedIndex, e) => {
     localStorage.setItem("tutorial-step", selectedIndex);
     this.noteIfLastStep();
+    if (this.state.isSpeakerOff) {
+      return;
+    }
+    // to do : read the step
   };
 
   getSelectedStep() {
@@ -170,7 +182,7 @@ class CookRecipe extends Component {
   displayFinishedIfLastStep() {
     if (this.state.isLastStep) {
       return (
-        <div className="finished-btn">
+        <div className="centered-div">
           <Button onClick={this.finishCooking}>All done!</Button>
         </div>
       );
@@ -178,16 +190,22 @@ class CookRecipe extends Component {
   }
 
   switchSpeaker() {
-    const previousStateIsSpeakerOn = this.state.isSpeakerOn;
-    this.setState({ isSpeakerOn: !previousStateIsSpeakerOn });
+    const previousStateIsSpeakerOff = this.state.isSpeakerOff;
+    this.setState({ isSpeakerOff: !previousStateIsSpeakerOff });
   }
 
   finishCooking() {
     // to do
   }
 
-  getSpeaker() {
-    return this.state.isSpeakerOn ? speakerOff : speakerOn;
+  getSpeakerIcon() {
+    return this.state.isSpeakerOff ? speakerOn : speakerOff;
+  }
+
+  getSpeakerMessage() {
+    return this.state.isSpeakerOff
+      ? "I want to hear the instructions"
+      : "Don't read the instructions";
   }
 }
 export default CookRecipe;
