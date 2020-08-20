@@ -40,7 +40,7 @@ public class BBCGoodFoodRecipeScraper {
       // Get all values for a Recipe object
       String name = jsonObject.get("name").getAsString();
 
-      String totalTime = jsonObject.get("totalTime").getAsString();
+      String time = jsonObject.get("totalTime").getAsString();
 
       String calories = getCaloriesFromJson(jsonObject);
 
@@ -60,7 +60,7 @@ public class BBCGoodFoodRecipeScraper {
     }
   }
 
-  private String getDifficultyFromDocument(Document document) {
+  private static String getDifficultyFromDocument(Document document) {
     return document
         .select(
             "div[class='icon-with-text masthead__skill-level body-copy-small body-copy-bold"
@@ -70,12 +70,12 @@ public class BBCGoodFoodRecipeScraper {
         .text();
   }
 
-  private String getCaloriesFromJson(JsonObject jsonObject) {
+  private static String getCaloriesFromJson(JsonObject jsonObject) {
     JsonObject nutrition = jsonObject.get("nutrition").getAsJsonObject();
     return nutrition.get("calories").getAsString();
   }
 
-  private String[] getDietFromJson(JsonObject jsonObject) {
+  private static String[] getDietFromJson(JsonObject jsonObject) {
     String dietElements = jsonObject.get("suitableForDiet").getAsString();
     String[] diet = dietElements.split(", ");
     int counter = 0;
@@ -85,20 +85,20 @@ public class BBCGoodFoodRecipeScraper {
     return diet;
   }
 
-  private String[] getIngredientsFromJson(JsonObject jsonObject) {
+  private static String[] getIngredientsFromJson(JsonObject jsonObject) {
     JsonArray ingredientsElements = jsonObject.get("recipeIngredient").getAsJsonArray();
     String[] ingredients = new String[ingredientsElements.size()];
-    counter = 0;
+    int counter = 0;
     for (JsonElement element : ingredientsElements) {
       ingredients[counter++] = element.getAsString();
     }
     return ingredients;
   }
 
-  private String[] getInstructionsFromJson(JsonObject jsonObject) {
+  private static String[] getInstructionsFromJson(JsonObject jsonObject) {
     JsonArray instructionsElements = jsonObject.get("recipeInstructions").getAsJsonArray();
     String[] instructions = new String[instructionsElements.size()];
-    counter = 0;
+    int counter = 0;
     for (JsonElement element : instructionsElements) {
       JsonObject step = element.getAsJsonObject();
       instructions[counter++] = step.get("text").getAsString().replaceAll("\\<.*?\\>", "");
