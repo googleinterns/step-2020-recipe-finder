@@ -73,7 +73,7 @@ public class BBCGoodFoodRecipeScraper {
     String time = "";
     if (hours != 0) {
       time += hours + " hr ";
-    } 
+    }
 
     if (minutes != 0) {
       time += minutes + " min ";
@@ -82,22 +82,18 @@ public class BBCGoodFoodRecipeScraper {
   }
 
   /*
-   * Structure of HTML page: 
-   *  
+   * Structure of HTML page:
+   *
    *  <div class=className>
    *    <div> icon </div>
    *    <div> Difficulty level </div>
    *  </div>
    */
   private static String getDifficultyFromDocument(Document document) {
-    String className = "icon-with-text masthead__skill-level body-copy-small body-copy-bold"
-                + " icon-with-text--aligned";
-    return document
-        .select(
-            "div[class='" + className +"']")
-        .first()
-        .child(1)
-        .text();
+    String className =
+        "icon-with-text masthead__skill-level body-copy-small body-copy-bold"
+            + " icon-with-text--aligned";
+    return document.select("div[class='" + className + "']").first().child(1).text();
   }
 
   /* Structure of jsonObject: {nutrition: {calories: "calories", ..} ..} */
@@ -106,7 +102,7 @@ public class BBCGoodFoodRecipeScraper {
     return nutrition.get("calories").getAsString();
   }
 
-  /* Structure of jsonObject: 
+  /* Structure of jsonObject:
    * {suitableForDiet: "http://schema.org/VegetarianDiet, http://schema.org/GlutenFreeDiet .."} */
   private static String[] getDietFromJson(JsonObject jsonObject) {
     String dietElements = jsonObject.get("suitableForDiet").getAsString();
@@ -119,7 +115,7 @@ public class BBCGoodFoodRecipeScraper {
   }
 
   /* Structure of jsonObject: {recipeIngredient: {"ingredient", "ingredient", ..]..} */
-  private static String[] getIngredientsFromJson(JsonObject jsonObject) {    
+  private static String[] getIngredientsFromJson(JsonObject jsonObject) {
     JsonArray ingredientsElements = jsonObject.get("recipeIngredient").getAsJsonArray();
     String[] ingredients = new String[ingredientsElements.size()];
     int counter = 0;
@@ -130,7 +126,7 @@ public class BBCGoodFoodRecipeScraper {
   }
 
   /* Structure of jsonObject: {recipeInstructions: [ {text: "<p>step</p>", ..} ]..} */
-  private static String[] getInstructionsFromJson(JsonObject jsonObject) {    
+  private static String[] getInstructionsFromJson(JsonObject jsonObject) {
     JsonArray instructionsElements = jsonObject.get("recipeInstructions").getAsJsonArray();
     String[] instructions = new String[instructionsElements.size()];
     int counter = 0;

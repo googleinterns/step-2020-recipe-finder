@@ -31,16 +31,19 @@ public final class BBCGoodFoodRecipeScraperTest {
   private static final String calories = "140 calories";
   private static final String difficulty = "Easy";
   private static final String[] diet = {"Vegetarian"};
-  private static final String[] ingredients = {"3 unwaxed lemons, roughly chopped", 
-            "140g caster sugar", 
-            "1l cold  water"};
-  private static final String[] instructions = {"Tip the lemons, sugar and half the water " 
-                               + "into a food processor and blend until the lemon is finely chopped.", 
-                                 "Pour the mixture into a sieve over a bowl, then press through as much " 
-                               + "juice as you can. Top up with the remaining water and serve with plain "  
-                               + "ice or frozen with slices of lemon and lime."};
-  
+  private static final String[] ingredients = {
+    "3 unwaxed lemons, roughly chopped", "140g caster sugar", "1l cold  water"
+  };
+  private static final String[] instructions = {
+    "Tip the lemons, sugar and half the water "
+        + "into a food processor and blend until the lemon is finely chopped.",
+    "Pour the mixture into a sieve over a bowl, then press through as much "
+        + "juice as you can. Top up with the remaining water and serve with plain "
+        + "ice or frozen with slices of lemon and lime."
+  };
+
   private Recipe expectedRecipe;
+
   @Before
   public void setUp() {
     expectedRecipe = new Recipe(name, time, calories, difficulty, diet, ingredients, instructions);

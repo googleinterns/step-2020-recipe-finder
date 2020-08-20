@@ -45,15 +45,15 @@ public final class Recipe {
 
   @Override
   public boolean equals(Object other) {
-    if (other == this) { 
-        return true; 
-    } 
+    if (other == this) {
+      return true;
+    }
 
-    if (!(other instanceof Recipe)) { 
-        return false; 
-    } 
-        
-    Recipe otherRecipe = (Recipe) other; 
+    if (!(other instanceof Recipe)) {
+      return false;
+    }
+
+    Recipe otherRecipe = (Recipe) other;
 
     return this.name.equals(otherRecipe.name)
         && this.time.equals(otherRecipe.time)
