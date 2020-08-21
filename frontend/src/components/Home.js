@@ -22,7 +22,7 @@ class Home extends Component {
       <div>
         <h1>Recipe Finder</h1>
         <Link to="/text">
-          <Button className="home-buttons">Input Ingredients</Button>
+          <Button>Input Ingredients</Button>
         </Link>
       </div>
     );
