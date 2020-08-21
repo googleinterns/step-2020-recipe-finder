@@ -15,6 +15,7 @@
 package com.google.sps.data;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public final class Recipe {
 
@@ -45,22 +46,25 @@ public final class Recipe {
 
   @Override
   public boolean equals(Object other) {
-    if (other == this) {
-      return true;
-    }
+    if (this == other) return true;
+    if (other == null || getClass() != other.getClass()) return false;
+    Recipe recipe = (Recipe) other;
+    return name.equals(recipe.name) &&
+            time.equals(recipe.time) &&
+            calories.equals(recipe.calories) &&
+            difficulty.equals(recipe.difficulty) &&
+            Arrays.equals(dietaryRequirements, recipe.dietaryRequirements) &&
+            Arrays.equals(ingredients, recipe.ingredients) &&
+            Arrays.equals(instructions, recipe.instructions);
+  }
 
-    if (!(other instanceof Recipe)) {
-      return false;
-    }
-
-    Recipe otherRecipe = (Recipe) other;
-
-    return this.name.equals(otherRecipe.name)
-        && this.time.equals(otherRecipe.time)
-        && this.difficulty.equals(otherRecipe.difficulty)
-        && this.calories.equals(otherRecipe.calories)
-        && Arrays.equals(this.dietaryRequirements, otherRecipe.dietaryRequirements)
-        && Arrays.equals(this.ingredients, otherRecipe.ingredients)
-        && Arrays.equals(this.instructions, otherRecipe.instructions);
+  @Override
+  public int hashCode() {
+    int multiplier = 31;
+    int result = Objects.hash(name, time, calories, difficulty);
+    result = multiplier * result + Arrays.hashCode(dietaryRequirements);
+    result = multiplier * result + Arrays.hashCode(ingredients);
+    result = multiplier * result + Arrays.hashCode(instructions);
+    return result;
   }
 }
