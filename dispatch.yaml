@@ -15,9 +15,7 @@
 # Rules for dispatch file...
 # Put specific cases at the top, other
 dispatch:
-# Except for the react frontend on a custom url.
+  - url: "*/api/*"
+    service: backend
   - url: "*/*"
     service: default
-# Route only the urls that match the servlets to the backend
-  - url: "*/api/"
-    service: backend

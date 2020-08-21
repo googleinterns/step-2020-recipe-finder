@@ -12,50 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// MIT License
-
-// Copyright (c) Facebook, Inc. and its affiliates.
-
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
-// The MIT License (MIT)
-
-// Copyright (c) 2014-present Stephen J. Collings, Matthew Honnibal, Pieter Vanderwerff
-
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
 import Button from "react-bootstrap/Button";
 import EyeIcon from "../icons/eye.svg";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -70,45 +26,29 @@ class RecommendedRecipes extends Component {
     this.state = {
       isLoading: true,
       isRedirect: false,
-      // hard-coded data
-      recipes: [
-        {
-          name: "Dish 1",
-          time: "18 min",
-          level: "Easy",
-          calories: "383 kcal",
-          ingredients: ["broccoli", "tomato"],
-          instructions: ["step1: broccoli", "step2: tomato"],
-        },
-        {
-          name: "Dish 2",
-          time: "25 min",
-          level: "Hard",
-          calories: "243 kcal",
-          ingredients: ["egg", "tomato"],
-          instructions: ["step1: egg", "step2: tomato"],
-        },
-        {
-          name: "Dish 3",
-          time: "20 min",
-          level: "Easy",
-          calories: "342 kcal",
-          ingredients: ["egg", "pasta"],
-          instructions: ["step1: egg", "step2: pasta"],
-        },
-      ],
+      recipes: [],
     };
   }
 
+  // retrieves recommended recipes from the back end 
   componentDidMount() {
-    // post request to get recommended recipes
-    this.setState({ isLoading: false });
+    const request = new Request("/api/find-recipes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    fetch(request)
+      .then((response) => response.json())
+      .then((json) => this.setState({ recipes: json, isLoading: false }))
+      .catch((err) => console.log(err));
   }
 
   render() {
     if (this.state.isLoading) {
       return (
-        <div>
+        <div className="spinner-div">
           <div className="spinner-border" role="status">
             <span className="sr-only">Loading...</span>
           </div>
@@ -157,7 +97,11 @@ function Recipe(props) {
     <div className="dish">
       <div className="dish-header">
         <h1 className="dish-name">{recipe.name}</h1>
-        <OverlayTrigger trigger="click" placement="left" overlay={previewPopover}>
+        <OverlayTrigger
+          trigger="click"
+          placement="left"
+          overlay={previewPopover}
+        >
           <div className="right-side-btn">
             <Button variant="link">
               <img src={EyeIcon} alt="recipe-preview" /> Preview
@@ -168,13 +112,13 @@ function Recipe(props) {
       <div className="dish-contents-container">
         <div className="dish-contents">
           <p>Cooking time: {recipe.time}</p>
-          <p>Level: {recipe.level}</p>
+          <p>Difficulty: {recipe.difficulty}</p>
           <p>Per serving: {recipe.calories}</p>
         </div>
 
         <div className="right-side-btn">
           <Button variant="primary" onClick={props.onClickLetsCook}>
-            Let's cook!
+            Let's Go!
           </Button>
         </div>
       </div>
