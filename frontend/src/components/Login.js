@@ -40,9 +40,7 @@ class Home extends Component {
     return (
       <div>
         <h1>Recipe Finder</h1>
-        <a href={this.state.logUrl} className="home-buttons">
-          Login
-        </a>
+        <a href={this.state.logUrl}>Login</a>
       </div>
     );
   }
