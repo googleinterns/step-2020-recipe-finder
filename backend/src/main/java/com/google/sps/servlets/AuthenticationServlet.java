@@ -21,6 +21,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/*
+ * Parent class for servlets that need authenticated access
+ *
+ * In doGet and doPost:
+ * - if a user is not logged in, the response status is set to authentication error code and methods return
+ * - if a user is logged in, it executes corresponding abstract method get or post
+ */
 public abstract class AuthenticationServlet extends HttpServlet {
   private static final int AUTHENTICATION_ERROR_CODE = 401;
 
