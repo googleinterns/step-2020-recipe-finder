@@ -15,6 +15,7 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
+/* Wrapping for routes that require authentication */
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
