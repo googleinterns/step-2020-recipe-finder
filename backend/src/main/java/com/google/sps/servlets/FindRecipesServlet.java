@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import com.google.sps.scraping.BBCGoodFoodRecipeScraper;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,14 +32,16 @@ import javax.servlet.http.HttpServletResponse;
 public class FindRecipesServlet extends HttpServlet {
 
   // TODO: based on the ingredients in the request, retrieve 5 links to scrape recipes from
-  // now: returns a recipe scraped from bbc good food
+  // now: returns a list of recipes scraped from bbc good food
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Recipe recipe =
-        BBCGoodFoodRecipeScraper.scrapeRecipe( /* url */
-            "https://www.bbcgoodfood.com/recipes/smoky-mushroom-burgers-roasted-garlic-mayo");
+    List<Recipe> recipes = new ArrayList<>();
+    recipes.add(BBCGoodFoodRecipeScraper.scrapeRecipe( /* url */
+            "https://www.bbcgoodfood.com/recipes/smoky-mushroom-burgers-roasted-garlic-mayo"));
+    recipes.add(BBCGoodFoodRecipeScraper.scrapeRecipe( /* url */
+            "https://www.bbcgoodfood.com/recipes/really-easy-lemonade"));
     response.setContentType("application/json;");
-    response.getWriter().println(new Gson().toJson(recipe));
+    response.getWriter().println(new Gson().toJson(recipes));
     response.addHeader("Access-Control-Allow-Origin", "*");
   }
 }
