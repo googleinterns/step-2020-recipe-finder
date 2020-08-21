@@ -13,8 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import React, {Component} from 'react';
-import InputTextItems from './InputTextItems'
-import './InputText.css'
+import InputTextItems from './InputTextItems';
+import './InputText.css';
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 class InputText extends Component {
     constructor(properties) {
@@ -78,9 +80,13 @@ class InputText extends Component {
               <form onSubmit={this.addItem}>
               <input ref={(a) => this._inputElement = a} placeholder="New Ingredient">
                 </input>
-                <button type="submit">add</button>
+                <Button type="submit">add</Button>
               </form>
+
             </div>
+              <Link to="/recommendations">
+                <Button variant="primary">Confirm</Button>
+              </Link>
             <InputTextItems entries={this.state.items} delete={this.deleteItem}/>
           </div>
         );

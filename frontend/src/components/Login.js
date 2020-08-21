@@ -12,18 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 class Home extends Component {
+  constructor(properties) {
+    super(properties);
+    this.state = {
+      isLoggedIn: false,
+      logUrl: "",
+    };
+  }
+
+  componentDidMount() {
+    fetch("/api/login-status")
+      .then((response) => response.json())
+      .then((json) =>
+        this.setState({ isLoggedIn: json.isLoggedIn, logUrl: json.logUrl })
+      );
+  }
+
   render() {
+    if (this.state.isLoggedIn) {
+      localStorage.setItem("logOutUrl", this.state.logUrl);
+      return <Redirect to="/home" />;
+    }
     return (
       <div>
         <h1>Recipe Finder</h1>
-        <Link to="/text">
-          <Button className="home-buttons">Input Ingredients</Button>
-        </Link>
+        <a href={this.state.logUrl} className="home-buttons">
+          Login
+        </a>
       </div>
     );
   }
