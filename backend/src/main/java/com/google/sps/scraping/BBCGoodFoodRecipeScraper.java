@@ -40,21 +40,13 @@ public class BBCGoodFoodRecipeScraper {
 
       // Get all values for a Recipe object
       String name = jsonObject.get("name").getAsString();
-
       String time = getTimeFromJson(jsonObject);
-
       String calories = getCaloriesFromJson(jsonObject);
-
       String difficulty = getDifficultyFromDocument(document);
-
       String[] diet = getDietFromJson(jsonObject);
-
       String[] ingredients = getIngredientsFromJson(jsonObject);
-
       String[] instructions = getInstructionsFromJson(jsonObject);
-
       return new Recipe(name, time, calories, difficulty, diet, ingredients, instructions);
-
     } catch (Exception e) {
       System.out.println(e);
       return null;
