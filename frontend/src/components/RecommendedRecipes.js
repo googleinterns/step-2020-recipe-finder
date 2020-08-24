@@ -33,8 +33,12 @@ class RecommendedRecipes extends Component {
 
   // retrieves recommended recipes from the back end
   componentDidMount() {
+    const { ingredients } = this.props.location.state;
     const request = new Request("/api/find-recipes", {
       method: "POST",
+      body: {
+        ingredients: ingredients
+      },
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",

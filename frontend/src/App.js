@@ -34,7 +34,6 @@ function App() {
             <Route exact path="/shop" component={ShoppingList} />
             <Route exact path="/inventory" component={Inventory} />
             <Route exact path="/cook" component={CookRecipe} />
-            <Route exact path="/search" component={Search} />
             <Route
               exact
               path="/recommendations"
