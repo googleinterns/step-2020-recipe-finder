@@ -27,6 +27,7 @@ class RecommendedRecipes extends Component {
       isLoading: true,
       isRedirect: false,
       recipes: [],
+      chosenRecipe: {},
     };
   }
 
@@ -58,7 +59,11 @@ class RecommendedRecipes extends Component {
     }
 
     if (this.state.isRedirect) {
-      return <Redirect to="/cook" />;
+      return (
+        <Redirect
+          to={{ pathname: "/cook", state: { recipe: this.state.chosenRecipe } }}
+        />
+      );
     }
 
     return (
@@ -75,8 +80,15 @@ class RecommendedRecipes extends Component {
   }
 
   setRecipeAndRedirect(recipe) {
-    localStorage.setItem("recipe", JSON.stringify(recipe));
-    localStorage.setItem("tutorial-step", /*starting index for tutorial's carousel*/ 0);
+    try {
+      localStorage.setItem("recipe", JSON.stringify(recipe));
+      localStorage.setItem(
+        "tutorial-step",
+        /*starting index for tutorial's carousel*/ 0
+      );
+    } catch (error) {
+      this.setState({ chosenRecipe: recipe });
+    }
     this.setState({ isRedirect: true });
   }
 }

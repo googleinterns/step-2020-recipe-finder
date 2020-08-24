@@ -25,7 +25,9 @@ class CookRecipe extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      recipe: JSON.parse(localStorage.getItem("recipe")),
+      recipe: localStorage.getItem("recipe")
+        ? JSON.parse(localStorage.getItem("recipe"))
+        : this.props.location.state.recipe,
     };
   }
 
@@ -61,7 +63,7 @@ class CookRecipe extends Component {
           </Tab>
           <Tab eventKey="tutorial" title="Tutorial">
             <div className="tab-content">
-              <Tutorial recipe={this.state.recipe}/>
+              <Tutorial recipe={this.state.recipe} />
             </div>
           </Tab>
         </Tabs>
