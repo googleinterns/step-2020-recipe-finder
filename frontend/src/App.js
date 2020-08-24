@@ -18,7 +18,6 @@ import CookRecipe from "./components/CookRecipe";
 import InputText from "./components/InputText";
 import ShoppingList from "./components/ShoppingList";
 import Inventory from "./components/Inventory";
-import Search from "./components/Search";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";

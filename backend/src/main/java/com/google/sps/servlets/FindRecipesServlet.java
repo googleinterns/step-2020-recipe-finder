@@ -32,6 +32,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 /* Servlet that:
  * in Post request returns web links based on the inputted ingredients
  */
@@ -40,10 +41,10 @@ public class FindRecipesServlet extends HttpServlet {
   private static final int MAX_NUMBER_OF_INGREDIENTS = 3;
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String ingredients = request.getParameter("ingredients");
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String ingredients = request.getReader().readLine();
     String json = Jsoup.connect(
-      "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&exactTerms="
+      "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&q="
         + ingredients +"&key=" + ApiKeys.customSearchKey).ignoreContentType(true).execute().body();
     JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
     JsonArray items = jsonObject.get("items").getAsJsonArray();
