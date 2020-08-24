@@ -23,7 +23,6 @@ import java.time.Duration;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import java.util.Arrays;
 
 public class BBCGoodFoodRecipeScraper {
   /*
