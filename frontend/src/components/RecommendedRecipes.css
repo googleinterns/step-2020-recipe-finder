@@ -27,7 +27,7 @@ limitations under the License. */
 .dish {
   padding-top: 30px;
   padding-bottom: 20px;
-  border-bottom: solid 1px;
+  border-bottom: solid 1px rgb(222, 226, 230);
 }
 
 .dish-contents-container {
@@ -42,11 +42,23 @@ limitations under the License. */
 
 .right-side-btn {
   height: 50px;
-  margin: auto;
   display: block;
+  margin-top: auto;
+  margin-left: auto;
+  margin-bottom: auto;
+  margin-right: 0;
+  display: block;
+}
+
+.popover h3 {
+  font-weight: 700;
+}
+
+.popover {
+  font-family: "Noto Sans JP", sans-serif;
 }
 .spinner-div {
   text-align: center;
-  margin:auto;
+  margin: auto;
   padding-top: 200px;
 }
