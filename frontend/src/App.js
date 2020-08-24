@@ -19,6 +19,7 @@ import InputText from "./components/InputText";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
       <Router>
         <div>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={Login} />
+            <Route exact path="/home" component={Home} />
             <Route exact path="/text" component={InputText} />
             <Route exact path="/cook" component={CookRecipe} />
             <Route
