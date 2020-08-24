@@ -49,6 +49,10 @@ public final class Recipe {
     if (this == other) return true;
     if (other == null || getClass() != other.getClass()) return false;
     Recipe recipe = (Recipe) other;
+    System.out.println(name.equals(recipe.name));
+    System.out.println(time.equals(recipe.time));
+    System.out.println(calories.equals(recipe.calories));
+    System.out.println(Arrays.equals(dietaryRequirements, recipe.dietaryRequirements) )
     return name.equals(recipe.name) &&
             time.equals(recipe.time) &&
             calories.equals(recipe.calories) &&

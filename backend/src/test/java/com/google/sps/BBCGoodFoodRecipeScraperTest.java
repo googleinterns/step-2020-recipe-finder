@@ -28,7 +28,7 @@ public final class BBCGoodFoodRecipeScraperTest {
   private static final String URL = "https://www.bbcgoodfood.com/recipes/really-easy-lemonade";
   private static final String NAME = "Really easy lemonade";
   private static final String TIME = "10 min ";
-  private static final String CALORIES = "140 CALORIES";
+  private static final String CALORIES = "140 calories";
   private static final String DIFFICULTY = "Easy";
   private static final String[] DIET = {"Vegetarian"};
   private static final String[] INGREDIENTS = {
