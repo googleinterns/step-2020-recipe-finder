@@ -21,16 +21,17 @@ import { Redirect } from "react-router-dom";
 import "./RecommendedRecipes.css";
 
 class RecommendedRecipes extends Component {
-  constructor(props) {
-    super(props);
+  constructor(properties) {
+    super(properties);
     this.state = {
       isLoading: true,
       isRedirect: false,
       recipes: [],
+      chosenRecipe: {},
     };
   }
 
-  // retrieves recommended recipes from the back end 
+  // retrieves recommended recipes from the back end
   componentDidMount() {
     const request = new Request("/api/find-recipes", {
       method: "POST",
@@ -58,7 +59,11 @@ class RecommendedRecipes extends Component {
     }
 
     if (this.state.isRedirect) {
-      return <Redirect to="/cook" />;
+      return (
+        <Redirect
+          to={{ pathname: "/cook", state: { recipe: this.state.chosenRecipe } }}
+        />
+      );
     }
 
     return (
@@ -75,7 +80,15 @@ class RecommendedRecipes extends Component {
   }
 
   setRecipeAndRedirect(recipe) {
-    localStorage.setItem("recipe", JSON.stringify(recipe));
+    try {
+      localStorage.setItem("recipe", JSON.stringify(recipe));
+      localStorage.setItem(
+        "tutorial-step",
+        /*starting index for tutorial's carousel*/ 0
+      );
+    } catch (error) {
+      this.setState({ chosenRecipe: recipe });
+    }
     this.setState({ isRedirect: true });
   }
 }

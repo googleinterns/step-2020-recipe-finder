@@ -16,11 +16,11 @@ package com.google.sps.servlets;
 
 import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
+import com.google.sps.scraping.BBCGoodFoodRecipeScraper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,17 +28,21 @@ import javax.servlet.http.HttpServletResponse;
  * in Post request, returns a list of recommended recipes based on the ingredients in the request
  */
 @WebServlet("/api/find-recipes")
-public class FindRecipesServlet extends HttpServlet {
-
-  // returns hard-coded list of recipes
+public class FindRecipesServlet extends AuthenticationServlet {
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // no get request
+  }
+
+  // TODO: based on the ingredients in the request, retrieve 5 links to scrape recipes from
+  // now: returns a list of recipes scraped from bbc good food
+  @Override
+  protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     List<Recipe> recipes = new ArrayList<>();
-    String[] ingredients = {"broccoli", "tomato"};
-    String[] instructions = {"step1: broccoli", "step2: tomato"};
-    Recipe recipe =
-        new Recipe(0, "Dish 1", "18 min", "383 kcal", "Easy", ingredients, instructions);
-    recipes.add(recipe);
+    recipes.add(BBCGoodFoodRecipeScraper.scrapeRecipe( /* url */
+            "https://www.bbcgoodfood.com/recipes/smoky-mushroom-burgers-roasted-garlic-mayo"));
+    recipes.add(BBCGoodFoodRecipeScraper.scrapeRecipe( /* url */
+            "https://www.bbcgoodfood.com/recipes/really-easy-lemonade"));
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(recipes));
     response.addHeader("Access-Control-Allow-Origin", "*");

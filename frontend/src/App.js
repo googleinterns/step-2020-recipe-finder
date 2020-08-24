@@ -32,7 +32,7 @@ function App() {
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
             <PrivateRoute exact path="/cook" component={CookRecipe} />
-            <Route
+            <PrivateRoute
               exact
               path="/recommendations"
               component={RecommendedRecipes}
