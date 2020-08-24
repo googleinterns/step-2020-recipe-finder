@@ -25,16 +25,16 @@ import org.junit.runners.JUnit4;
 /** */
 @RunWith(JUnit4.class)
 public final class BBCGoodFoodRecipeScraperTest {
-  private static final String url = "https://www.bbcgoodfood.com/recipes/really-easy-lemonade";
-  private static final String name = "Really easy lemonade";
-  private static final String time = "10 min ";
-  private static final String calories = "140 calories";
-  private static final String difficulty = "Easy";
-  private static final String[] diet = {"Vegetarian"};
-  private static final String[] ingredients = {
+  private static final String URL = "https://www.bbcgoodfood.com/recipes/really-easy-lemonade";
+  private static final String NAME = "Really easy lemonade";
+  private static final String TIME = "10 min ";
+  private static final String CALORIES = "140 CALORIES";
+  private static final String DIFFICULTY = "Easy";
+  private static final String[] DIET = {"Vegetarian"};
+  private static final String[] INGREDIENTS = {
     "3 unwaxed lemons, roughly chopped", "140g caster sugar", "1l cold  water"
   };
-  private static final String[] instructions = {
+  private static final String[] INSTRUCTIONS = {
     "Tip the lemons, sugar and half the water "
         + "into a food processor and blend until the lemon is finely chopped.",
     "Pour the mixture into a sieve over a bowl, then press through as much "
@@ -42,16 +42,16 @@ public final class BBCGoodFoodRecipeScraperTest {
         + "ice or frozen with slices of lemon and lime."
   };
 
-  private Recipe expectedRecipe;
+  private Recipe mExpectedRecipe;
 
   @Before
   public void setUp() {
-    expectedRecipe = new Recipe(name, time, calories, difficulty, diet, ingredients, instructions);
+    mExpectedRecipe = new Recipe(NAME, TIME, CALORIES, DIFFICULTY, DIET, INGREDIENTS, INSTRUCTIONS);
   }
 
   @Test
   public void scrapesRecipe() {
-    Recipe scrapedRecipe = BBCGoodFoodRecipeScraper.scrapeRecipe(url);
-    Assert.assertTrue(expectedRecipe.equals(scrapedRecipe));
+    Recipe scrapedRecipe = BBCGoodFoodRecipeScraper.scrapeRecipe(URL);
+    Assert.assertTrue(mExpectedRecipe.equals(scrapedRecipe));
   }
 }

@@ -108,10 +108,10 @@ public class BBCGoodFoodRecipeScraper {
 
   /* Structure of jsonObject: {recipeIngredient: {"ingredient", "ingredient", ..]..} */
   private static String[] getIngredientsFromJson(JsonObject jsonObject) {
-    JsonArray ingredientsElements = jsonObject.get("recipeIngredient").getAsJsonArray();
-    String[] ingredients = new String[ingredientsElements.size()];
+    JsonArray recipeIngredients = jsonObject.get("recipeIngredient").getAsJsonArray();
+    String[] ingredients = new String[recipeIngredients.size()];
     int counter = 0;
-    for (JsonElement element : ingredientsElements) {
+    for (JsonElement element : recipeIngredients) {
       ingredients[counter++] = element.getAsString();
     }
     return ingredients;
