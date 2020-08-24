@@ -14,30 +14,61 @@
 
 package com.google.sps.data;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public final class Recipe {
 
-  private final long id;
   private final String name;
   private final String time;
   private final String calories;
   private final String difficulty;
+  private final String[] dietaryRequirements;
   private final String[] ingredients;
   private final String[] instructions;
 
   public Recipe(
-      long id,
       String name,
       String time,
       String calories,
       String difficulty,
+      String[] dietaryRequirements,
       String[] ingredients,
       String[] instructions) {
-    this.id = id;
     this.name = name;
     this.time = time;
     this.calories = calories;
     this.difficulty = difficulty;
+    this.dietaryRequirements = dietaryRequirements;
     this.ingredients = ingredients;
     this.instructions = instructions;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (this == other) return true;
+    if (other == null || getClass() != other.getClass()) return false;
+    Recipe recipe = (Recipe) other;
+    System.out.println(name.equals(recipe.name));
+    System.out.println(time.equals(recipe.time));
+    System.out.println(calories.equals(recipe.calories));
+    System.out.println(Arrays.equals(dietaryRequirements, recipe.dietaryRequirements) )
+    return name.equals(recipe.name) &&
+            time.equals(recipe.time) &&
+            calories.equals(recipe.calories) &&
+            difficulty.equals(recipe.difficulty) &&
+            Arrays.equals(dietaryRequirements, recipe.dietaryRequirements) &&
+            Arrays.equals(ingredients, recipe.ingredients) &&
+            Arrays.equals(instructions, recipe.instructions);
+  }
+
+  @Override
+  public int hashCode() {
+    int multiplier = 31;
+    int result = Objects.hash(name, time, calories, difficulty);
+    result = multiplier * result + Arrays.hashCode(dietaryRequirements);
+    result = multiplier * result + Arrays.hashCode(ingredients);
+    result = multiplier * result + Arrays.hashCode(instructions);
+    return result;
   }
 }

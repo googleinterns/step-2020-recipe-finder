@@ -28,37 +28,38 @@ class InputText extends Component {
         this.deleteItem = this.deleteItem.bind(this);
 
     }
+
     addItem(event) {
       if (this._inputElement.value === "") {
         return;
       }
-      const name = this._inputElement.value;
-      const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-      var dupe = 0;
       var newItem = {
-        text: nameCapitalized,
+        text: this._inputElement.value.charAt(0).toUpperCase()
+            + this._inputElement.value.slice(1).toLowerCase(),
         key: Date.now()
       };
+      var isDuplicate = false;
       this.setState((prevState) => {
         prevState.items.forEach(function(item, index, object) {
           if (item.text===newItem.text){
-            dupe=1;
+            isDuplicate=true;
             window.alert("Duplicate Ingredient");
           }
         });
-        if (dupe === 0) {
+        if (isDuplicate) {
           return { 
-            items: [newItem].concat(prevState.items)
+            items: prevState.items
           };
         } else {
           return { 
-            items: prevState.items
+            items: [newItem].concat(prevState.items)
           };
         }
       });
       this._inputElement.value = "";
       event.preventDefault();
     }
+
     deleteItem(key) {
         var filteredItems = this.state.items.filter(function (item) {
           return (item.key !== key);
@@ -68,6 +69,7 @@ class InputText extends Component {
           items: filteredItems
         });
     }
+    
     render() {
         return (
           <div className="ingredientList">
