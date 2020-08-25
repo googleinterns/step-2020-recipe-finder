@@ -15,6 +15,7 @@
 import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import "./FinishedRecipe.css";
 
 class FinishedRecipe extends Component {
   render() {
@@ -23,7 +24,10 @@ class FinishedRecipe extends Component {
         <h1>Well Done!</h1>
         <h4>Did you like cooking {this.props.location.state.recipeName}?</h4>
         <Link to="/home">
-          <Button onClick={this.saveToFavourites}>Save to my favourites</Button>
+          <Button onClick={this.saveToFavourites} className="finished-btns">Yes! Save to my favourites</Button>
+        </Link>
+        <Link to="/home">
+          <Button className="finished-btns">I'm okay</Button>
         </Link>
       </div>
     );
