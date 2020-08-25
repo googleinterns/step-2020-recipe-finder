@@ -20,6 +20,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import Account from "./components/account/Account";
+import Favourites from "./components/account/Favourites";
 import {PrivateRoute} from "./components/PrivateRoute";
 
 function App() {
@@ -28,10 +30,12 @@ function App() {
       <Router>
         <div>
           <Switch>
-            <Route exact path="/" component={Login} />
+            <PrivateRoute exact path="/" component={Login} />
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
             <PrivateRoute exact path="/cook" component={CookRecipe} />
+            <PrivateRoute exact path="/account" component={Account} />
+            <PrivateRoute exact path="/favourites" component={Favourites} />
             <PrivateRoute
               exact
               path="/recommendations"
