@@ -31,7 +31,7 @@ function App() {
         <div>
           <Switch>
             <PrivateRoute exact path="/" component={Login} />
-            <PrivateRoute exact path="/home" component={Home} />
+            <Route exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
             <PrivateRoute exact path="/cook" component={CookRecipe} />
             <PrivateRoute exact path="/account" component={Account} />
