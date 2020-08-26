@@ -15,6 +15,8 @@ limitations under the License. */
 import React, { Component } from "react";
 import InputTextItems from "./InputTextItems";
 import "./InputText.css";
+import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 class InputText extends Component {
   constructor(properties) {
@@ -71,6 +73,7 @@ class InputText extends Component {
   }
 
   render() {
+    const ingredients = this.state.items.map(item => item.text);
     return (
       <div className="ingredientList">
         <div className="header">
@@ -87,7 +90,7 @@ class InputText extends Component {
           to={{
             pathname: "/recommendations",
             state: {
-              ingredients: this.state.items,
+              ingredients: ingredients
             },
           }}
         >

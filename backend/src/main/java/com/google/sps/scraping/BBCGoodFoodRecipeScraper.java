@@ -33,7 +33,6 @@ public class BBCGoodFoodRecipeScraper {
   public static Recipe scrapeRecipe(String url) {
     try {
       Document document = Jsoup.connect(url).get();
-
       // Put recipe schema into a JSON object
       Element schema = document.select("script[type=application/ld+json]").first();
       String json = schema.data();
@@ -103,8 +102,12 @@ public class BBCGoodFoodRecipeScraper {
   /* Structure of jsonObject:
    * {suitableForDiet: "http://schema.org/VegetarianDiet, http://schema.org/GlutenFreeDiet .."} */
   private static String[] getDietFromJson(JsonObject jsonObject) {
-    String dietElements = jsonObject.get("suitableForDiet").getAsString();
-    String[] diet = dietElements.split(", ");
+    String[] NO_DIET = {};
+    JsonElement dietElements = jsonObject.get("suitableForDiet");
+    if (dietElements == null) {
+      return NO_DIET;
+    }
+    String[] diet = dietElements.getAsString().split(", ");
     int counter = 0;
     for (String item : diet) {
       diet[counter++] = item.replaceAll("http://schema.org/|Diet", "");

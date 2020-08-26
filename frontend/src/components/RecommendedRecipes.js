@@ -36,13 +36,11 @@ class RecommendedRecipes extends Component {
     const { ingredients } = this.props.location.state;
     const request = new Request("/api/find-recipes", {
       method: "POST",
-      body: {
-        ingredients: ingredients
-      },
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
+      body: JSON.stringify(ingredients)
     });
     fetch(request)
       .then((response) => response.json())
