@@ -18,6 +18,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.sps.ApiKeys;
 import com.google.sps.data.Recipe;
 import java.time.Duration;
 import org.jsoup.Jsoup;
@@ -53,6 +54,11 @@ public class BBCGoodFoodRecipeScraper {
     }
   }
 
+  /*Created this function to output  */
+  public static String searchRecipe(String ingredients) {
+    return "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&exactTerms="
+        + ingredients +"&key=" + ApiKeys.customSearchKey;
+  }
   /* Time in the JSON object is in ISO 8601 duration format
    * This converts it into "H hours M mintues" format
    */

@@ -19,7 +19,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.sps.ApiKeys;
 import com.google.sps.data.Recipe;
 import com.google.sps.scraping.BBCGoodFoodRecipeScraper;
 import java.io.IOException;
@@ -33,18 +32,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 /* Servlet that:
- * in Post request returns web links based on the inputted ingredients
+ *  returns a set number of recipes for the given ingredients
  */
 @WebServlet("/api/find-recipes")
 public class FindRecipesServlet extends HttpServlet {
-  private static final int MAX_NUMBER_OF_INGREDIENTS = 3;
+  private static final int MAX_NUMBER_OF_RECIPES = 3;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String ingredients = request.getParameter("ingredients");
-    String json = Jsoup.connect(
-      "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&exactTerms="
-        + ingredients +"&key=" + ApiKeys.customSearchKey).ignoreContentType(true).execute().body();
+    String json = Jsoup.connect(BBCGoodFoodRecipeScraper.searchRecipe(ingredients)
+      ).ignoreContentType(true).execute().body();
     JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
     JsonArray items = jsonObject.get("items").getAsJsonArray();
     List<Recipe> recipes = new ArrayList<>();
@@ -57,7 +55,7 @@ public class FindRecipesServlet extends HttpServlet {
         recipes.add(recipe);
         counter++;
       }
-      if (counter == MAX_NUMBER_OF_INGREDIENTS) {
+      if (counter == MAX_NUMBER_OF_RECIPES) {
         break;
       }
     }
