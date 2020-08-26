@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
  *  returns a set number of recipes for the given ingredients
  */
 @WebServlet("/api/find-recipes")
-public class FindRecipesServlet extends HttpServlet {
+public class FindRecipesServlet extends AuthenticationServlet {
   private static final int MAX_NUMBER_OF_RECIPES = 3;
 
 
