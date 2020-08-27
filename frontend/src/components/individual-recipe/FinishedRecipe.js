@@ -35,6 +35,17 @@ class FinishedRecipe extends Component {
 
   saveToFavourites() {
     // to do: backend get request to save this recipe to favourites
+    const { recipeId } = this.props.location.state.recipeId;
+    const request = new Request("/api/favourites", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(recipeId)
+    });
+    fetch(request)
+      .catch((err) => console.log(err));
   }
 }
 export default FinishedRecipe;

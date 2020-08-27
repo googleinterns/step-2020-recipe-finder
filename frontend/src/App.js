@@ -29,7 +29,7 @@ function App() {
       <Router>
         <div>
           <Switch>
-            <PrivateRoute exact path="/" component={Login} />
+            <Route exact path="/" component={Login} />
             <Route exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
             <Route exact path="/cook" component={CookRecipe} />
