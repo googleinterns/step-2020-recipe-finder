@@ -16,21 +16,24 @@ import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import "./AccountHeader.css";
 
 class AccountHeader extends Component {
   render() {
     return (
-      <Navbar fixed="top" bg="light" expand="lg">
-        <Navbar.Brand href="/home">Recipe Finder</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="/account">Account</Nav.Link>
-            <Nav.Link href="/favourites">Favourites</Nav.Link>
-            <Nav.Link href="/history">History</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      <div className="navbar-div">
+        <Navbar id="account-header" fixed="top" expand="lg">
+          <Navbar.Brand href="/home">Recipe Finder</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="/account">My Account</Nav.Link>
+              <Nav.Link href="/favourites">Favourites</Nav.Link>
+              <Nav.Link href="/history">History</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
     );
   }
 }

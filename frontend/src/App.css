@@ -61,7 +61,6 @@ limitations under the License. */
   }
 }
 
-
 .App .btn-primary,
 .App .btn-primary:focus,
 .App .btn-primary:not(:disabled):not(.disabled):active {
@@ -72,6 +71,18 @@ limitations under the License. */
 .App .btn-primary:hover {
   background-color: #44bb99;
   border-color: #44bb99;
+}
+
+.App .btn-danger,
+.App .btn-danger:focus,
+.App .btn-danger:not(:disabled):not(.disabled):active {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+.App .btn-danger:hover {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
 }
 
 .App a,

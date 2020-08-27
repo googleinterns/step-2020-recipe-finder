@@ -22,7 +22,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Account from "./components/account/Account";
 import Favourites from "./components/account/Favourites";
-import {PrivateRoute} from "./components/PrivateRoute";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -30,12 +30,12 @@ function App() {
       <Router>
         <div>
           <Switch>
-            <PrivateRoute exact path="/" component={Login} />
-            <Route exact path="/home" component={Home} />
+            <Route exact path="/" component={Login} />
+            <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
-            <PrivateRoute exact path="/cook" component={CookRecipe} />
-            <PrivateRoute exact path="/account" component={Account} />
-            <PrivateRoute exact path="/favourites" component={Favourites} />
+            <Route exact path="/cook" component={CookRecipe} />
+            <Route exact path="/account" component={Account} />
+            <Route exact path="/favourites" component={Favourites} />
             <PrivateRoute
               exact
               path="/recommendations"

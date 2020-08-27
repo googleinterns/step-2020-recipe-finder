@@ -23,11 +23,16 @@ class Account extends Component {
       dietaryRequirements: ["Vegetarian", "Nut free"],
     };
   }
+
+  componentDidMount() {
+    // TODO: get account details from backend
+  }
+
   render() {
     return (
       <div>
         <AccountHeader />
-        <h1>My account</h1>
+        <h1>My Account</h1>
         <h4>{this.state.name}</h4>
         <h3>My dietary requirements:</h3>
         <ul>
