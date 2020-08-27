@@ -22,6 +22,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Account from "./components/account/Account";
 import Favourites from "./components/account/Favourites";
+import DietaryRequirements from "./components/account/DietaryRequirements";
 import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
             <Route exact path="/cook" component={CookRecipe} />
             <Route exact path="/account" component={Account} />
             <Route exact path="/favourites" component={Favourites} />
+            <Route exact path="/dietary" component={DietaryRequirements} />
             <PrivateRoute
               exact
               path="/recommendations"

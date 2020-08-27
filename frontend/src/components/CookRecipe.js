@@ -35,12 +35,10 @@ class CookRecipe extends Component {
     const recipe = this.state.recipe;
     return (
       <div>
-        <Link to="/recommendations">
-          <Button variant="" className="back-btn">
-            <img src={navigatePrevious} alt="go back to recommendations" />
-            Back
-          </Button>
-        </Link>
+        <Button variant="" className="back-btn" onClick={this.goBack}>
+          <img src={navigatePrevious} alt="go back to recommendations" />
+          Back
+        </Button>
         <h1>{recipe.name}</h1>
         <Tabs defaultActiveKey="tutorial">
           <Tab eventKey="ingredients" title="Ingredients">
@@ -69,6 +67,10 @@ class CookRecipe extends Component {
         </Tabs>
       </div>
     );
+  }
+
+  goBack() {
+    window.history.back();
   }
 }
 export default CookRecipe;

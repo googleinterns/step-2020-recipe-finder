@@ -16,8 +16,13 @@ limitations under the License. */
   background-color: #44bb99;
 }
 
-.navbar-light .navbar-nav .nav-link {
-  color: rgba(0, 0, 0, 0.8);
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-brand {
+  color: white;
+}
+
+.navbar-light .navbar-toggler-icon {
+    background-image: url("../../icons/toggle.svg");
 }
 
 .navbar-div {

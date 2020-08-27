@@ -14,39 +14,16 @@
 
 import React, { Component } from "react";
 import AccountHeader from "./AccountHeader";
-import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
 
-class Account extends Component {
-  constructor(properties) {
-    super(properties);
-    this.state = {
-      name: "Eleanor",
-      dietaryRequirements: ["Vegetarian", "Nut free"],
-    };
-  }
-
-  componentDidMount() {
-    // TODO: get account details from backend
-  }
-
+class DietaryRequirements extends Component {
   render() {
+    // TODO: page to change dietary requirements
     return (
       <div>
         <AccountHeader />
-        <h1>My Account</h1>
-        <h4>{this.state.name}</h4>
-        <h3>My dietary requirements:</h3>
-        <ul>
-          {this.state.dietaryRequirements.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-        <Link to="/dietary">
-          <Button>Change Dietary requirements</Button>
-        </Link>
+        <h1>Dietary Requirements</h1>
       </div>
     );
   }
 }
-export default Account;
+export default DietaryRequirements;
