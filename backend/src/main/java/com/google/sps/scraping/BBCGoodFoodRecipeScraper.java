@@ -54,9 +54,9 @@ public class BBCGoodFoodRecipeScraper {
   }
 
   /*Created this function to output  */
-  public static String searchRecipe(String ingredients) {
+  public static String searchRecipeLink(String ingredients, String key) {
     return "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&exactTerms="
-        + ingredients +"&key=" + ApiKeys.customSearchKey;
+        + ingredients +"&key=" + key;
   }
   /* Time in the JSON object is in ISO 8601 duration format
    * This converts it into "H hours M mintues" format
