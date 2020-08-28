@@ -16,6 +16,7 @@ package com.google.sps;
 
 import com.google.sps.data.Recipe;
 import com.google.sps.scraping.BBCGoodFoodRecipeScraper;
+import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +47,15 @@ public final class BBCGoodFoodRecipeScraperTest {
 
   @Before
   public void setUp() {
-    mExpectedRecipe = new Recipe(NAME, TIME, CALORIES, DIFFICULTY, DIET, INGREDIENTS, INSTRUCTIONS);
+    mExpectedRecipe =
+        new Recipe(
+            NAME,
+            TIME,
+            CALORIES,
+            DIFFICULTY,
+            Arrays.asList(DIET),
+            Arrays.asList(INGREDIENTS),
+            Arrays.asList(INSTRUCTIONS));
   }
 
   @Test

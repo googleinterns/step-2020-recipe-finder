@@ -20,6 +20,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.sps.data.Recipe;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -43,9 +46,9 @@ public class BBCGoodFoodRecipeScraper {
       String time = getTimeFromJson(jsonObject);
       String calories = getCaloriesFromJson(jsonObject);
       String difficulty = getDifficultyFromDocument(document);
-      String[] diet = getDietFromJson(jsonObject);
-      String[] ingredients = getIngredientsFromJson(jsonObject);
-      String[] instructions = getInstructionsFromJson(jsonObject);
+      List<String> diet = getDietFromJson(jsonObject);
+      List<String> ingredients = getIngredientsFromJson(jsonObject);
+      List<String> instructions = getInstructionsFromJson(jsonObject);
       return new Recipe(name, time, calories, difficulty, diet, ingredients, instructions);
     } catch (Exception e) {
       System.out.println(e);
@@ -96,35 +99,33 @@ public class BBCGoodFoodRecipeScraper {
 
   /* Structure of jsonObject:
    * {suitableForDiet: "http://schema.org/VegetarianDiet, http://schema.org/GlutenFreeDiet .."} */
-  private static String[] getDietFromJson(JsonObject jsonObject) {
+  private static List<String> getDietFromJson(JsonObject jsonObject) {
     String dietElements = jsonObject.get("suitableForDiet").getAsString();
-    String[] diet = dietElements.split(", ");
+    List<String> diet = Arrays.asList(dietElements.split(", "));
     int counter = 0;
     for (String item : diet) {
-      diet[counter++] = item.replaceAll("http://schema.org/|Diet", "");
+      diet.set(counter++, item.replaceAll("http://schema.org/|Diet", ""));
     }
     return diet;
   }
 
   /* Structure of jsonObject: {recipeIngredient: {"ingredient", "ingredient", ..]..} */
-  private static String[] getIngredientsFromJson(JsonObject jsonObject) {
+  private static List<String> getIngredientsFromJson(JsonObject jsonObject) {
     JsonArray recipeIngredients = jsonObject.get("recipeIngredient").getAsJsonArray();
-    String[] ingredients = new String[recipeIngredients.size()];
-    int counter = 0;
+    List<String> ingredients = new ArrayList<>();
     for (JsonElement element : recipeIngredients) {
-      ingredients[counter++] = element.getAsString();
+      ingredients.add(element.getAsString());
     }
     return ingredients;
   }
 
   /* Structure of jsonObject: {recipeInstructions: [ {text: "<p>step</p>", ..} ]..} */
-  private static String[] getInstructionsFromJson(JsonObject jsonObject) {
+  private static List<String> getInstructionsFromJson(JsonObject jsonObject) {
     JsonArray instructionsElements = jsonObject.get("recipeInstructions").getAsJsonArray();
-    String[] instructions = new String[instructionsElements.size()];
-    int counter = 0;
+    List<String> instructions = new ArrayList<>();
     for (JsonElement element : instructionsElements) {
       JsonObject step = element.getAsJsonObject();
-      instructions[counter++] = step.get("text").getAsString().replaceAll("\\<.*?\\>", "");
+      instructions.add(step.get("text").getAsString().replaceAll("\\<.*?\\>", ""));
     }
     return instructions;
   }
