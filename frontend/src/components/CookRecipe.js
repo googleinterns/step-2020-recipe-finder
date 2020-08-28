@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./CookRecipe.css";
-import navigatePrevious from "../../icons/navigate_previous.svg";
+import navigatePrevious from "../icons/navigate_previous.svg";
 import Tutorial from "./Tutorial";
 
 class CookRecipe extends Component {

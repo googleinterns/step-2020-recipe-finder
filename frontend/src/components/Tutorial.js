@@ -16,10 +16,10 @@ import Button from "react-bootstrap/Button";
 import Carousel from "react-bootstrap/Carousel";
 import React, { Component } from "react";
 import "./CookRecipe.css";
-import navigateNext from "../../icons/navigate_next.svg";
-import navigatePrevious from "../../icons/navigate_previous.svg";
-import speakerOn from "../../icons/speaker-on.svg";
-import speakerOff from "../../icons/speaker-off.svg";
+import navigateNext from "../icons/navigate_next.svg";
+import navigatePrevious from "../icons/navigate_previous.svg";
+import speakerOn from "../icons/speaker-on.svg";
+import speakerOff from "../icons/speaker-off.svg";
 import { Link } from "react-router-dom";
 
 class Tutorial extends Component {
@@ -99,18 +99,7 @@ class Tutorial extends Component {
     if (this.state.isLastStep) {
       return (
         <div className="centered-div">
-          <Link
-            to={{
-              pathname: "/finished",
-              state: {
-                recipeName: this.props.recipe.name,
-                recipeId: this.props.recipe.recipeId,
-              },
-            }}
-          >
-            <Button onClick={this.finishCooking}>All done!</Button>
-          </Link>
-          ;
+          <Button onClick={this.finishCooking}>All done!</Button>
         </div>
       );
     }

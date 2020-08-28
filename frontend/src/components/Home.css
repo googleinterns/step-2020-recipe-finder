@@ -29,10 +29,12 @@ limitations under the License. */
 .input-div {
   text-align: center;
 }
+
 .account-div {
   width: 20%;
   float: left;
 }
+
 .home-header {
   float: left;
   width: 100%;
