@@ -13,10 +13,12 @@
 // limitations under the License.
 
 import Button from "react-bootstrap/Button";
+import EyeIcon from "../icons/eye.svg";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import "./RecommendedRecipes.css";
-import { Recipe } from "./Recipe";
 
 class RecommendedRecipes extends Component {
   constructor(properties) {
@@ -66,19 +68,13 @@ class RecommendedRecipes extends Component {
 
     return (
       <div>
-        {this.state.recipes.map((recipe, index) => {
-          const button = (
-            <div className="right-side-btn">
-              <Button
-                variant="primary"
-                onClick={this.setRecipeAndRedirect(recipe)}
-              >
-                Let's Go!
-              </Button>
-            </div>
-          );
-          return <Recipe key={index} recipe={recipe} buttons={button} />;
-        })}
+        {this.state.recipes.map((recipe, i) => (
+          <Recipe
+            key={i}
+            recipe={recipe}
+            onClickLetsCook={() => this.setRecipeAndRedirect(recipe)}
+          />
+        ))}
       </div>
     );
   }
@@ -95,5 +91,51 @@ class RecommendedRecipes extends Component {
     }
     this.setState({ isRedirect: true });
   }
+}
+
+function Recipe(props) {
+  const recipe = props.recipe;
+  const previewPopover = (
+    <Popover>
+      <Popover.Title as="h3">Recipe preview</Popover.Title>
+      <Popover.Content>
+        {recipe.instructions.map((step, i) => (
+          <p key={i}>{step}</p>
+        ))}
+      </Popover.Content>
+    </Popover>
+  );
+
+  return (
+    <div className="dish">
+      <div className="dish-header">
+        <h1 className="dish-name">{recipe.name}</h1>
+        <OverlayTrigger
+          trigger="click"
+          placement="left"
+          overlay={previewPopover}
+        >
+          <div className="right-side-btn">
+            <Button variant="link">
+              <img src={EyeIcon} alt="recipe-preview" /> Preview
+            </Button>
+          </div>
+        </OverlayTrigger>
+      </div>
+      <div className="dish-contents-container">
+        <div className="dish-contents">
+          <p>Cooking time: {recipe.time}</p>
+          <p>Difficulty: {recipe.difficulty}</p>
+          <p>Per serving: {recipe.calories}</p>
+        </div>
+
+        <div className="right-side-btn">
+          <Button variant="primary" onClick={props.onClickLetsCook}>
+            Let's Go!
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 }
 export default RecommendedRecipes;
