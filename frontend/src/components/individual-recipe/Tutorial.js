@@ -105,11 +105,12 @@ class Tutorial extends Component {
               state: {
                 recipeName: this.props.recipe.name,
                 recipeId: this.props.recipe.recipeId,
-              }
+              },
             }}
-          > 
+          >
             <Button onClick={this.finishCooking}>All done!</Button>
-          </Link>;
+          </Link>
+          ;
         </div>
       );
     }
@@ -121,7 +122,7 @@ class Tutorial extends Component {
   }
 
   finishCooking() {
-    // to do: add recipe to the database
+    // TODO: add recipe to the database
   }
 
   getSpeakerIcon() {

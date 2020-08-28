@@ -16,5 +16,4 @@ package com.google.sps.utils;
 
 public final class RecipeConstants {
   public static final String ENTITY_RECIPE = "Recipe";
-  
 }

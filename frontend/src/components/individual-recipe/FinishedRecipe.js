@@ -24,10 +24,12 @@ class FinishedRecipe extends Component {
         <h1>Well Done!</h1>
         <h4>Did you like cooking {this.props.location.state.recipeName}?</h4>
         <Link to="/home">
-          <Button onClick={this.saveToFavourites} className="finished-btns">Yes! Save to my favourites</Button>
+          <Button onClick={this.saveToFavourites} className="finished-btns">
+            Yes! Save to my favourites
+          </Button>
         </Link>
         <Link to="/home">
-          <Button className="finished-btns">I'm okay</Button>
+          <Button className="finished-btns">It was alright</Button>
         </Link>
       </div>
     );
@@ -41,10 +43,9 @@ class FinishedRecipe extends Component {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(recipeId)
+      body: JSON.stringify(recipeId),
     });
-    fetch(request)
-      .catch((err) => console.log(err));
+    fetch(request).catch((err) => console.log(err));
   }
 }
 export default FinishedRecipe;

@@ -30,10 +30,10 @@ function App() {
         <div>
           <Switch>
             <Route exact path="/" component={Login} />
-            <Route exact path="/home" component={Home} />
+            <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
-            <Route exact path="/cook" component={CookRecipe} />
-            <Route exact path="/finished" component={FinishedRecipe} />
+            <PrivateRoute exact path="/cook" component={CookRecipe} />
+            <PrivateRoute exact path="/finished" component={FinishedRecipe} />
             <PrivateRoute
               exact
               path="/recommendations"
