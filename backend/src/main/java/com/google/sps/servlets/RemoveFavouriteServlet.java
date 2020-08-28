@@ -21,8 +21,6 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.Gson;
-import com.google.sps.data.Recipe;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RemoveFavouriteServlet extends AuthenticationServlet {
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-  // no get request
+    // no get request
   }
 
   /** Removes a recipe from user's list of favourite recipes */

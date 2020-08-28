@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import React, { Component } from "react";
-// import AccountHeader from "./AccountHeader";
+import AccountHeader from "./AccountHeader";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { Recipe } from "../Recipe";
@@ -23,7 +23,12 @@ class Favourites extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      recipes: []
+      recipes: [{name: "Chicken Satay",
+      time: "18 min",
+      level: "Easy",
+      calories: "383 kcal",
+      ingredients: ["broccoli", "tomato"],
+      instructions: ["step1: broccoli", "step2: tomato"], }]
     };
   }
 
@@ -37,7 +42,7 @@ class Favourites extends Component {
   render() {
     return (
       <div>
-        {/* <AccountHeader /> */} 
+        <AccountHeader /> 
         <h1>Favourites</h1>
         {this.state.recipes.map((recipe, index) => {
           const button = (
@@ -50,7 +55,7 @@ class Favourites extends Component {
               <Button
                 className="remove-btn"
                 variant="danger"
-                onClick={this.removeFavourite(recipe)}
+                onClick={this.removeFavourite}
               >
                 Remove
               </Button>
@@ -62,7 +67,7 @@ class Favourites extends Component {
     );
   }
 
-  removeFavourite(recipe) {
+  removeFavourite = (recipe) => {
     const recipeId = recipe.recipeId;
     const request = new Request("/api/remove-favourite", {
       method: "POST",
@@ -73,7 +78,7 @@ class Favourites extends Component {
       body: JSON.stringify(recipeId),
     });
     fetch(request).catch((err) => console.log(err));
-    location.reload();
+    window.location.reload();
   }
 }
 export default Favourites;
