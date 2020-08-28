@@ -44,8 +44,7 @@ public class RemoveFavouriteServlet extends AuthenticationServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-    List<Long> favourites =
-        (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
     if (favourites == null) {
       favourites = new ArrayList<>();
     }

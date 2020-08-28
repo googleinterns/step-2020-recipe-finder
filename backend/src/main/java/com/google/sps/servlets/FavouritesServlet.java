@@ -22,7 +22,6 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import com.google.sps.utils.RecipeCollector;
-import com.google.sps.utils.RecipeConstants;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
@@ -32,8 +31,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 @WebServlet("/api/favourites")
 public class FavouritesServlet extends AuthenticationServlet {
   /** Returns user's list of favourite recipes */
@@ -45,8 +42,7 @@ public class FavouritesServlet extends AuthenticationServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
 
-    List<Long> favourites =
-        (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
 
     List<Recipe> recipes = RecipeCollector.getRecipes(favourites, datastore);
 
@@ -64,8 +60,7 @@ public class FavouritesServlet extends AuthenticationServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
 
-    List<Long> favourites =
-        (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
     if (favourites == null) {
       favourites = new ArrayList<>();
     }

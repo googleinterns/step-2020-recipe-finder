@@ -19,7 +19,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.sps.data.Recipe;
-import com.google.sps.utils.RecipeConstants;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +50,13 @@ public final class RecipeCollector {
 
         recipes.add(
             new Recipe(
-                name, time, calories, difficulty, dietaryRequirements.toArray(new String[0]), ingredients.toArray(new String[0]), instructions.toArray(new String[0])));
+                name,
+                time,
+                calories,
+                difficulty,
+                dietaryRequirements.toArray(new String[0]),
+                ingredients.toArray(new String[0]),
+                instructions.toArray(new String[0])));
       }
     }
     return recipes;
