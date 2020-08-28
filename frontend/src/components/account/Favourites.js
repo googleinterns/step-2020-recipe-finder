@@ -62,8 +62,18 @@ class Favourites extends Component {
     );
   }
 
-  removeFavourite() {
-    // TODO: remove favourite recipe from backend
+  removeFavourite(recipe) {
+    const recipeId = recipe.recipeId;
+    const request = new Request("/api/remove-favourite", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(recipeId),
+    });
+    fetch(request).catch((err) => console.log(err));
+    location.reload();
   }
 }
 export default Favourites;
