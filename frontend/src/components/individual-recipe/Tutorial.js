@@ -99,9 +99,17 @@ class Tutorial extends Component {
     if (this.state.isLastStep) {
       return (
         <div className="centered-div">
-          <Link to={{pathname: "/finished", state: {recipeName: this.props.recipe.name}}}>
+          <Link
+            to={{
+              pathname: "/finished",
+              state: {
+                recipeName: this.props.recipe.name,
+                recipeId: this.props.recipe.recipeId,
+              }
+            }}
+          > 
             <Button onClick={this.finishCooking}>All done!</Button>
-          </Link>
+          </Link>;
         </div>
       );
     }
