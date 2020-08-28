@@ -20,7 +20,6 @@ import navigateNext from "../icons/navigate_next.svg";
 import navigatePrevious from "../icons/navigate_previous.svg";
 import speakerOn from "../icons/speaker-on.svg";
 import speakerOff from "../icons/speaker-off.svg";
-import { Link } from "react-router-dom";
 
 class Tutorial extends Component {
   constructor(properties) {
@@ -111,7 +110,7 @@ class Tutorial extends Component {
   }
 
   finishCooking() {
-    // TODO: add recipe to the database
+    // to do
   }
 
   getSpeakerIcon() {
