@@ -18,15 +18,18 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.sps.data.Recipe;
 import com.google.sps.utils.RecipeConstants;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class RecipeCollector {
 
-  public static List<Recipe> getRecipes(List<String> recipeIds, DatastoreService datastore) {
-    List<Recipe> result = new ArrayList<>();
-    for (String recipeId : recipeIds) {
+  public static List<Recipe> getRecipes(List<Long> recipeIds, DatastoreService datastore) {
+    List<Recipe> recipes = new ArrayList<>();
+    if (recipeIds == null) return recipes;
+    for (int i = 0; i < recipeIds.size(); i++) {
+      int recipeId = recipeIds.get(i).intValue();
       Query query =
           new Query(RecipeConstants.ENTITY_RECIPE)
               .setFilter(
@@ -39,18 +42,18 @@ public final class RecipeCollector {
         String time = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_TIME);
         String calories = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_CALORIES);
         String difficulty = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_DIFFICULTY);
-        String[] dietaryRequirements =
-            (String[]) recipeEntity.getProperty(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS);
-        String[] ingredients =
-            (String[]) recipeEntity.getProperty(RecipeConstants.PROPERTY_INGREDIENTS);
-        String[] instructions =
-            (String[]) recipeEntity.getProperty(RecipeConstants.PROPERTY_INSTRUCTIONS);
+        List<String> dietaryRequirements =
+            (List<String>) recipeEntity.getProperty(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS);
+        List<String> ingredients =
+            (List<String>) recipeEntity.getProperty(RecipeConstants.PROPERTY_INGREDIENTS);
+        List<String> instructions =
+            (List<String>) recipeEntity.getProperty(RecipeConstants.PROPERTY_INSTRUCTIONS);
 
-        result.add(
+        recipes.add(
             new Recipe(
-                name, time, calories, difficulty, dietaryRequirements, ingredients, instructions));
+                name, time, calories, difficulty, dietaryRequirements.toArray(new String[0]), ingredients.toArray(new String[0]), instructions.toArray(new String[0])));
       }
     }
-    return result;
+    return recipes;
   }
 }

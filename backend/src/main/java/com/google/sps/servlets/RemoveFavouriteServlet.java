@@ -38,14 +38,14 @@ public class RemoveFavouriteServlet extends AuthenticationServlet {
   /** Removes a recipe from user's list of favourite recipes */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String recipeId = request.getReader().readLine();
+    Long recipeId = Long.parseLong(request.getReader().readLine());
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-    List<String> favourites =
-        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    List<Long> favourites =
+        (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
     if (favourites == null) {
       favourites = new ArrayList<>();
     }
