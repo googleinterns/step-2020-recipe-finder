@@ -28,6 +28,8 @@ import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/api/account")
 public class AccountServlet extends AuthenticationServlet {
@@ -54,13 +56,13 @@ public class AccountServlet extends AuthenticationServlet {
       userEntity = new Entity(UserConstants.ENTITY_USER, userId);
       userEntity.setProperty(UserConstants.PROPERTY_USER_ID, userId);
       userEntity.setProperty(UserConstants.PROPERTY_NAME, userNickname);
-      userEntity.setProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS, new String[0]);
+      userEntity.setProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS, new ArrayList<String>());
       datastore.put(userEntity);
     }
-    String[] dietaryRequirements =
-        (String[]) userEntity.getProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
+    List<String> dietaryRequirements =
+        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
     if (dietaryRequirements == null) {
-      dietaryRequirements = new String[0];
+      dietaryRequirements = new ArrayList<>();
     }
     String name = (String) userEntity.getProperty(UserConstants.PROPERTY_NAME);
 
