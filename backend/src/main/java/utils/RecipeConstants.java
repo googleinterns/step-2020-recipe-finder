@@ -12,17 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.sps.data;
+package com.google.sps.utils;
 
-public final class User {
-
-  private final String name;
-  private final String[] dietaryRequirements;
-
-  public User(
-      String name,
-      String[] dietaryRequirements) {
-    this.name = name;
-    this.dietaryRequirements = dietaryRequirements;
-  }
+public final class RecipeConstants {
+  public static final String ENTITY_RECIPE = "Recipe";
 }
