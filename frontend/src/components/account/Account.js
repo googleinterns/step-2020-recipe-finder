@@ -21,13 +21,16 @@ class Account extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      name: "Eleanor",
-      dietaryRequirements: ["Vegetarian", "Nut free"],
+      name: "",
+      dietaryRequirements: [],
     };
   }
 
   componentDidMount() {
-    // TODO: get account details from backend
+    fetch("/api/account")
+      .then((response) => response.json())
+      .then((json) => this.setState({ name: json.name, dietaryRequirements: json.dietaryRequirements }))
+      .catch((err) => console.log(err));
   }
 
   render() {

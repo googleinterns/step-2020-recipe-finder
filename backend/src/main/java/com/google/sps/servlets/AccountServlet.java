@@ -14,23 +14,33 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
-import com.google.sps.data.Recipe;
-import com.google.sps.scraping.BBCGoodFoodRecipeScraper;
+import com.google.sps.data.User;
+import com.google.sps.utils.UserConstants;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/account")
 public class AccountServlet extends AuthenticationServlet {
-  /** Returns account details*/
+  /** Returns user's account details */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
+    String userNickname = userService.getCurrentUser().getNickname();
+    if (userNickname == null) {
+      // TODO: servlet for nickname
+      userNickname = "nickname";
+    }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
@@ -43,21 +53,23 @@ public class AccountServlet extends AuthenticationServlet {
     if (userEntity == null) {
       userEntity = new Entity(UserConstants.ENTITY_USER, userId);
       userEntity.setProperty(UserConstants.PROPERTY_USER_ID, userId);
+      userEntity.setProperty(UserConstants.PROPERTY_NAME, userNickname);
+      userEntity.setProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS, new String[0]);
+      datastore.put(userEntity);
     }
-    List<String> favourites =
-        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
-    if (favourites == null) {
-      favourites = new ArrayList<>();
+    String[] dietaryRequirements =
+        (String[]) userEntity.getProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
+    if (dietaryRequirements == null) {
+      dietaryRequirements = new String[0];
     }
-    favourites.add(recipeId);
-    userEntity.setProperty(UserConstants.PROPERTY_FAVOURITES, favourites);
-    datastore.put(userEntity);
+    String name = (String) userEntity.getProperty(UserConstants.PROPERTY_NAME);
+
+    User user = new User(name, dietaryRequirements);
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(user));
   }
 
+  /** TODO: modify dietary requirements */
   @Override
-  protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // TODO: modify dietary requirements
-  }
+  protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {}
 }
