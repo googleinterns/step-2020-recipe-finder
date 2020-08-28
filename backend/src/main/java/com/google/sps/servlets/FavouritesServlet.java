@@ -45,7 +45,7 @@ public class FavouritesServlet extends AuthenticationServlet {
   /** Adds a recipe to user's list of favourite recipes */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    int recipeId = Integer.parseInt(request.getReader().readLine());
+    Long recipeId = Long.parseLong(request.getReader().readLine());
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
 
@@ -61,8 +61,8 @@ public class FavouritesServlet extends AuthenticationServlet {
       userEntity = new Entity(UserConstants.ENTITY_USER, userId);
       userEntity.setProperty(UserConstants.PROPERTY_USER_ID, userId);
     }
-    List<Integer> favourites =
-        (List<Integer>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    List<Long> favourites =
+        (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
     if (favourites == null) {
       favourites = new ArrayList<>();
     }
