@@ -40,7 +40,7 @@ public class FavouritesServlet extends AuthenticationServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-    
+
     List<String> favourites =
         (List<String>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
 
@@ -59,13 +59,13 @@ public class FavouritesServlet extends AuthenticationServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-    
+
     List<String> favourites =
         (List<String>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
     if (favourites == null) {
       favourites = new ArrayList<>();
     }
-    
+
     favourites.add(recipeId);
     userEntity.setProperty(UserConstants.PROPERTY_FAVOURITES, favourites);
     datastore.put(userEntity);
