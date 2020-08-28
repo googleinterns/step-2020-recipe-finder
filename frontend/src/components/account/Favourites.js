@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import React, { Component } from "react";
-import AccountHeader from "./AccountHeader";
+// import AccountHeader from "./AccountHeader";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { Recipe } from "../Recipe";
@@ -23,27 +23,21 @@ class Favourites extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      recipes: [
-        {
-          name: "Dish 1",
-          time: "18 min",
-          level: "Easy",
-          calories: "383 kcal",
-          ingredients: ["broccoli", "tomato"],
-          instructions: ["step1: broccoli", "step2: tomato"],
-        },
-      ],
+      recipes: []
     };
   }
 
   componentDidMount() {
-    // TODO: get favourites from backend
+    fetch("/api/favourites")
+      .then((response) => response.json())
+      .then((json) => this.setState({ recipes: json }))
+      .catch((err) => console.log(err));
   }
 
   render() {
     return (
       <div>
-        <AccountHeader />
+        {/* <AccountHeader /> */} 
         <h1>Favourites</h1>
         {this.state.recipes.map((recipe, index) => {
           const button = (
