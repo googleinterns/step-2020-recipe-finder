@@ -10,7 +10,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 export function getDietaryRequirements() {
-  const dietaryRequirements = [
+  return [
     "Vegetarian",
     "Vegan",
     "Dairy-Free",
@@ -19,5 +19,4 @@ export function getDietaryRequirements() {
     "Kosher",
     "Nut allergy",
   ];
-  return dietaryRequirements;
 }
