@@ -23,12 +23,7 @@ class Favourites extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      recipes: [{name: "Chicken Satay",
-      time: "18 min",
-      level: "Easy",
-      calories: "383 kcal",
-      ingredients: ["broccoli", "tomato"],
-      instructions: ["step1: broccoli", "step2: tomato"], }]
+      recipes: []
     };
   }
 
