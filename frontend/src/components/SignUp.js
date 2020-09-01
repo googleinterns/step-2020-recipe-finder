@@ -14,35 +14,37 @@
 
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
+import "./SignUp.css";
 import Button from "react-bootstrap/Button";
+import { getDietaryRequirements } from "../utils/DietaryRequirements";
 
 class SignUp extends Component {
+  constructor(properties) {
+    super(properties);
+    this.state = {
+      customDiets: [],
+    };
+    this.addCustomDiet = this.addCustomDiet.bind(this);
+    this.removeCustomDiet = this.removeCustomDiet.bind(this);
+  }
   render() {
-    const dietaryRequirements = [
-      "Vegetarian",
-      "Vegan",
-      "Dairy-Free",
-      "Gluten-Free",
-      "Halal",
-      "Kosher",
-      "Nut allergy"
-    ];
     return (
       <div>
         <h1>Sign Up</h1>
         <Form action="/api/sign-up" method="POST">
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group>
             <Form.Label>Name/Nickname</Form.Label>
             <Form.Control
+              required
               type="text"
-              name="nickname"
+              name="name"
               placeholder="Enter your name/nickname"
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicCheckbox">
+          <Form.Group>
             <Form.Label>Dietary Requirements</Form.Label>
-            {dietaryRequirements.map((item, index) => (
+            {getDietaryRequirements().map((item, index) => (
               <Form.Check
                 key={index}
                 type="checkbox"
@@ -51,13 +53,50 @@ class SignUp extends Component {
                 label={item}
               />
             ))}
+            {this.state.customDiets.map((item, index) => (
+              <div className="custom-diet-div">
+                <Form.Control
+                  className="custom-diet-input"
+                  type="text"
+                  name="dietaryRequirements"
+                  placeholder="Enter dietary requirement"
+                  value={item}
+                ></Form.Control>
+                <Button
+                  className="custom-diet-remove-btn"
+                  onClick={() => this.removeCustomDiet(index)}
+                  variant="outline-danger"
+                >
+                  Remove
+                </Button>
+              </div>
+            ))}
+            <Button
+              className="add-diet-btn w-100"
+              variant="outline-primary"
+              onClick={this.addCustomDiet}
+            >
+              Add custom dietary requirement
+            </Button>
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button className="w-100" variant="primary" type="submit">
             Submit
           </Button>
         </Form>
       </div>
     );
+  }
+
+  addCustomDiet() {
+    const previousCustomDiets = this.state.customDiets;
+    previousCustomDiets.push("");
+    this.setState({ customDiets: previousCustomDiets });
+  }
+
+  removeCustomDiet(index) {
+    const previousCustomDiets = this.state.customDiets;
+    previousCustomDiets.splice(index, 1);
+    this.setState({ numberCustomDiets: previousCustomDiets });
   }
 }
 export default SignUp;
