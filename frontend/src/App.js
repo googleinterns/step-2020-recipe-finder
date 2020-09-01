@@ -17,6 +17,7 @@ import "./App.css";
 import CookRecipe from "./components/individual-recipe/CookRecipe";
 import FinishedRecipe from "./components/individual-recipe/FinishedRecipe";
 import InputText from "./components/InputText";
+import InputAudio from "./components/InputAudio";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
@@ -32,6 +33,7 @@ function App() {
             <Route exact path="/" component={Login} />
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
+            <Route exact path="/audio" component={InputAudio} />
             <PrivateRoute exact path="/cook" component={CookRecipe} />
             <PrivateRoute exact path="/finished" component={FinishedRecipe} />
             <PrivateRoute
