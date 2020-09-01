@@ -15,15 +15,26 @@
 import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import account from "../icons/account.svg";
+import "./Home.css";
 
 class Home extends Component {
   render() {
     return (
       <div>
-        <h1>Recipe Finder</h1>
-        <Link to="/text">
-          <Button>Input Ingredients</Button>
-        </Link>
+        <div className="home-header">
+          <h1 id="home-title">Recipe Finder</h1>
+          <div className="account-div">
+            <Link to="/account">
+              <img src={account} alt="account" id="account-icon" />
+            </Link>
+          </div>
+        </div>
+        <div className="input-div">
+          <Link to="/text">
+            <Button id="input-btn">Input Ingredients</Button>
+          </Link>
+        </div>
       </div>
     );
   }

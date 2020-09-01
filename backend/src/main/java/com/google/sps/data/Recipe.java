@@ -26,6 +26,7 @@ public final class Recipe {
   private final String[] dietaryRequirements;
   private final String[] ingredients;
   private final String[] instructions;
+  private final int recipeId;
 
   public Recipe(
       String name,
@@ -42,6 +43,7 @@ public final class Recipe {
     this.dietaryRequirements = dietaryRequirements;
     this.ingredients = ingredients;
     this.instructions = instructions;
+    this.recipeId = this.hashCode();
   }
 
   @Override
@@ -49,13 +51,13 @@ public final class Recipe {
     if (this == other) return true;
     if (other == null || getClass() != other.getClass()) return false;
     Recipe recipe = (Recipe) other;
-    return name.equals(recipe.name) &&
-            time.equals(recipe.time) &&
-            calories.equals(recipe.calories) &&
-            difficulty.equals(recipe.difficulty) &&
-            Arrays.equals(dietaryRequirements, recipe.dietaryRequirements) &&
-            Arrays.equals(ingredients, recipe.ingredients) &&
-            Arrays.equals(instructions, recipe.instructions);
+    return name.equals(recipe.name)
+        && time.equals(recipe.time)
+        && calories.equals(recipe.calories)
+        && difficulty.equals(recipe.difficulty)
+        && Arrays.equals(dietaryRequirements, recipe.dietaryRequirements)
+        && Arrays.equals(ingredients, recipe.ingredients)
+        && Arrays.equals(instructions, recipe.instructions);
   }
 
   @Override
