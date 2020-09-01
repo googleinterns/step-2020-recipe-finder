@@ -26,6 +26,7 @@ public final class Recipe {
   private final String[] dietaryRequirements;
   private final String[] ingredients;
   private final String[] instructions;
+  private final int recipeId;
 
   public Recipe(
       String name,
@@ -42,6 +43,7 @@ public final class Recipe {
     this.dietaryRequirements = dietaryRequirements;
     this.ingredients = ingredients;
     this.instructions = instructions;
+    this.recipeId = this.hashCode();
   }
 
   @Override
