@@ -38,11 +38,6 @@ public class AccountServlet extends AuthenticationServlet {
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
-    String userNickname = userService.getCurrentUser().getNickname();
-    if (userNickname == null) {
-      // TODO: servlet for nickname
-      userNickname = "nickname";
-    }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
@@ -53,11 +48,8 @@ public class AccountServlet extends AuthenticationServlet {
     PreparedQuery results = datastore.prepare(query);
     Entity userEntity = results.asSingleEntity();
     if (userEntity == null) {
-      userEntity = new Entity(UserConstants.ENTITY_USER, userId);
-      userEntity.setProperty(UserConstants.PROPERTY_USER_ID, userId);
-      userEntity.setProperty(UserConstants.PROPERTY_NAME, userNickname);
-      userEntity.setProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS, new ArrayList<String>());
-      datastore.put(userEntity);
+      response.sendRedirect("/sign-up");
+      return;
     }
     List<String> dietaryRequirements =
         (List<String>) userEntity.getProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
