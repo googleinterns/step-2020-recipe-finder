@@ -110,7 +110,15 @@ class Tutorial extends Component {
   }
 
   finishCooking() {
-    // to do
+    const recipeToSave = this.props.recipe;
+    const request = new Request("/api/store-recipe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(recipeToSave)
+    });
   }
 
   getSpeakerIcon() {

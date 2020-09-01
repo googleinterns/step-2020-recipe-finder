@@ -46,7 +46,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
 
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String ingredients = request.getParameter("ingredients");
+    String ingredients = request.getReader().readLine();
     String json = Jsoup.connect(BBCGoodFoodRecipeScraper.searchRecipeLink(ingredients, key)
       ).ignoreContentType(true).execute().body();
     JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
