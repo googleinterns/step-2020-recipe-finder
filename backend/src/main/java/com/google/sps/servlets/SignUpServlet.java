@@ -40,7 +40,7 @@ public class SignUpServlet extends AuthenticationServlet {
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String name = request.getParameter(UserConstants.PROPERTY_NAME);
     String[] dietaryRequirementsArray =
-        request.getParameter(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
+        request.getParameterValues(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
     List<String> dietaryRequirements = Arrays.asList(dietaryRequirementsArray);
 
     UserService userService = UserServiceFactory.getUserService();
