@@ -25,8 +25,8 @@ import com.google.sps.utils.RecipeCollector;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +42,7 @@ public class FavouritesServlet extends AuthenticationServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
 
-    Set<Long> favourites = (Set<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
 
     List<Recipe> recipes = RecipeCollector.getRecipes(favourites, datastore);
 
@@ -60,12 +60,14 @@ public class FavouritesServlet extends AuthenticationServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
 
-    Set<Long> favourites = (Set<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
     if (favourites == null) {
-      favourites = new HashSet<>();
+      favourites = new ArrayList<>();
     }
-    favourites.add(recipeId);
-    userEntity.setProperty(UserConstants.PROPERTY_FAVOURITES, favourites);
-    datastore.put(userEntity);
+    if (!favourites.contains(recipeId)) {
+      favourites.add(recipeId);
+      userEntity.setProperty(UserConstants.PROPERTY_FAVOURITES, favourites);
+      datastore.put(userEntity);
+    }
   }
 }
