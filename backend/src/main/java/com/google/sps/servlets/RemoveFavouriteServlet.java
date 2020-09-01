@@ -22,8 +22,8 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +44,10 @@ public class RemoveFavouriteServlet extends AuthenticationServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    Set<Long> favourites = (Set<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    if (favourites == null) {
+      favourites = new HashSet<>();
+    }
     favourites.remove(recipeId);
     userEntity.setProperty(UserConstants.PROPERTY_FAVOURITES, favourites);
     datastore.put(userEntity);
