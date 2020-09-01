@@ -14,14 +14,16 @@
 
 import React from "react";
 import "./App.css";
-import CookRecipe from "./components/CookRecipe";
+import CookRecipe from "./components/individual-recipe/CookRecipe";
+import FinishedRecipe from "./components/individual-recipe/FinishedRecipe";
 import InputText from "./components/InputText";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import {PrivateRoute} from "./components/PrivateRoute";
 import Favourites from "./components/account/Favourites";
+import Account from "./components/account/Account";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -32,8 +34,10 @@ function App() {
             <Route exact path="/" component={Login} />
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
+            <PrivateRoute exact path="/account" component={Account} />
             <PrivateRoute exact path="/cook" component={CookRecipe} />
             <PrivateRoute exact path="/favourites" component={Favourites} />
+            <PrivateRoute exact path="/finished" component={FinishedRecipe} />
             <PrivateRoute
               exact
               path="/recommendations"
