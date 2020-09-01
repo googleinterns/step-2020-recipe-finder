@@ -22,8 +22,8 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,8 +41,8 @@ public class SignUpServlet extends AuthenticationServlet {
     String name = request.getParameter(UserConstants.PROPERTY_NAME);
     String[] dietaryRequirementsArray =
         request.getParameterValues(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
-    List<String> dietaryRequirements = Arrays.asList(dietaryRequirementsArray);
-
+    Set<String> dietaryRequirements = getFormattedDietaryRequirements(dietaryRequirementsArray);
+    
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
 
@@ -53,5 +53,17 @@ public class SignUpServlet extends AuthenticationServlet {
     userEntity.setProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS, dietaryRequirements);
     datastore.put(userEntity);
     response.sendRedirect("/home");
+  }
+
+  private Set<String> getFormattedDietaryRequirements(String[] dietaryRequirementsArray) {
+    Set<String> dietaryRequirements = new HashSet<>();
+    for (String diet : dietaryRequirementsArray) {
+      if (diet.isEmpty()) {
+        continue;
+      }
+      String formattedDiet = diet.toLowerCase().replaceAll("[^\\dA-Za-z ]| ", "");
+      dietaryRequirements.add(formattedDiet);
+    }
+    return dietaryRequirements;
   }
 }

@@ -13,8 +13,8 @@ export function getDietaryRequirements() {
   return [
     "Vegetarian",
     "Vegan",
-    "Dairy-Free",
-    "Gluten-Free",
+    "Dairy Free",
+    "Gluten Free",
     "Halal",
     "Kosher",
     "Nut allergy",
