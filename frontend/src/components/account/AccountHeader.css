@@ -12,6 +12,19 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-.finished-btns {
-  margin: 20px;
+.navbar-light {
+  background-color: #44bb99;
+}
+
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-brand {
+  color: white;
+}
+
+.navbar-light .navbar-toggler-icon {
+    background-image: url("../../icons/toggle.svg");
+}
+
+.navbar-div {
+  margin-bottom: 56px;
 }
