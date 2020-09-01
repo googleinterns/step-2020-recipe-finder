@@ -18,5 +18,6 @@ export function getDietaryRequirements() {
     "Halal",
     "Kosher",
     "Nut allergy",
+    "Lactose intolerant"
   ];
 }

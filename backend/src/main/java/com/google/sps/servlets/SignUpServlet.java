@@ -42,7 +42,7 @@ public class SignUpServlet extends AuthenticationServlet {
     String[] dietaryRequirementsArray =
         request.getParameterValues(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
     Set<String> dietaryRequirements = getFormattedDietaryRequirements(dietaryRequirementsArray);
-    
+
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
 
@@ -61,7 +61,7 @@ public class SignUpServlet extends AuthenticationServlet {
       if (diet.isEmpty()) {
         continue;
       }
-      String formattedDiet = diet.toLowerCase().replaceAll("[^\\dA-Za-z ]| ", "");
+      String formattedDiet = diet.toLowerCase().replaceAll("[^\\da-z ]| |[0-9]", "");
       dietaryRequirements.add(formattedDiet);
     }
     return dietaryRequirements;
