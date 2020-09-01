@@ -21,14 +21,15 @@ import com.google.appengine.api.datastore.Query;
 import com.google.sps.data.Recipe;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public final class RecipeCollector {
 
-  public static List<Recipe> getRecipes(List<Long> recipeIds, DatastoreService datastore) {
+  public static List<Recipe> getRecipes(Set<Long> recipeIds, DatastoreService datastore) {
     List<Recipe> recipes = new ArrayList<>();
     if (recipeIds == null) return recipes;
-    for (int i = 0; i < recipeIds.size(); i++) {
-      int recipeId = recipeIds.get(i).intValue();
+    for (Long recipeIdLong : recipeIds) {
+      int recipeId = recipeIdLong.intValue();
       Query query =
           new Query(RecipeConstants.ENTITY_RECIPE)
               .setFilter(
