@@ -14,7 +14,8 @@
 
 import React from "react";
 import "./App.css";
-import CookRecipe from "./components/CookRecipe";
+import CookRecipe from "./components/individual-recipe/CookRecipe";
+import FinishedRecipe from "./components/individual-recipe/FinishedRecipe";
 import InputText from "./components/InputText";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
@@ -34,6 +35,7 @@ function App() {
             <PrivateRoute exact path="/text" component={InputText} />
             <PrivateRoute exact path="/account" component={Account} />
             <PrivateRoute exact path="/cook" component={CookRecipe} />
+            <PrivateRoute exact path="/finished" component={FinishedRecipe} />
             <PrivateRoute
               exact
               path="/recommendations"
