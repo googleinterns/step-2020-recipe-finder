@@ -21,13 +21,24 @@ import { getDietaryRequirements } from "../utils/DietaryRequirements";
 class SignUp extends Component {
   constructor(properties) {
     super(properties);
+    const propertiesState = properties.location.state;
+    const isPropertiesStateUndefined = propertiesState === undefined;
     this.state = {
-      customDiets: [],
+      name: isPropertiesStateUndefined ? "" : propertiesState.name,
+      diets: isPropertiesStateUndefined ? [] : propertiesState.diets,
+      customDiets: isPropertiesStateUndefined
+        ? []
+        : propertiesState.customDiets,
     };
     this.addCustomDiet = this.addCustomDiet.bind(this);
     this.removeCustomDiet = this.removeCustomDiet.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleDietChange = this.handleDietChange.bind(this);
   }
+
   render() {
+    console.log(this.state);
+
     return (
       <div>
         <h1>Sign Up</h1>
@@ -39,6 +50,8 @@ class SignUp extends Component {
               type="text"
               name="name"
               placeholder="Enter your name/nickname"
+              value={this.state.name}
+              onChange={this.handleNameChange}
             />
           </Form.Group>
 
@@ -49,8 +62,10 @@ class SignUp extends Component {
                 key={index}
                 type="checkbox"
                 name="dietaryRequirements"
-                value={item}
-                label={item}
+                checked={this.state.diets.includes(item.value)}
+                onChange={this.handleDietChange}
+                value={item.value}
+                label={item.label}
               />
             ))}
             {this.state.customDiets.map((item, index) => (
@@ -97,6 +112,24 @@ class SignUp extends Component {
     const previousCustomDiets = this.state.customDiets;
     previousCustomDiets.splice(index, 1);
     this.setState({ numberCustomDiets: previousCustomDiets });
+  }
+
+  handleNameChange(event) {
+    const newName = event.target.value;
+    this.setState({ name: newName });
+  }
+
+  handleDietChange(event) {
+    const isChecked = event.target.checked;
+    const value = event.target.value;
+    const diets = this.state.diets;
+
+    if (isChecked) {
+      diets.push(value);
+    } else {
+      diets.remove(value);
+    }
+    this.setState({ diets: diets });
   }
 }
 export default SignUp;

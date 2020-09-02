@@ -32,7 +32,7 @@ function App() {
         <div>
           <Switch>
             <Route exact path="/" component={Login} />
-            <PrivateRoute exact path="/sign-up" component={SignUp} />
+            <Route exact path="/sign-up" component={SignUp} />
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
             <PrivateRoute exact path="/account" component={Account} />
