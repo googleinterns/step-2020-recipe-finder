@@ -19,8 +19,8 @@ import Popover from "react-bootstrap/Popover";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import "./RecommendedRecipes.css";
-import { handleResponseError } from "./utils/GeneralErrorHandler";
-import { errorRedirect } from "./utils/GeneralErrorHandler";
+import { handleResponseError } from "./utils/APIErrorHandler";
+import { errorRedirect } from "./utils/APIErrorHandler";
 import { loading } from "./utils/Utilities";
 
 class RecommendedRecipes extends Component {

@@ -23,7 +23,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Account from "./components/account/Account";
 import ReactErrorHandler from "./components/utils/ReactErrorHandler";
-import ErrorPage from "./components/utils/GeneralErrorHandler";
+import ErrorPage from "./components/utils/APIErrorHandler";
 import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {

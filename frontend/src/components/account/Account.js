@@ -16,8 +16,8 @@ import React, { Component } from "react";
 import AccountHeader from "./AccountHeader";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import { handleResponseError } from "../utils/GeneralErrorHandler";
-import { errorRedirect } from "../utils/GeneralErrorHandler";
+import { handleResponseError } from "../utils/APIErrorHandler";
+import { errorRedirect } from "../utils/APIErrorHandler";
 import { loading } from "../utils/Utilities";
 
 class Account extends Component {
