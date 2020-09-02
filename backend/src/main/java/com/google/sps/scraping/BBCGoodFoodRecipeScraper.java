@@ -53,11 +53,12 @@ public class BBCGoodFoodRecipeScraper {
     }
   }
 
-  /*Created this function to output  */
+  /*Created this function to output link to the google search */
   public static String searchRecipeLink(String ingredients, String key) {
     return "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&exactTerms="
         + ingredients +"&key=" + key;
   }
+
   /* Time in the JSON object is in ISO 8601 duration format
    * This converts it into "H hours M mintues" format
    */
@@ -102,10 +103,9 @@ public class BBCGoodFoodRecipeScraper {
   /* Structure of jsonObject:
    * {suitableForDiet: "http://schema.org/VegetarianDiet, http://schema.org/GlutenFreeDiet .."} */
   private static String[] getDietFromJson(JsonObject jsonObject) {
-    String[] NO_DIET = {};
     JsonElement dietElements = jsonObject.get("suitableForDiet");
     if (dietElements == null) {
-      return NO_DIET;
+      return String[]0;
     }
     String[] diet = dietElements.getAsString().split(", ");
     int counter = 0;

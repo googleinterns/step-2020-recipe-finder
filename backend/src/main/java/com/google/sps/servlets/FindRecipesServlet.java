@@ -41,7 +41,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
   
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      //no get request
+    //no get request
   }
 
   @Override
