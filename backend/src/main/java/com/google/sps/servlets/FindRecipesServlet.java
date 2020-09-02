@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /* Servlet that:
-* in Post request returns web links based on the inputted ingredients */
+* in Post request, returns a list of recommended recipes based on the ingredients in the request */
 @WebServlet("/api/find-recipes")
 public class FindRecipesServlet extends AuthenticationServlet {
   private static final int MAX_NUMBER_OF_RECIPES = 3;
@@ -41,14 +41,14 @@ public class FindRecipesServlet extends AuthenticationServlet {
   
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    //no get request
+    // no get request
   }
 
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String ingredients = request.getReader().readLine();
-    String json = Jsoup.connect(BBCGoodFoodRecipeScraper.searchRecipeLink(ingredients, key)
-      ).ignoreContentType(true).execute().body();
+    String json = Jsoup.connect(BBCGoodFoodRecipeScraper.searchRecipeLink(ingredients, key))
+      .ignoreContentType(true).execute().body();
     JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
     JsonArray items = jsonObject.get("items").getAsJsonArray();
 
@@ -66,6 +66,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
         break;
       }
     }
+    response.setCharacterEncoding("UTF8");
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(recipes));
   }

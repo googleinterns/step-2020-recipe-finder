@@ -121,15 +121,14 @@ class Tutorial extends Component {
     this.setState({ isSpeakerOff: !previousStateIsSpeakerOff });
   }
 
-  finishCooking() {
-    const recipeToSave = this.props.recipe;
+  finishCooking(recipe) {
     const request = new Request("/api/store-recipe", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(recipeToSave)
+      body: JSON.stringify(recipe)
     });
   }
 

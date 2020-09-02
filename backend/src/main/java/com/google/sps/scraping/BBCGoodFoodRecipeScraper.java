@@ -53,7 +53,7 @@ public class BBCGoodFoodRecipeScraper {
     }
   }
 
-  /*Created this function to output link to the google search */
+  /*Outputs link to custom search api*/
   public static String searchRecipeLink(String ingredients, String key) {
     return "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&exactTerms="
         + ingredients +"&key=" + key;
@@ -105,7 +105,7 @@ public class BBCGoodFoodRecipeScraper {
   private static String[] getDietFromJson(JsonObject jsonObject) {
     JsonElement dietElements = jsonObject.get("suitableForDiet");
     if (dietElements == null) {
-      return String[]0;
+      return String[0];
     }
     String[] diet = dietElements.getAsString().split(", ");
     int counter = 0;
