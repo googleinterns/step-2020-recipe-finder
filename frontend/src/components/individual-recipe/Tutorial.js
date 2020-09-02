@@ -111,7 +111,6 @@ class Tutorial extends Component {
           >
             <Button>All done!</Button>
           </Link>
-          ;
         </div>
       );
     }
