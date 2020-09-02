@@ -22,7 +22,8 @@ class Account extends Component {
     super(properties);
     this.state = {
       name: "",
-      dietaryRequirements: [],
+      diets: [],
+      customDiets: [],
     };
   }
 
@@ -32,7 +33,8 @@ class Account extends Component {
       .then((json) =>
         this.setState({
           name: json.name,
-          dietaryRequirements: json.dietaryRequirements,
+          diets: json.diets,
+          customeDiets: json.customDiets,
         })
       )
       .catch((err) => console.log(err));
@@ -46,14 +48,21 @@ class Account extends Component {
         <h4>{this.state.name}</h4>
         <h3>My dietary requirements:</h3>
         <ul>
-          {this.state.dietaryRequirements.map((item, index) => (
+          {this.state.diets.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+          {this.state.customDiets.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
         </ul>
         <Link
           to={{
             pathname: "/sign-up",
-            state: { name: "name", diets: ["vegetarian"], customDiets: ["eggsallergy"] },
+            state: {
+              name: this.state.name,
+              diets: this.state.diets,
+              customDiets: this.state.customDiets,
+            },
           }}
         >
           <Button>Change Dietary requirements</Button>

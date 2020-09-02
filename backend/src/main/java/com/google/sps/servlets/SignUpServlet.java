@@ -22,6 +22,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import javax.servlet.annotation.WebServlet;
@@ -40,9 +41,11 @@ public class SignUpServlet extends AuthenticationServlet {
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String redirectLink = request.getParameter("redirectLink");
     String name = request.getParameter(UserConstants.PROPERTY_NAME);
-    String[] dietaryRequirementsArray =
-        request.getParameterValues(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
-    Set<String> dietaryRequirements = getFormattedDietaryRequirements(dietaryRequirementsArray);
+    String[] dietsArray = request.getParameterValues(UserConstants.PROPERTY_DIETS);
+    String[] customDietsArray = request.getParameterValues(UserConstants.PROPERTY_CUSTOM_DIETS);
+
+    List<String> diets = Arrays.asList(dietsArray);
+    Set<String> customDiets = getFormattedDietaryRequirements(customDietsArray);
 
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
@@ -51,20 +54,21 @@ public class SignUpServlet extends AuthenticationServlet {
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
 
     userEntity.setProperty(UserConstants.PROPERTY_NAME, name);
-    userEntity.setProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS, dietaryRequirements);
+    userEntity.setProperty(UserConstants.PROPERTY_DIETS, diets);
+    userEntity.setProperty(UserConstants.PROPERTY_CUSTOM_DIETS, customDiets);
     datastore.put(userEntity);
     response.sendRedirect(redirectLink);
   }
 
-  private Set<String> getFormattedDietaryRequirements(String[] dietaryRequirementsArray) {
-    Set<String> dietaryRequirements = new HashSet<>();
-    for (String diet : dietaryRequirementsArray) {
+  private Set<String> getFormattedDietaryRequirements(String[] dietsArray) {
+    Set<String> diets = new HashSet<>();
+    for (String diet : dietsArray) {
       if (diet.isEmpty()) {
         continue;
       }
       String formattedDiet = diet.toLowerCase().replaceAll("[^\\da-z ]| |[0-9]", "");
-      dietaryRequirements.add(formattedDiet);
+      diets.add(formattedDiet);
     }
-    return dietaryRequirements;
+    return diets;
   }
 }

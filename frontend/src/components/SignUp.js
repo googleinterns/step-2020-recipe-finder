@@ -17,6 +17,7 @@ import Form from "react-bootstrap/Form";
 import "./SignUp.css";
 import Button from "react-bootstrap/Button";
 import { getDietaryRequirements } from "../utils/DietaryRequirements";
+// import { backButton } from "../utils/Utilities";
 
 class SignUp extends Component {
   constructor(properties) {
@@ -45,6 +46,7 @@ class SignUp extends Component {
 
     return (
       <div>
+        {/* {this.state.isSignUp ? "" : backButton()} */}
         <h1>{title}</h1>
         <Form action="/api/sign-up" method="POST">
         <Form.Control
@@ -70,7 +72,7 @@ class SignUp extends Component {
               <Form.Check
                 key={index}
                 type="checkbox"
-                name="dietaryRequirements"
+                name="diets"
                 checked={this.state.diets.includes(item.value)}
                 onChange={this.handleDietChange}
                 value={item.value}
@@ -82,7 +84,7 @@ class SignUp extends Component {
                 <Form.Control
                   className="custom-diet-input"
                   type="text"
-                  name="dietaryRequirements"
+                  name="customDiets"
                   placeholder="Enter dietary requirement"
                   value={item}
                 ></Form.Control>
