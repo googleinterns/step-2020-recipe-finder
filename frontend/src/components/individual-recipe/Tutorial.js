@@ -75,7 +75,7 @@ class Tutorial extends Component {
       </div>
     );
   }
-  
+
   setSelectedStepAndMaybeRead = (selectedIndex, e) => {
     localStorage.setItem("tutorial-step", selectedIndex);
     this.noteIfLastStep();

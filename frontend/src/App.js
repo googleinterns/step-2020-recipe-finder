@@ -35,12 +35,12 @@ function App() {
             <Switch>
               <Route exact path="/" component={Login} />
               <Route exact path="/error" component={ErrorPage} />
-              <Route exact path="/home" component={Home} />
-              <Route exact path="/text" component={InputText} />
-              <Route exact path="/account" component={Account} />
-              <Route exact path="/cook" component={CookRecipe} />
-              <Route exact path="/finished" component={FinishedRecipe} />
-              <Route
+              <PrivateRoute exact path="/home" component={Home} />
+              <PrivateRoute exact path="/text" component={InputText} />
+              <PrivateRoute exact path="/account" component={Account} />
+              <PrivateRoute exact path="/cook" component={CookRecipe} />
+              <PrivateRoute exact path="/finished" component={FinishedRecipe} />
+              <PrivateRoute
                 exact
                 path="/recommendations"
                 component={RecommendedRecipes}
