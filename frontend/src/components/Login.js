@@ -14,6 +14,9 @@
 
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import { handleResponseError } from "./utils/GeneralErrorHandler";
+import { errorRedirect } from "./utils/GeneralErrorHandler";
+import { loading } from "./utils/Utilities";
 
 class Home extends Component {
   constructor(properties) {
@@ -21,18 +24,34 @@ class Home extends Component {
     this.state = {
       isLoggedIn: false,
       logUrl: "",
+      error: null,
+      isLoading: true,
     };
   }
 
   componentDidMount() {
     fetch("/api/login-status")
+      .then(handleResponseError)
       .then((response) => response.json())
       .then((json) =>
-        this.setState({ isLoggedIn: json.isLoggedIn, logUrl: json.logUrl })
-      );
+        this.setState({
+          isLoggedIn: json.isLoggedIn,
+          logUrl: json.logUrl,
+          isLoading: false,
+        })
+      )
+      .catch((error) => this.setState({ error: error }));
   }
 
   render() {
+    if (this.state.error !== null) {
+      return errorRedirect(this.state.error);
+    }
+
+    if (this.state.isLoading) {
+      return loading();
+    }
+
     if (this.state.isLoggedIn) {
       localStorage.setItem("logOutUrl", this.state.logUrl);
       return <Redirect to="/home" />;

@@ -19,6 +19,9 @@ import Popover from "react-bootstrap/Popover";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import "./RecommendedRecipes.css";
+import { handleResponseError } from "./utils/GeneralErrorHandler";
+import { errorRedirect } from "./utils/GeneralErrorHandler";
+import { loading } from "./utils/Utilities";
 
 class RecommendedRecipes extends Component {
   constructor(properties) {
@@ -28,6 +31,7 @@ class RecommendedRecipes extends Component {
       isRedirect: false,
       recipes: [],
       chosenRecipe: {},
+      error: null,
     };
   }
 
@@ -41,21 +45,19 @@ class RecommendedRecipes extends Component {
       },
     });
     fetch(request)
+      .then(handleResponseError)
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json, isLoading: false }))
-      .catch((err) => console.log(err));
+      .catch((error) => this.setState({ error: error }));
   }
 
   render() {
+    if (this.state.error !== null) {
+      return errorRedirect(this.state.error);
+    }
+
     if (this.state.isLoading) {
-      return (
-        <div className="spinner-div">
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <h3>Scanning recipes...</h3>
-        </div>
-      );
+      return loading("Scanning recipes ...");
     }
 
     if (this.state.isRedirect) {

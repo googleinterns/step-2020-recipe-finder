@@ -17,33 +17,38 @@ import "./App.css";
 import CookRecipe from "./components/individual-recipe/CookRecipe";
 import FinishedRecipe from "./components/individual-recipe/FinishedRecipe";
 import InputText from "./components/InputText";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, useLocation } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Account from "./components/account/Account";
+import ReactErrorHandler from "./components/utils/ReactErrorHandler";
+import ErrorPage from "./components/utils/GeneralErrorHandler";
 import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
   return (
     <div className="App">
-      <Router>
-        <div>
-          <Switch>
-            <Route exact path="/" component={Login} />
-            <PrivateRoute exact path="/home" component={Home} />
-            <PrivateRoute exact path="/text" component={InputText} />
-            <PrivateRoute exact path="/account" component={Account} />
-            <PrivateRoute exact path="/cook" component={CookRecipe} />
-            <PrivateRoute exact path="/finished" component={FinishedRecipe} />
-            <PrivateRoute
-              exact
-              path="/recommendations"
-              component={RecommendedRecipes}
-            />
-          </Switch>
-        </div>
-      </Router>
+        <Router>
+          <div>
+          <ReactErrorHandler>
+            <Switch>
+              <Route exact path="/" component={Login} />
+              <Route exact path="/error" component={ErrorPage} />
+              <Route exact path="/home" component={Home} />
+              <Route exact path="/text" component={InputText} />
+              <Route exact path="/account" component={Account} />
+              <Route exact path="/cook" component={CookRecipe} />
+              <Route exact path="/finished" component={FinishedRecipe} />
+              <Route
+                exact
+                path="/recommendations"
+                component={RecommendedRecipes}
+              />
+            </Switch>
+            </ReactErrorHandler>
+          </div>
+        </Router>
     </div>
   );
 }
