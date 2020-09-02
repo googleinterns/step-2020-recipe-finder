@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import React, { Component } from "react";
+import { backButton } from "./Utilities";
 
 class ReactErrorHandler extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class ReactErrorHandler extends Component {
     if (this.state.errorInfo) {
       return (
         <div>
+          {backButton()}
           <h1>Error</h1>
           <summary>Something went wrong</summary>
           <details style={{ whiteSpace: "pre-wrap" }}>

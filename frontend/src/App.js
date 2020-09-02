@@ -17,7 +17,7 @@ import "./App.css";
 import CookRecipe from "./components/individual-recipe/CookRecipe";
 import FinishedRecipe from "./components/individual-recipe/FinishedRecipe";
 import InputText from "./components/InputText";
-import { BrowserRouter as Router, Switch, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -29,8 +29,8 @@ import { PrivateRoute } from "./components/PrivateRoute";
 function App() {
   return (
     <div className="App">
-        <Router>
-          <div>
+      <Router>
+        <div>
           <ReactErrorHandler>
             <Switch>
               <Route exact path="/" component={Login} />
@@ -46,9 +46,9 @@ function App() {
                 component={RecommendedRecipes}
               />
             </Switch>
-            </ReactErrorHandler>
-          </div>
-        </Router>
+          </ReactErrorHandler>
+        </div>
+      </Router>
     </div>
   );
 }

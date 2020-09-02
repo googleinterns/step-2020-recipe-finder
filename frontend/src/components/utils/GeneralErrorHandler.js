@@ -24,7 +24,7 @@ export function handleResponseError(response) {
 }
 
 export function errorRedirect(error) {
-  return <Redirect to={{ pathname: "error", state: { error: error } }} />;
+  return <Redirect to={{ pathname: "/error", state: { error: error } }} />;
 }
 
 class ErrorPage extends Component {
