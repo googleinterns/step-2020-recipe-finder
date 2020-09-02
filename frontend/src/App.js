@@ -21,6 +21,8 @@ import Inventory from "./components/Inventory";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
+import Login from "./components/Login";
+import {PrivateRoute} from "./components/PrivateRoute";
 
 function App() {
   return (

@@ -28,7 +28,6 @@ import org.jsoup.nodes.Document;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 public class FindRecipesServlet extends AuthenticationServlet {
   private static final int MAX_NUMBER_OF_RECIPES = 3;
 
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String ingredients = request.getParameter("ingredients");
@@ -46,6 +46,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
       ).ignoreContentType(true).execute().body();
     JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
     JsonArray items = jsonObject.get("items").getAsJsonArray();
+
     List<Recipe> recipes = new ArrayList<>();
     int counter = 0;
     for (JsonElement item: items) {
