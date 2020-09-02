@@ -22,14 +22,17 @@ class SignUp extends Component {
   constructor(properties) {
     super(properties);
     const propertiesState = properties.location.state;
-    const isPropertiesStateUndefined = propertiesState === undefined;
+    const isSignUp = propertiesState === undefined;
+
     this.state = {
-      name: isPropertiesStateUndefined ? "" : propertiesState.name,
-      diets: isPropertiesStateUndefined ? [] : propertiesState.diets,
-      customDiets: isPropertiesStateUndefined
+      name: isSignUp ? "" : propertiesState.name,
+      diets: isSignUp ? [] : propertiesState.diets,
+      customDiets: isSignUp
         ? []
         : propertiesState.customDiets,
+      isSignUp: isSignUp,
     };
+
     this.addCustomDiet = this.addCustomDiet.bind(this);
     this.removeCustomDiet = this.removeCustomDiet.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -37,12 +40,18 @@ class SignUp extends Component {
   }
 
   render() {
-    console.log(this.state);
+    const title = this.state.isSignUp ? "Sign Up" : "Change dietary requirements";
+    const redirectLink = this.state.isSignUp ? "/home" : "/account";
 
     return (
       <div>
-        <h1>Sign Up</h1>
+        <h1>{title}</h1>
         <Form action="/api/sign-up" method="POST">
+        <Form.Control
+              type="hidden"
+              name="redirectLink"
+              value={redirectLink}
+            />
           <Form.Group>
             <Form.Label>Name/Nickname</Form.Label>
             <Form.Control

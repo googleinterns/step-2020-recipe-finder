@@ -29,7 +29,12 @@ class Account extends Component {
   componentDidMount() {
     fetch("/api/account")
       .then((response) => response.json())
-      .then((json) => this.setState({ name: json.name, dietaryRequirements: json.dietaryRequirements }))
+      .then((json) =>
+        this.setState({
+          name: json.name,
+          dietaryRequirements: json.dietaryRequirements,
+        })
+      )
       .catch((err) => console.log(err));
   }
 
@@ -45,7 +50,12 @@ class Account extends Component {
             <li key={index}>{item}</li>
           ))}
         </ul>
-        <Link to="/dietary">
+        <Link
+          to={{
+            pathname: "/sign-up",
+            state: { name: "name", diets: ["vegetarian"], customDiets: ["eggsallergy"] },
+          }}
+        >
           <Button>Change Dietary requirements</Button>
         </Link>
       </div>

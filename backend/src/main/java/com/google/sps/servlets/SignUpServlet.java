@@ -38,6 +38,7 @@ public class SignUpServlet extends AuthenticationServlet {
   /** Creates a user entity in datastore */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String redirectLink = request.getParameter("redirectLink");
     String name = request.getParameter(UserConstants.PROPERTY_NAME);
     String[] dietaryRequirementsArray =
         request.getParameterValues(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
@@ -52,7 +53,7 @@ public class SignUpServlet extends AuthenticationServlet {
     userEntity.setProperty(UserConstants.PROPERTY_NAME, name);
     userEntity.setProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS, dietaryRequirements);
     datastore.put(userEntity);
-    response.sendRedirect("/home");
+    response.sendRedirect(redirectLink);
   }
 
   private Set<String> getFormattedDietaryRequirements(String[] dietaryRequirementsArray) {
