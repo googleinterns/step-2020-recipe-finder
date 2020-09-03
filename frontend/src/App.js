@@ -24,7 +24,7 @@ import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import {PrivateRoute} from "./components/PrivateRoute";
-import SignUp from "./components/SignUp";
+import SignUp from "./components/account/SignUp";
 import Favourites from "./components/account/Favourites";
 import Account from "./components/account/Account";
 
