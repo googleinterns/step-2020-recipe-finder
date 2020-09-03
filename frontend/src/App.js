@@ -23,6 +23,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import {PrivateRoute} from "./components/PrivateRoute";
 import SignUp from "./components/SignUp";
+import Favourites from "./components/account/Favourites";
 import Account from "./components/account/Account";
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
             <PrivateRoute exact path="/text" component={InputText} />
             <PrivateRoute exact path="/account" component={Account} />
             <PrivateRoute exact path="/cook" component={CookRecipe} />
+            <PrivateRoute exact path="/favourites" component={Favourites} />
             <PrivateRoute exact path="/finished" component={FinishedRecipe} />
             <PrivateRoute
               exact

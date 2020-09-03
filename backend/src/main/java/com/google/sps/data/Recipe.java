@@ -69,4 +69,22 @@ public final class Recipe {
     result = multiplier * result + Arrays.hashCode(instructions);
     return result;
   }
+
+  @Override
+  public String toString() {
+    return "name: "
+        + name
+        + ", time: "
+        + time
+        + ", calories: "
+        + calories
+        + ", difficulty: "
+        + difficulty
+        + ", diet: "
+        + Arrays.toString(dietaryRequirements)
+        + ", ingredients: "
+        + Arrays.toString(ingredients)
+        + ", instructions: "
+        + Arrays.toString(instructions);
+  }
 }
