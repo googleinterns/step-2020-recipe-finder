@@ -23,6 +23,7 @@ import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,7 +46,13 @@ public class SignUpServlet extends AuthenticationServlet {
     String[] dietsArray = request.getParameterValues(UserConstants.PROPERTY_DIETS);
     String[] customDietsArray = request.getParameterValues(UserConstants.PROPERTY_CUSTOM_DIETS);
 
-    List<String> diets = Arrays.asList(dietsArray);
+    List<String> diets;
+    if (dietsArray == null) {
+      diets = new ArrayList<>();
+    } else {
+      diets = Arrays.asList(dietsArray);
+    }
+    
     Set<String> customDiets = getFormattedDietaryRequirements(customDietsArray);
 
     UserService userService = UserServiceFactory.getUserService();
@@ -63,6 +70,9 @@ public class SignUpServlet extends AuthenticationServlet {
 
   private Set<String> getFormattedDietaryRequirements(String[] dietsArray) {
     Set<String> diets = new HashSet<>();
+    if (dietsArray == null) {
+      return diets;
+    }
     for (String diet : dietsArray) {
       if (diet.isEmpty()) {
         continue;

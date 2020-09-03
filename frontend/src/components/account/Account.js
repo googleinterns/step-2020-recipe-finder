@@ -35,7 +35,7 @@ class Account extends Component {
         this.setState({
           name: json.name,
           diets: json.diets,
-          customeDiets: json.customDiets,
+          customDiets: json.customDiets,
         })
       )
       .catch((err) => console.log(err));
