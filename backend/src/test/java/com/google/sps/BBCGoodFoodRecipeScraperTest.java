@@ -30,9 +30,9 @@ public final class BBCGoodFoodRecipeScraperTest {
   private static final String TIME = "10 min ";
   private static final String CALORIES = "140 calories";
   private static final String DIFFICULTY = "Easy";
-  private static final String[] DIET = {"Vegetarian"};
+  private static final String[] DIET = {"vegetarian"};
   private static final String[] INGREDIENTS = {
-    "3 unwaxed lemons, roughly chopped", "140g caster sugar", "1l cold  water"
+    "3 unwaxed lemons,roughly chopped", "140g caster sugar", "1l cold water"
   };
   private static final String[] INSTRUCTIONS = {
     "Tip the lemons, sugar and half the water "

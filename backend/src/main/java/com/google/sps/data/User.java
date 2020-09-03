@@ -14,15 +14,17 @@
 
 package com.google.sps.data;
 
-public final class LoginInfo {
+import java.util.List;
 
-  private final boolean isLoggedIn;
-  private final boolean isFirstTime;
-  private final String logUrl;
+public final class User {
 
-  public LoginInfo(boolean isLoggedIn, boolean isFirstTime, String logUrl) {
-    this.isLoggedIn = isLoggedIn;
-    this.isFirstTime = isFirstTime;
-    this.logUrl = logUrl;
+  private final String name;
+  private final List<String> dietaryRequirements;
+
+  public User(
+      String name,
+      List<String> dietaryRequirements) {
+    this.name = name;
+    this.dietaryRequirements = dietaryRequirements;
   }
 }

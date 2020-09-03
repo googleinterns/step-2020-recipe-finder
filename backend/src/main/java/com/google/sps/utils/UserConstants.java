@@ -17,5 +17,7 @@ package com.google.sps.utils;
 public final class UserConstants {
   public static final String ENTITY_USER = "User";
   public static final String PROPERTY_USER_ID = "userId";
+  public static final String PROPERTY_NAME = "name";
   public static final String PROPERTY_FAVOURITES = "favourites";
+  public static final String PROPERTY_DIETARY_REQUIREMENTS = "dietaryRequirements";
 }

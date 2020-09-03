@@ -51,13 +51,13 @@ public final class Recipe {
     if (this == other) return true;
     if (other == null || getClass() != other.getClass()) return false;
     Recipe recipe = (Recipe) other;
-    return name.equals(recipe.name) &&
-            time.equals(recipe.time) &&
-            calories.equals(recipe.calories) &&
-            difficulty.equals(recipe.difficulty) &&
-            Arrays.equals(dietaryRequirements, recipe.dietaryRequirements) &&
-            Arrays.equals(ingredients, recipe.ingredients) &&
-            Arrays.equals(instructions, recipe.instructions);
+    return name.equals(recipe.name)
+        && time.equals(recipe.time)
+        && calories.equals(recipe.calories)
+        && difficulty.equals(recipe.difficulty)
+        && Arrays.equals(dietaryRequirements, recipe.dietaryRequirements)
+        && Arrays.equals(ingredients, recipe.ingredients)
+        && Arrays.equals(instructions, recipe.instructions);
   }
 
   @Override
@@ -68,5 +68,23 @@ public final class Recipe {
     result = multiplier * result + Arrays.hashCode(ingredients);
     result = multiplier * result + Arrays.hashCode(instructions);
     return result;
+  }
+
+  @Override
+  public String toString() {
+    return "name: "
+        + name
+        + ", time: "
+        + time
+        + ", calories: "
+        + calories
+        + ", difficulty: "
+        + difficulty
+        + ", diet: "
+        + Arrays.toString(dietaryRequirements)
+        + ", ingredients: "
+        + Arrays.toString(ingredients)
+        + ", instructions: "
+        + Arrays.toString(instructions);
   }
 }

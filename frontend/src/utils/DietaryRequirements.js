@@ -9,6 +9,15 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-.finished-btns {
-  margin: 20px;
+export function getDietaryRequirements() {
+  return [
+    "Vegetarian",
+    "Vegan",
+    "Dairy Free",
+    "Gluten Free",
+    "Halal",
+    "Kosher",
+    "Nut allergy",
+    "Lactose intolerant"
+  ];
 }
