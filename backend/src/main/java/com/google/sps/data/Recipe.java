@@ -27,6 +27,7 @@ public final class Recipe {
   private final List<String> dietaryRequirements;
   private final List<String> ingredients;
   private final List<String> instructions;
+  private final int recipeId;
 
   public Recipe(
       String name,
@@ -43,6 +44,7 @@ public final class Recipe {
     this.dietaryRequirements = dietaryRequirements;
     this.ingredients = ingredients;
     this.instructions = instructions;
+    this.recipeId = this.hashCode();
   }
 
   @Override
@@ -67,5 +69,23 @@ public final class Recipe {
     result = multiplier * result + ingredients.hashCode();
     result = multiplier * result + instructions.hashCode();
     return result;
+  }
+
+  @Override
+  public String toString() {
+    return "name: "
+        + name
+        + ", time: "
+        + time
+        + ", calories: "
+        + calories
+        + ", difficulty: "
+        + difficulty
+        + ", diet: "
+        + Arrays.toString(dietaryRequirements)
+        + ", ingredients: "
+        + Arrays.toString(ingredients)
+        + ", instructions: "
+        + Arrays.toString(instructions);
   }
 }

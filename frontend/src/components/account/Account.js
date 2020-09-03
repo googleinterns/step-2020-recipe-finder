@@ -13,46 +13,43 @@
 // limitations under the License.
 
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import AccountHeader from "./AccountHeader";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
-class Login extends Component {
+class Account extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      isLoggedIn: false,
-      logUrl: "",
-      isFirstTime: false,
+      name: "",
+      dietaryRequirements: [],
     };
   }
 
   componentDidMount() {
-    fetch("/api/login-status")
+    fetch("/api/account")
       .then((response) => response.json())
-      .then((json) =>
-        this.setState({
-          isLoggedIn: json.isLoggedIn,
-          logUrl: json.logUrl,
-          isFirstTime: json.isFirstTime,
-        })
-      );
+      .then((json) => this.setState({ name: json.name, dietaryRequirements: json.dietaryRequirements }))
+      .catch((err) => console.log(err));
   }
 
   render() {
-    if (this.state.isFirstTime) {
-      localStorage.setItem("logOutUrl", this.state.logUrl);
-      return <Redirect to="/sign-up" />;
-    }
-
-    if (this.state.isLoggedIn) {
-      localStorage.setItem("logOutUrl", this.state.logUrl);
-      return <Redirect to="/home" />;
-    }
     return (
       <div>
-        <h1>Recipe Finder</h1>
-        <a href={this.state.logUrl}>Login</a>
+        <AccountHeader />
+        <h1>My Account</h1>
+        <h4>{this.state.name}</h4>
+        <h3>My dietary requirements:</h3>
+        <ul>
+          {this.state.dietaryRequirements.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+        <Link to="/dietary">
+          <Button>Change Dietary requirements</Button>
+        </Link>
       </div>
     );
   }
 }
-export default Login;
+export default Account;

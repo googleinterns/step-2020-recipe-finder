@@ -18,6 +18,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.sps.ApiKeys;
 import com.google.sps.data.Recipe;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class BBCGoodFoodRecipeScraper {
   public static Recipe scrapeRecipe(String url) {
     try {
       Document document = Jsoup.connect(url).get();
-
       // Put recipe schema into a JSON object
       Element schema = document.select("script[type=application/ld+json]").first();
       String json = schema.data();
@@ -54,6 +54,12 @@ public class BBCGoodFoodRecipeScraper {
       System.out.println(e);
       return null;
     }
+  }
+
+  /*Outputs link to custom search api*/
+  public static String searchRecipeLink(String ingredients, String key) {
+    return "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&exactTerms="
+        + ingredients +"&key=" + key;
   }
 
   /* Time in the JSON object is in ISO 8601 duration format
@@ -99,12 +105,15 @@ public class BBCGoodFoodRecipeScraper {
 
   /* Structure of jsonObject:
    * {suitableForDiet: "http://schema.org/VegetarianDiet, http://schema.org/GlutenFreeDiet .."} */
-  private static List<String> getDietFromJson(JsonObject jsonObject) {
-    String dietElements = jsonObject.get("suitableForDiet").getAsString();
-    List<String> diet = Arrays.asList(dietElements.split(", "));
+  private static String[] getDietFromJson(JsonObject jsonObject) {
+    JsonElement dietElements = jsonObject.get("suitableForDiet");
+    if (dietElements == null) {
+      return new String[0];
+    }
+    String[] diet = dietElements.getAsString().split(", ");
     int counter = 0;
     for (String item : diet) {
-      diet.set(counter++, item.replaceAll("http://schema.org/|Diet", ""));
+      diet[counter++] = item.replaceAll("http://schema.org/|Diet", "").toLowerCase();
     }
     return diet;
   }

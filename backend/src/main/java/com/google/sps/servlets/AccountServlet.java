@@ -22,42 +22,23 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
-import com.google.sps.data.LoginInfo;
+import com.google.sps.data.User;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
-/* Servlet that:
- * in Get request, returns login information
- */
-@WebServlet("/api/login-status")
-public class LoginServlet extends HttpServlet {
-
+@WebServlet("/api/account")
+public class AccountServlet extends AuthenticationServlet {
+  /** Returns user's account details */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    String redirectUrl = "/home";
-    String logUrl;
-    boolean isFirstTime = false;
+    String userId = userService.getCurrentUser().getUserId();
 
-    if (userService.isUserLoggedIn()) {
-      logUrl = userService.createLogoutURL(redirectUrl);
-      isFirstTime = getIsFirstTime(userService.getCurrentUser().getUserId());
-    } else {
-      logUrl = userService.createLoginURL(redirectUrl);
-    }
-
-    response.setContentType("application/json;");
-    response
-        .getWriter()
-        .println(
-            new Gson().toJson(new LoginInfo(userService.isUserLoggedIn(), isFirstTime, logUrl)));
-  }
-
-  private boolean getIsFirstTime(String userId) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query =
         new Query(UserConstants.ENTITY_USER)
@@ -65,6 +46,24 @@ public class LoginServlet extends HttpServlet {
                 new Query.FilterPredicate(
                     UserConstants.PROPERTY_USER_ID, Query.FilterOperator.EQUAL, userId));
     PreparedQuery results = datastore.prepare(query);
-    return results.asSingleEntity() == null;
+    Entity userEntity = results.asSingleEntity();
+    if (userEntity == null) {
+      response.sendRedirect("/sign-up");
+      return;
+    }
+    List<String> dietaryRequirements =
+        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
+    if (dietaryRequirements == null) {
+      dietaryRequirements = new ArrayList<>();
+    }
+    String name = (String) userEntity.getProperty(UserConstants.PROPERTY_NAME);
+
+    User user = new User(name, dietaryRequirements);
+    response.setContentType("application/json;");
+    response.getWriter().println(new Gson().toJson(user));
   }
+
+  /** TODO: modify dietary requirements */
+  @Override
+  protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {}
 }

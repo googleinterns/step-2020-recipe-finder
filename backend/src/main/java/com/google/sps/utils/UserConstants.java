@@ -12,17 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.sps.data;
+package com.google.sps.utils;
 
-public final class LoginInfo {
-
-  private final boolean isLoggedIn;
-  private final boolean isFirstTime;
-  private final String logUrl;
-
-  public LoginInfo(boolean isLoggedIn, boolean isFirstTime, String logUrl) {
-    this.isLoggedIn = isLoggedIn;
-    this.isFirstTime = isFirstTime;
-    this.logUrl = logUrl;
-  }
+public final class UserConstants {
+  public static final String ENTITY_USER = "User";
+  public static final String PROPERTY_USER_ID = "userId";
+  public static final String PROPERTY_NAME = "name";
+  public static final String PROPERTY_FAVOURITES = "favourites";
+  public static final String PROPERTY_DIETARY_REQUIREMENTS = "dietaryRequirements";
 }
