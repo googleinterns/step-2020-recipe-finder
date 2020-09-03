@@ -19,9 +19,6 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.Gson;
-import com.google.sps.data.Recipe;
-import com.google.sps.utils.RecipeCollector;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
@@ -31,26 +28,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/api/favourites")
-public class FavouritesServlet extends AuthenticationServlet {
-  /** Returns user's list of favourite recipes */
+@WebServlet("/api/remove-favourite")
+public class RemoveFavouriteServlet extends AuthenticationServlet {
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    String userId = userService.getCurrentUser().getUserId();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-
-    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
-
-    List<Recipe> recipes = RecipeCollector.getRecipes(favourites, datastore);
-
-    response.setContentType("application/json;");
-    response.getWriter().println(new Gson().toJson(recipes));
+    // no get request
   }
 
-  /** Adds a recipe to user's list of favourite recipes */
+  /** Removes a recipe from user's list of favourite recipes */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Long recipeId = Long.parseLong(request.getReader().readLine());
@@ -59,13 +44,10 @@ public class FavouritesServlet extends AuthenticationServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-
     List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
     if (favourites == null) {
       favourites = new ArrayList<>();
-    }
-    if (!favourites.contains(recipeId)) {
-      favourites.add(recipeId);
+    } else if (favourites.remove(recipeId)) {
       userEntity.setProperty(UserConstants.PROPERTY_FAVOURITES, favourites);
       datastore.put(userEntity);
     }
