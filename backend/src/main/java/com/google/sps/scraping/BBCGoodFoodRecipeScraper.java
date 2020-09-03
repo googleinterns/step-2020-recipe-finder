@@ -110,7 +110,7 @@ public class BBCGoodFoodRecipeScraper {
     String[] diet = dietElements.getAsString().split(", ");
     int counter = 0;
     for (String item : diet) {
-      diet[counter++] = item.replaceAll("http://schema.org/|Diet", "");
+      diet[counter++] = item.replaceAll("http://schema.org/|Diet", "").toLowerCase();
     }
     return diet;
   }

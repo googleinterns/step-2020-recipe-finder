@@ -107,10 +107,10 @@ class Tutorial extends Component {
                 recipeId: this.props.recipe.recipeId,
               },
             }}
+            onClick={() => this.finishCooking(this.props.recipe)}
           >
-            <Button onClick={this.finishCooking}>All done!</Button>
+            <Button>All done!</Button>
           </Link>
-          ;
         </div>
       );
     }
@@ -130,6 +130,7 @@ class Tutorial extends Component {
       },
       body: JSON.stringify(recipe)
     });
+
   }
 
   getSpeakerIcon() {

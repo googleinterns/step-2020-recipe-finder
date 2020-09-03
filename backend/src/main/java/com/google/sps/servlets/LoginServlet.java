@@ -14,10 +14,16 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.LoginInfo;
+import com.google.sps.utils.UserConstants;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,9 +41,11 @@ public class LoginServlet extends HttpServlet {
     UserService userService = UserServiceFactory.getUserService();
     String redirectUrl = "/home";
     String logUrl;
+    boolean isFirstTime = false;
 
     if (userService.isUserLoggedIn()) {
       logUrl = userService.createLogoutURL(redirectUrl);
+      isFirstTime = getIsFirstTime(userService.getCurrentUser().getUserId());
     } else {
       logUrl = userService.createLoginURL(redirectUrl);
     }
@@ -45,6 +53,18 @@ public class LoginServlet extends HttpServlet {
     response.setContentType("application/json;");
     response
         .getWriter()
-        .println(new Gson().toJson(new LoginInfo(userService.isUserLoggedIn(), logUrl)));
+        .println(
+            new Gson().toJson(new LoginInfo(userService.isUserLoggedIn(), isFirstTime, logUrl)));
+  }
+
+  private boolean getIsFirstTime(String userId) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query =
+        new Query(UserConstants.ENTITY_USER)
+            .setFilter(
+                new Query.FilterPredicate(
+                    UserConstants.PROPERTY_USER_ID, Query.FilterOperator.EQUAL, userId));
+    PreparedQuery results = datastore.prepare(query);
+    return results.asSingleEntity() == null;
   }
 }
