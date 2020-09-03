@@ -38,6 +38,7 @@ class SignUp extends Component {
     this.removeCustomDiet = this.removeCustomDiet.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDietChange = this.handleDietChange.bind(this);
+    this.handleCustomDietChange = this.handleCustomDietChange.bind(this);
   }
 
   render() {
@@ -87,6 +88,7 @@ class SignUp extends Component {
                   name="customDiets"
                   placeholder="Enter dietary requirement"
                   value={item}
+                  onChange={event => this.handleCustomDietChange(event, index)}
                 ></Form.Control>
                 <Button
                   className="custom-diet-remove-btn"
@@ -141,6 +143,13 @@ class SignUp extends Component {
       diets.remove(value);
     }
     this.setState({ diets: diets });
+  }
+
+  handleCustomDietChange(event, index) {
+    const diet = event.target.value;
+    const diets = this.state.customDiets;
+    diets[index] = diet;
+    this.setState({customDiets: diets});
   }
 }
 export default SignUp;
