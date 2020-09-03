@@ -14,7 +14,6 @@ limitations under the License. */
 
 import React, {Component} from 'react';
 import './InputText.css';
-import Button from "react-bootstrap/Button";
 import MicRecorder from 'mic-recorder-to-mp3';
 
 
@@ -49,10 +48,16 @@ class InputAudio extends Component {
           .stop()
           .getMp3()
           .then(([buffer, blob]) => {
-          const blobURL = URL.createObjectURL(blob)
+            const file = new File(buffer, 'ingredients.mp3', {
+                type: blob.type,
+                lastModified: Date.now()
+            });
+          const blobURL = URL.createObjectURL(file)
+          localStorage.setItem("file", blobURL);
           this.setState({ blobURL, isRecording: false });
           }).catch((e) => console.log(e));
     };
+
 
     componentDidMount() {
       navigator.getUserMedia({ audio: true },
@@ -76,6 +81,7 @@ class InputAudio extends Component {
             Stop
             </button>
             <audio src={this.state.blobURL} controls="controls" />
+            <a href={localStorage.getItem("file")} download="audioFile">download</a>
           </div>
         );
       }
