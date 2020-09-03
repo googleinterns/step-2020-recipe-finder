@@ -17,6 +17,8 @@ import "./App.css";
 import CookRecipe from "./components/individual-recipe/CookRecipe";
 import FinishedRecipe from "./components/individual-recipe/FinishedRecipe";
 import InputText from "./components/InputText";
+import ShoppingList from "./components/ShoppingList";
+import Inventory from "./components/Inventory";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
@@ -38,6 +40,8 @@ function App() {
             <PrivateRoute exact path="/text" component={InputText} />
             <PrivateRoute exact path="/account" component={Account} />
             <PrivateRoute exact path="/cook" component={CookRecipe} />
+            <PrivateRoute exact path="/shop" component={ShoppingList} />
+            <PrivateRoute exact path="/inventory" component={Inventory} />
             <PrivateRoute exact path="/favourites" component={Favourites} />
             <PrivateRoute exact path="/finished" component={FinishedRecipe} />
             <PrivateRoute

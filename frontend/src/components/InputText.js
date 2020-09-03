@@ -17,6 +17,7 @@ import InputTextItems from "./InputTextItems";
 import "./InputText.css";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 class InputText extends Component {
   constructor(properties) {
@@ -56,6 +57,7 @@ class InputText extends Component {
         return {
           items: [newItem].concat(prevState.items),
         };
+
       }
     });
     this._inputElement.value = "";
@@ -73,6 +75,7 @@ class InputText extends Component {
   }
 
   render() {
+    const ingredients = this.state.items.map(item => item.text);
     return (
       <div className="ingredientList">
         <div className="header">
@@ -82,12 +85,19 @@ class InputText extends Component {
               ref={(a) => (this._inputElement = a)}
               placeholder="New Ingredient"
             ></input>
-            <Button id="add-btn" type="submit">Add</Button>
-            <Link to="/recommendations">
-              <Button variant="primary">Confirm</Button>
-            </Link>
+            <button type="submit">add</button>
           </form>
         </div>
+        <Link
+          to={{
+            pathname: "/recommendations",
+            state: {
+              ingredients: ingredients
+            },
+          }}
+        >
+          <Button disabled={this.state.items.length === 0} variant="primary">Confirm</Button>
+        </Link>
         <InputTextItems entries={this.state.items} delete={this.deleteItem} />
       </div>
     );

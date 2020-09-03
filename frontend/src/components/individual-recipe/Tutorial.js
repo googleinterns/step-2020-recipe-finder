@@ -122,7 +122,15 @@ class Tutorial extends Component {
   }
 
   finishCooking(recipe) {
-    // TODO: add recipe to the database
+    const request = new Request("/api/store-recipe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(recipe)
+    });
+
   }
 
   getSpeakerIcon() {
