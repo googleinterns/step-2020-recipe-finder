@@ -27,7 +27,7 @@ class SignUp extends Component {
 
     this.state = {
       name: isSignUp ? "" : propertiesState.name,
-      diets: isSignUp ? [] : propertiesState.diets,
+      diets: isSignUp ? ["vegetarian"] : propertiesState.diets,
       customDiets: isSignUp
         ? []
         : propertiesState.customDiets,
@@ -140,7 +140,7 @@ class SignUp extends Component {
     if (isChecked) {
       diets.push(value);
     } else {
-      diets.remove(value);
+      diets.pop(value);
     }
     this.setState({ diets: diets });
   }
