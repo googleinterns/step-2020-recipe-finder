@@ -16,6 +16,7 @@ import React, { Component } from "react";
 import AccountHeader from "./AccountHeader";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import { getDietaryRequirements } from "../../utils/DietaryRequirements";
 
 class Account extends Component {
   constructor(properties) {
@@ -49,7 +50,7 @@ class Account extends Component {
         <h3>My dietary requirements:</h3>
         <ul>
           {this.state.diets.map((item, index) => (
-            <li key={index}>{item}</li>
+            <li key={index}>{this.getLabelForDiet(item)}</li>
           ))}
           {this.state.customDiets.map((item, index) => (
             <li key={index}>{item}</li>
@@ -69,6 +70,11 @@ class Account extends Component {
         </Link>
       </div>
     );
+  }
+
+  getLabelForDiet(diet) {
+    return getDietaryRequirements().filter((item) => item.value === diet)[0]
+      .label;
   }
 }
 export default Account;
