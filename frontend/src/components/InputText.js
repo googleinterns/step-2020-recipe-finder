@@ -56,6 +56,7 @@ class InputText extends Component {
         return {
           items: [newItem].concat(prevState.items),
         };
+
       }
     });
     this._inputElement.value = "";
@@ -73,6 +74,7 @@ class InputText extends Component {
   }
 
   render() {
+    const ingredients = this.state.items.map((item) => item.text);
     return (
       <div className="ingredientList">
         <div className="header">
@@ -82,12 +84,25 @@ class InputText extends Component {
               ref={(a) => (this._inputElement = a)}
               placeholder="New Ingredient"
             ></input>
-            <Button id="add-btn" type="submit">Add</Button>
-            <Link to="/recommendations">
-              <Button variant="primary">Confirm</Button>
+            <Button type="submit">Add</Button>
+            <Link
+              to={{
+                pathname: "/recommendations",
+                state: {
+                  ingredients: ingredients,
+                },
+              }}
+            >
+              <Button
+                disabled={this.state.items.length === 0}
+                variant="primary"
+              >
+                Confirm
+              </Button>
             </Link>
           </form>
         </div>
+
         <InputTextItems entries={this.state.items} delete={this.deleteItem} />
       </div>
     );

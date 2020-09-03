@@ -67,7 +67,7 @@ public class SignUpServlet extends AuthenticationServlet {
       if (diet.isEmpty()) {
         continue;
       }
-      String formattedDiet = diet.toLowerCase().replaceAll("[^\\da-z ]| |[0-9]", "");
+      String formattedDiet = diet.toLowerCase().replaceAll("[^a-z]", "");
       diets.add(formattedDiet);
     }
     return diets;
