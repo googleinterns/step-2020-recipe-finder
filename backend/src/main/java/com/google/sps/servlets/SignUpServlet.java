@@ -19,55 +19,51 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.Gson;
-import com.google.sps.data.Recipe;
-import com.google.sps.utils.RecipeCollector;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/api/favourites")
-public class FavouritesServlet extends AuthenticationServlet {
-  /** Returns user's list of favourite recipes */
+@WebServlet("/api/sign-up")
+public class SignUpServlet extends AuthenticationServlet {
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    String userId = userService.getCurrentUser().getUserId();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-
-    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
-
-    List<Recipe> recipes = RecipeCollector.getRecipes(favourites, datastore);
-
-    response.setContentType("application/json;");
-    response.getWriter().println(new Gson().toJson(recipes));
+    // no get request
   }
 
-  /** Adds a recipe to user's list of favourite recipes */
+  /** Creates a user entity in datastore */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Long recipeId = Long.parseLong(request.getReader().readLine());
+    String name = request.getParameter(UserConstants.PROPERTY_NAME);
+    String[] dietaryRequirementsArray =
+        request.getParameterValues(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
+    Set<String> dietaryRequirements = getFormattedDietaryRequirements(dietaryRequirementsArray);
+
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
 
-    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
-    if (favourites == null) {
-      favourites = new ArrayList<>();
+    userEntity.setProperty(UserConstants.PROPERTY_NAME, name);
+    userEntity.setProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS, dietaryRequirements);
+    datastore.put(userEntity);
+    response.sendRedirect("/home");
+  }
+
+  private Set<String> getFormattedDietaryRequirements(String[] dietaryRequirementsArray) {
+    Set<String> dietaryRequirements = new HashSet<>();
+    for (String diet : dietaryRequirementsArray) {
+      if (diet.isEmpty()) {
+        continue;
+      }
+      String formattedDiet = diet.toLowerCase().replaceAll("[^a-z]", "");
+      dietaryRequirements.add(formattedDiet);
     }
-    if (!favourites.contains(recipeId)) {
-      favourites.add(recipeId);
-      userEntity.setProperty(UserConstants.PROPERTY_FAVOURITES, favourites);
-      datastore.put(userEntity);
-    }
+    return dietaryRequirements;
   }
 }

@@ -108,10 +108,10 @@ class Tutorial extends Component {
                 recipeId: this.props.recipe.recipeId,
               },
             }}
+            onClick={() => this.finishCooking(this.props.recipe)}
           >
-            <Button onClick={this.finishCooking}>All done!</Button>
+            <Button>All done!</Button>
           </Link>
-          ;
         </div>
       );
     }
@@ -122,8 +122,16 @@ class Tutorial extends Component {
     this.setState({ isSpeakerOff: !previousStateIsSpeakerOff });
   }
 
-  finishCooking() {
-    // TODO: add recipe to the database
+  finishCooking(recipe) {
+    const request = new Request("/api/store-recipe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(recipe)
+    });
+
   }
 
   getSpeakerIcon() {

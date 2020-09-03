@@ -18,7 +18,7 @@ import { handleResponseError } from "./utils/APIErrorHandler";
 import { errorRedirect } from "./utils/APIErrorHandler";
 import { loading } from "./utils/Utilities";
 
-class Home extends Component {
+class Login extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
@@ -26,6 +26,7 @@ class Home extends Component {
       logUrl: "",
       error: null,
       isLoading: true,
+      isFirstTime: false,
     };
   }
 
@@ -38,6 +39,7 @@ class Home extends Component {
           isLoggedIn: json.isLoggedIn,
           logUrl: json.logUrl,
           isLoading: false,
+          isFirstTime: json.isFirstTime,
         })
       )
       .catch((error) => this.setState({ error: error }));
@@ -52,10 +54,16 @@ class Home extends Component {
       return loading();
     }
 
+    if (this.state.isFirstTime) {
+      localStorage.setItem("logOutUrl", this.state.logUrl);
+      return <Redirect to="/sign-up" />;
+    }
+
     if (this.state.isLoggedIn) {
       localStorage.setItem("logOutUrl", this.state.logUrl);
       return <Redirect to="/home" />;
     }
+
     return (
       <div>
         <h1>Recipe Finder</h1>
@@ -64,4 +72,4 @@ class Home extends Component {
     );
   }
 }
-export default Home;
+export default Login;
