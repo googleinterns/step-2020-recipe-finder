@@ -20,7 +20,9 @@ import "./FinishedRecipe.css";
 class FinishedRecipe extends Component {
   render() {
     return (
-      <div>
+      <div
+        onLoad={() =>
+          this.saveToHistory(this.props.location.state.recipeId)}>
         <h1>Well Done!</h1>
         <h4>Did you like cooking {this.props.location.state.recipeName}?</h4>
         <Link
@@ -40,6 +42,17 @@ class FinishedRecipe extends Component {
 
   saveToFavourites(recipeId) {
     const request = new Request("/api/favourites", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(recipeId),
+    });
+    fetch(request).catch((err) => console.log(err));
+  }
+  saveToHistory(recipeId) {
+    const request = new Request("/api/store-recipe", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
