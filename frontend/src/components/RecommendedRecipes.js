@@ -73,7 +73,7 @@ class RecommendedRecipes extends Component {
             <div className="right-side-btn">
               <Button
                 variant="primary"
-                onClick={this.setRecipeAndRedirect(recipe)}
+                onClick={() => this.setRecipeAndRedirect(recipe)}
               >
                 Let's Go!
               </Button>
