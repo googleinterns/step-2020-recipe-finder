@@ -21,9 +21,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import {PrivateRoute} from "./components/PrivateRoute";
+import SignUp from "./components/SignUp";
 import Favourites from "./components/account/Favourites";
 import Account from "./components/account/Account";
-import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <div>
           <Switch>
             <Route exact path="/" component={Login} />
+            <PrivateRoute exact path="/sign-up" component={SignUp} />
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
             <PrivateRoute exact path="/account" component={Account} />

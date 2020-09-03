@@ -15,12 +15,13 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
-class Home extends Component {
+class Login extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
       isLoggedIn: false,
       logUrl: "",
+      isFirstTime: false,
     };
   }
 
@@ -28,11 +29,20 @@ class Home extends Component {
     fetch("/api/login-status")
       .then((response) => response.json())
       .then((json) =>
-        this.setState({ isLoggedIn: json.isLoggedIn, logUrl: json.logUrl })
+        this.setState({
+          isLoggedIn: json.isLoggedIn,
+          logUrl: json.logUrl,
+          isFirstTime: json.isFirstTime,
+        })
       );
   }
 
   render() {
+    if (this.state.isFirstTime) {
+      localStorage.setItem("logOutUrl", this.state.logUrl);
+      return <Redirect to="/sign-up" />;
+    }
+
     if (this.state.isLoggedIn) {
       localStorage.setItem("logOutUrl", this.state.logUrl);
       return <Redirect to="/home" />;
@@ -45,4 +55,4 @@ class Home extends Component {
     );
   }
 }
-export default Home;
+export default Login;
