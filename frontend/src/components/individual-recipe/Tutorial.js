@@ -21,6 +21,7 @@ import navigatePrevious from "../../icons/navigate_previous.svg";
 import speakerOn from "../../icons/speaker-on.svg";
 import speakerOff from "../../icons/speaker-off.svg";
 import { Link } from "react-router-dom";
+import { readStep } from "./TextToSpeech";
 
 class Tutorial extends Component {
   constructor(properties) {
@@ -34,6 +35,7 @@ class Tutorial extends Component {
 
   componentDidMount() {
     this.noteIfLastStep();
+    readStep(this.props.recipe.instructions[this.getSelectedStep()]);
   }
 
   render() {
@@ -75,13 +77,14 @@ class Tutorial extends Component {
       </div>
     );
   }
+
   setSelectedStepAndMaybeRead = (selectedIndex, e) => {
     localStorage.setItem("tutorial-step", selectedIndex);
     this.noteIfLastStep();
     if (this.state.isSpeakerOff) {
       return;
     }
-    // to do : read the step
+    readStep(this.props.recipe.instructions[selectedIndex]);
   };
 
   getSelectedStep() {
