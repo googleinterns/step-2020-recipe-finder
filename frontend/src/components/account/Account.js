@@ -66,7 +66,7 @@ class Account extends Component {
             },
           }}
         >
-          <Button>Change Dietary requirements</Button>
+          <Button>Change account details</Button>
         </Link>
       </div>
     );
