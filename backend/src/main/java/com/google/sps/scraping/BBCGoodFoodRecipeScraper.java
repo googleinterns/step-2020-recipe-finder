@@ -105,7 +105,7 @@ public class BBCGoodFoodRecipeScraper {
   private static String[] getDietFromJson(JsonObject jsonObject) {
     JsonElement dietElements = jsonObject.get("suitableForDiet");
     if (dietElements == null) {
-      return String[0];
+      return new String[0];
     }
     String[] diet = dietElements.getAsString().split(", ");
     int counter = 0;
