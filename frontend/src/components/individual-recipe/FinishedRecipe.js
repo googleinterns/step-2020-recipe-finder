@@ -23,10 +23,13 @@ class FinishedRecipe extends Component {
       <div>
         <h1>Well Done!</h1>
         <h4>Did you like cooking {this.props.location.state.recipeName}?</h4>
-        <Link to="/home">
-          <Button onClick={this.saveToFavourites} className="finished-btns">
-            Yes! Save to my favourites
-          </Button>
+        <Link
+          to="/home"
+          onClick={() =>
+            this.saveToFavourites(this.props.location.state.recipeId)
+          }
+        >
+          <Button className="finished-btns">Yes! Save to my favourites</Button>
         </Link>
         <Link to="/home">
           <Button className="finished-btns">It was alright</Button>
@@ -35,8 +38,7 @@ class FinishedRecipe extends Component {
     );
   }
 
-  saveToFavourites() {
-    const recipeId = this.props.location.state.recipeId;
+  saveToFavourites(recipeId) {
     const request = new Request("/api/favourites", {
       method: "POST",
       headers: {

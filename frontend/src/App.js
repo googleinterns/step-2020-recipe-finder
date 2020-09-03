@@ -17,12 +17,16 @@ import "./App.css";
 import CookRecipe from "./components/individual-recipe/CookRecipe";
 import FinishedRecipe from "./components/individual-recipe/FinishedRecipe";
 import InputText from "./components/InputText";
+import ShoppingList from "./components/ShoppingList";
+import Inventory from "./components/Inventory";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import {PrivateRoute} from "./components/PrivateRoute";
+import SignUp from "./components/SignUp";
+import Favourites from "./components/account/Favourites";
 import Account from "./components/account/Account";
-import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -31,10 +35,14 @@ function App() {
         <div>
           <Switch>
             <Route exact path="/" component={Login} />
+            <PrivateRoute exact path="/sign-up" component={SignUp} />
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />
             <PrivateRoute exact path="/account" component={Account} />
-            <Route exact path="/cook" component={CookRecipe} />
+            <PrivateRoute exact path="/cook" component={CookRecipe} />
+            <PrivateRoute exact path="/shop" component={ShoppingList} />
+            <PrivateRoute exact path="/inventory" component={Inventory} />
+            <PrivateRoute exact path="/favourites" component={Favourites} />
             <PrivateRoute exact path="/finished" component={FinishedRecipe} />
             <PrivateRoute
               exact
