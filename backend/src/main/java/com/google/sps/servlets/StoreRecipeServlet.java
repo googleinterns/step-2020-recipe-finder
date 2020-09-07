@@ -56,16 +56,25 @@ public class StoreRecipeServlet extends AuthenticationServlet {
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String json = request.getReader().lines().collect(Collectors.joining());
     JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-    Entity recipeEntity = new Entity(RecipeConstants.ENTITY_RECIPE);
+    Entity recipeEntity = new Entity(RecipeConstants.ENTITY_RECIPE, jsonObject.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString());
     recipeEntity.setProperty(RecipeConstants.PROPERTY_NAME, jsonObject.get(RecipeConstants.PROPERTY_NAME).getAsString());
     recipeEntity.setProperty(RecipeConstants.PROPERTY_TIME, jsonObject.get(RecipeConstants.PROPERTY_TIME).getAsString());
     recipeEntity.setProperty(RecipeConstants.PROPERTY_CALORIES, jsonObject.get(RecipeConstants.PROPERTY_CALORIES).getAsString());
     recipeEntity.setProperty(RecipeConstants.PROPERTY_DIFFICULTY, jsonObject.get(RecipeConstants.PROPERTY_DIFFICULTY).getAsString());
-    recipeEntity.setProperty(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS, jsonObject.get(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS).getAsString());
-    recipeEntity.setProperty(RecipeConstants.PROPERTY_INGREDIENTS, jsonObject.get(RecipeConstants.PROPERTY_INGREDIENTS).getAsString());
-    recipeEntity.setProperty(RecipeConstants.PROPERTY_INSTRUCTIONS, jsonObject.get(RecipeConstants.PROPERTY_INSTRUCTIONS).getAsString());
+    recipeEntity.setProperty(splitStringIntoList(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS, jsonObject.get(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS).getAsString()));
+    recipeEntity.setProperty(splitStringIntoList(RecipeConstants.PROPERTY_INGREDIENTS, jsonObject.get(RecipeConstants.PROPERTY_INGREDIENTS).getAsString()));
+    recipeEntity.setProperty(splitStringIntoList(RecipeConstants.PROPERTY_INSTRUCTIONS, jsonObject.get(RecipeConstants.PROPERTY_INSTRUCTIONS).getAsString()));
     recipeEntity.setProperty(RecipeConstants.PROPERTY_RECIPE_ID, jsonObject.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString());
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
     datastore.put(recipeEntity);
+  }
+
+  private List<String> splitStringIntoList(String input) {
+    JSONArray jsonArray = new JSONArray(input);
+    List<String> list = new ArrayList<String>();
+    for (int i=0; i<jsonArray.length(); i++) {
+        list.add( jsonArray.getString(i) );
+    }
+    return list;
   }
 }

@@ -51,16 +51,6 @@ class FinishedRecipe extends Component {
     });
     fetch(request).catch((err) => console.log(err));
   }
-  saveToHistory(recipeId) {
-    const request = new Request("/api/store-recipe", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(recipeId),
-    });
-    fetch(request).catch((err) => console.log(err));
-  }
+
 }
 export default FinishedRecipe;

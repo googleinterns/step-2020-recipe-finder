@@ -130,6 +130,7 @@ class Tutorial extends Component {
       },
       body: JSON.stringify(recipe)
     });
+    fetch(request).catch((err) => console.log(err));
 
   }
 
