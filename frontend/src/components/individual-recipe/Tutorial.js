@@ -28,7 +28,6 @@ class Tutorial extends Component {
     this.state = {
       isLastStep: false,
       isSpeakerOff: false,
-
     };
     this.switchSpeaker = this.switchSpeaker.bind(this);
   }
@@ -41,6 +40,10 @@ class Tutorial extends Component {
   render() {
     return (
       <div>
+        <audio controls id="audio">
+          <source src="" id="source" />
+          Your browser does not support the audio element.
+        </audio>
         <div className="centered-div">
           <Button variant="primary" onClick={this.switchSpeaker}>
             <img src={this.getSpeakerIcon()} alt="switch speaker" />
@@ -93,46 +96,38 @@ class Tutorial extends Component {
   }
 
   readStep(step) {
-    // const request = new Request("/api/text-to-speech", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Accept: "application/json",
-    //   },
-    //   body: JSON.stringify(step),
-    // });
-    // fetch(request)
-    //   .then((response) => response.json())
-    //   .then((json) => {
-        // console.log(json);
-        var json = "[123, 23, 23,3]";
-        var audioByteArray = json.replace('[', '').replace(']','').split(',');
-        var source = new ArrayBuffer(audioByteArray.length);
+    const request = new Request("/api/text-to-speech", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(step),
+    });
+    fetch(request)
+      .then((response) => response.json())
+      .then((json) => {
+        const blob = new Blob([new Uint8Array(json)], { type: "audio/wav" });
+        const url = URL.createObjectURL(blob);
 
-        var audioByteArrayView = new Uint8Array(source);
+        const audio = document.getElementById("audio");
+        const source = document.getElementById("source");
 
-
-        for (var i = 0; i < audioByteArray.length; i++) {
-            audioByteArrayView[i] = audioByteArray[i];
-        }
-
-        let blob = new Blob([audioByteArrayView], { type: "audio/mp3" });
-        let url = window.URL.createObjectURL(blob);
-        window.audio = new Audio();
-        window.audio.src = url;
-        var promise = window.audio.play();
-
+        source.src = url;
+        audio.load();
+        var promise = audio.play();
         if (promise !== undefined) {
-        promise.then(_ => {
-            // Autoplay started!
-        }).catch(error => {
-            console.log(error)
-            // Autoplay was prevented.
-            // Show a "Play" button so that user can start playback.
-        });
-        }        
-    //   })
-    //   .catch((err) => console.log(err));
+          promise
+            .then((_) => {
+              // Autoplay started!
+            })
+            .catch((error) => {
+              console.log(error);
+              // Autoplay was prevented.
+              // Show a "Play" button so that user can start playback.
+            });
+        }
+      });
   }
 
   noteIfLastStep() {
