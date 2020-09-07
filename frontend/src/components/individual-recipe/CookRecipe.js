@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./CookRecipe.css";
-import navigatePrevious from "../../icons/navigate_previous.svg";
 import Tutorial from "./Tutorial";
+import { backButton } from "../utils/Utilities";
 
 class CookRecipe extends Component {
   constructor(properties) {
@@ -35,10 +34,7 @@ class CookRecipe extends Component {
     const renderHTML = (rawHTML) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
     return (
       <div>
-        <Button variant="" className="back-btn" onClick={this.goBack}>
-          <img src={navigatePrevious} alt="go back to recommendations" />
-          Back
-        </Button>
+        {backButton()}
         <h1>{recipe.name}</h1>
         <Tabs defaultActiveKey="tutorial">
           <Tab eventKey="ingredients" title="Ingredients">
@@ -69,8 +65,5 @@ class CookRecipe extends Component {
     );
   }
 
-  goBack() {
-    window.history.back();
-  }
 }
 export default CookRecipe;
