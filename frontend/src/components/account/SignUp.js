@@ -16,22 +16,45 @@ import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import "./SignUp.css";
 import Button from "react-bootstrap/Button";
-import { getDietaryRequirements } from "../utils/DietaryRequirements";
+import { getDietaryRequirements } from "../../utils/DietaryRequirements";
+// import { backButton } from "../utils/Utilities";
 
 class SignUp extends Component {
   constructor(properties) {
     super(properties);
+    const propertiesState = properties.location.state;
+    const isSignUp = propertiesState === undefined;
+
     this.state = {
-      customDiets: [],
+      name: isSignUp ? "" : propertiesState.name,
+      diets: isSignUp ? ["vegetarian"] : propertiesState.diets,
+      customDiets: isSignUp
+        ? []
+        : propertiesState.customDiets,
+      isSignUp: isSignUp,
     };
+
     this.addCustomDiet = this.addCustomDiet.bind(this);
     this.removeCustomDiet = this.removeCustomDiet.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleDietChange = this.handleDietChange.bind(this);
+    this.handleCustomDietChange = this.handleCustomDietChange.bind(this);
   }
+
   render() {
+    const title = this.state.isSignUp ? "Sign Up" : "Change acount details";
+    const redirectLink = this.state.isSignUp ? "/home" : "/account";
+
     return (
       <div>
-        <h1>Sign Up</h1>
+        {/* {this.state.isSignUp ? "" : backButton()} */}
+        <h1>{title}</h1>
         <Form action="/api/sign-up" method="POST">
+        <Form.Control
+              type="hidden"
+              name="redirectLink"
+              value={redirectLink}
+            />
           <Form.Group>
             <Form.Label>Name/Nickname</Form.Label>
             <Form.Control
@@ -39,6 +62,8 @@ class SignUp extends Component {
               type="text"
               name="name"
               placeholder="Enter your name/nickname"
+              value={this.state.name}
+              onChange={this.handleNameChange}
             />
           </Form.Group>
 
@@ -48,9 +73,11 @@ class SignUp extends Component {
               <Form.Check
                 key={index}
                 type="checkbox"
-                name="dietaryRequirements"
-                value={item}
-                label={item}
+                name="diets"
+                checked={this.state.diets.includes(item.value)}
+                onChange={this.handleDietChange}
+                value={item.value}
+                label={item.label}
               />
             ))}
             {this.state.customDiets.map((item, index) => (
@@ -58,9 +85,10 @@ class SignUp extends Component {
                 <Form.Control
                   className="custom-diet-input"
                   type="text"
-                  name="dietaryRequirements"
+                  name="customDiets"
                   placeholder="Enter dietary requirement"
                   value={item}
+                  onChange={event => this.handleCustomDietChange(event, index)}
                 ></Form.Control>
                 <Button
                   className="custom-diet-remove-btn"
@@ -97,6 +125,31 @@ class SignUp extends Component {
     const previousCustomDiets = this.state.customDiets;
     previousCustomDiets.splice(index, 1);
     this.setState({ numberCustomDiets: previousCustomDiets });
+  }
+
+  handleNameChange(event) {
+    const newName = event.target.value;
+    this.setState({ name: newName });
+  }
+
+  handleDietChange(event) {
+    const isChecked = event.target.checked;
+    const value = event.target.value;
+    const diets = this.state.diets;
+
+    if (isChecked) {
+      diets.push(value);
+    } else {
+      diets.pop(value);
+    }
+    this.setState({ diets: diets });
+  }
+
+  handleCustomDietChange(event, index) {
+    const diet = event.target.value;
+    const diets = this.state.customDiets;
+    diets[index] = diet;
+    this.setState({customDiets: diets});
   }
 }
 export default SignUp;
