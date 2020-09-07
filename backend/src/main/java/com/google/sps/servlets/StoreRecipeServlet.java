@@ -19,54 +19,53 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.Gson;
-import com.google.sps.data.Recipe;
-import com.google.sps.utils.RecipeCollector;
-import com.google.sps.utils.UserCollector;
-import com.google.sps.utils.UserConstants;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.sps.data.Recipe;
+
+import java.io.IOException;
+import java.util.stream.Collectors;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.sps.data.Recipe;
+import com.google.sps.utils.RecipeConstants;
+import com.google.sps.utils.RecipeCollector;
+import com.google.sps.utils.UserCollector;
+import com.google.sps.utils.UserConstants;
 
 @WebServlet("/api/store-recipe")
 public class StoreRecipeServlet extends AuthenticationServlet {
-  /** Returns user's recipe history */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    String userId = userService.getCurrentUser().getUserId();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-
-    List<Long> history = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_HISTORY);
-
-    List<Recipe> recipes = RecipeCollector.getRecipes(history, datastore);
-
-    response.setContentType("application/json;");
-    response.getWriter().println(new Gson().toJson(recipes));
+    //no get request
   }
+  /*Puts recipe into datastore*/
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Long recipeId = Long.parseLong(request.getReader().readLine());
-    UserService userService = UserServiceFactory.getUserService();
-    String userId = userService.getCurrentUser().getUserId();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-
-    List<Long> history = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_HISTORY);
-    if (history == null) {
-      history = new ArrayList<>();
-    }
-    if (!history.contains(recipeId)) {
-      history.add(recipeId);
-      userEntity.setProperty(UserConstants.PROPERTY_HISTORY, history);
-      datastore.put(userEntity);
-    }
+    String json = request.getReader().lines().collect(Collectors.joining());
+    JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+    Entity recipeEntity = new Entity(RecipeConstants.ENTITY_RECIPE);
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_NAME, jsonObject.get(RecipeConstants.PROPERTY_NAME).getAsString());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_TIME, jsonObject.get(RecipeConstants.PROPERTY_TIME).getAsString());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_CALORIES, jsonObject.get(RecipeConstants.PROPERTY_CALORIES).getAsString());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_DIFFICULTY, jsonObject.get(RecipeConstants.PROPERTY_DIFFICULTY).getAsString());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS, jsonObject.get(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS).getAsString());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_INGREDIENTS, jsonObject.get(RecipeConstants.PROPERTY_INGREDIENTS).getAsString());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_INSTRUCTIONS, jsonObject.get(RecipeConstants.PROPERTY_INSTRUCTIONS).getAsString());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_RECIPE_ID, jsonObject.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString());
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();    
+    datastore.put(recipeEntity);
   }
 }
