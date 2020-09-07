@@ -16,6 +16,9 @@ import React, { Component } from "react";
 import AccountHeader from "./AccountHeader";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import { handleResponseError } from "../utils/APIErrorHandler";
+import { errorRedirect } from "../utils/APIErrorHandler";
+import { loading } from "../utils/Utilities";
 
 class Account extends Component {
   constructor(properties) {
@@ -23,17 +26,34 @@ class Account extends Component {
     this.state = {
       name: "",
       dietaryRequirements: [],
+      isLoading: true,
+      error: null,
     };
   }
 
   componentDidMount() {
     fetch("/api/account")
+      .then(handleResponseError)
       .then((response) => response.json())
-      .then((json) => this.setState({ name: json.name, dietaryRequirements: json.dietaryRequirements }))
-      .catch((err) => console.log(err));
+      .then((json) =>
+        this.setState({
+          name: json.name,
+          dietaryRequirements: json.dietaryRequirements,
+          isLoading: false,
+        })
+      )
+      .catch((error) => this.setState({ error: error }));
   }
 
   render() {
+    if (this.state.error !== null) {
+      return errorRedirect(this.state.error);
+    }
+
+    if (this.state.isLoading) {
+      return loading("Getting account details ...");
+    }
+
     return (
       <div>
         <AccountHeader />
