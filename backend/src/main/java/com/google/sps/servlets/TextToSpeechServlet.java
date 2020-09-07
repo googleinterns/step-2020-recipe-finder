@@ -21,12 +21,14 @@ import com.google.cloud.texttospeech.v1.SynthesisInput;
 import com.google.cloud.texttospeech.v1.SynthesizeSpeechResponse;
 import com.google.cloud.texttospeech.v1.TextToSpeechClient;
 import com.google.cloud.texttospeech.v1.VoiceSelectionParams;
+import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
 import java.io.IOException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 /* Servlet that:
  * in Post request, returns an audio for the text in the request */
@@ -56,21 +58,16 @@ public class TextToSpeechServlet extends AuthenticationServlet {
       ByteString audioContents = speechResponse.getAudioContent();
 
       byte[] audio = audioContents.toByteArray();
-      ServletOutputStream stream = null;
-      try {
-        stream = response.getOutputStream();
-        response.setContentType("audio/mp3");
-        stream.write(audio);
-      } catch (IOException ioe) {
-        System.out.println(ioe);
-      } finally {
-        if (stream != null) stream.close();
-      }
+      System.out.println(Arrays.toString(audio));
+      response.setContentType("application/json;");
+      response.getWriter().println(new Gson().toJson(audio));
     } catch (Exception e) {
       System.out.println(e);
     }
   }
 
   @Override
-  protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {}
+  protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // no get request
+  }
 }

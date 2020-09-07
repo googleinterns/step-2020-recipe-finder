@@ -28,6 +28,7 @@ class Tutorial extends Component {
     this.state = {
       isLastStep: false,
       isSpeakerOff: false,
+
     };
     this.switchSpeaker = this.switchSpeaker.bind(this);
   }
@@ -92,23 +93,46 @@ class Tutorial extends Component {
   }
 
   readStep(step) {
-    const request = new Request("/api/text-to-speech", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "audio/mp3",
-      },
-      body: JSON.stringify(step),
-    });
-    fetch(request)
-      .then((response) => {
-        let blob = new Blob([response.value], { type: "audio/mp3" });
+    // const request = new Request("/api/text-to-speech", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Accept: "application/json",
+    //   },
+    //   body: JSON.stringify(step),
+    // });
+    // fetch(request)
+    //   .then((response) => response.json())
+    //   .then((json) => {
+        // console.log(json);
+        var json = "[123, 23, 23,3]";
+        var audioByteArray = json.replace('[', '').replace(']','').split(',');
+        var source = new ArrayBuffer(audioByteArray.length);
+
+        var audioByteArrayView = new Uint8Array(source);
+
+
+        for (var i = 0; i < audioByteArray.length; i++) {
+            audioByteArrayView[i] = audioByteArray[i];
+        }
+
+        let blob = new Blob([audioByteArrayView], { type: "audio/mp3" });
         let url = window.URL.createObjectURL(blob);
         window.audio = new Audio();
         window.audio.src = url;
-        window.audio.play();
-      })
-      .catch((err) => console.log(err));
+        var promise = window.audio.play();
+
+        if (promise !== undefined) {
+        promise.then(_ => {
+            // Autoplay started!
+        }).catch(error => {
+            console.log(error)
+            // Autoplay was prevented.
+            // Show a "Play" button so that user can start playback.
+        });
+        }        
+    //   })
+    //   .catch((err) => console.log(err));
   }
 
   noteIfLastStep() {
