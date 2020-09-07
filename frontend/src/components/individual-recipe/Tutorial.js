@@ -21,7 +21,6 @@ import navigatePrevious from "../../icons/navigate_previous.svg";
 import speakerOn from "../../icons/speaker-on.svg";
 import speakerOff from "../../icons/speaker-off.svg";
 import { Link } from "react-router-dom";
-import { readStep } from "./TextToSpeech";
 
 class Tutorial extends Component {
   constructor(properties) {
@@ -35,7 +34,7 @@ class Tutorial extends Component {
 
   componentDidMount() {
     this.noteIfLastStep();
-    readStep(this.props.recipe.instructions[this.getSelectedStep()]);
+    this.readStep(this.props.recipe.instructions[this.getSelectedStep()]);
   }
 
   render() {
@@ -84,12 +83,31 @@ class Tutorial extends Component {
     if (this.state.isSpeakerOff) {
       return;
     }
-    readStep(this.props.recipe.instructions[selectedIndex]);
+    this.readStep(this.props.recipe.instructions[selectedIndex]);
   };
 
   getSelectedStep() {
     const step = JSON.parse(localStorage.getItem("tutorial-step"));
     return step ? step : 0;
+  }
+
+  readStep(step) {
+    const request = new Request("/api/text-to-speech", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "audio/mp3",
+      },
+      body: JSON.stringify(step),
+    });
+    fetch(request)
+      .then((response) => {
+        let blob = new Blob([response.value], { type: 'audio/mp3' });
+        let url = window.URL.createObjectURL(blob)
+        window.audio = new Audio();
+        window.audio.src = url;
+        window.audio.play();})
+      .catch((err) => console.log(err));
   }
 
   noteIfLastStep() {

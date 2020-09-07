@@ -28,6 +28,7 @@ import java.io.OutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletOutputStream;
 
 /* Servlet that:
  * in Post request, returns an audio for the text in the request */
@@ -35,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 public class TextToSpeechServlet extends AuthenticationServlet {
 
   @Override
-  protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String text = request.getReader().readLine();
     // Instantiates a client
     try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
@@ -56,21 +57,34 @@ public class TextToSpeechServlet extends AuthenticationServlet {
 
       // Perform the text-to-speech request on the text input with the selected voice parameters and
       // audio file type
-      SynthesizeSpeechResponse response =
+      SynthesizeSpeechResponse speechResponse =
           textToSpeechClient.synthesizeSpeech(input, voice, audioConfig);
 
       // Get the audio contents from the response
-      ByteString audioContents = response.getAudioContent();
+      ByteString audioContents = speechResponse.getAudioContent();
 
       // Write the response to the output file.
-      try (OutputStream out = new FileOutputStream("output.mp3")) {
-        out.write(audioContents.toByteArray());
-        System.out.println("Audio content written to file \"output.mp3\"");
+      try  {
+        byte[] audio = audioContents.toByteArray();
+        ServletOutputStream stream = null;         
+        try{                   
+            stream = response.getOutputStream();             
+            response.setContentType("audio/mp3");  
+            stream.write(audio);         
+            } catch (IOException ioe){                  
+                throw new ServletException(ioe.getMessage());                   
+                } finally {                  
+                if(stream != null)                 
+                stream.close();             
+                }       
+            }
+
+
       }
     }
   }
 
   @Override
-  protected void post(HttpServletRequest request, HttpServletResponse response)
+  protected void get(HttpServletRequest request, HttpServletResponse response)
       throws IOException {}
 }
