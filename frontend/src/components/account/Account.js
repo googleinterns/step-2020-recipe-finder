@@ -16,6 +16,7 @@ import React, { Component } from "react";
 import AccountHeader from "./AccountHeader";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import { getDietaryRequirements } from "../../utils/DietaryRequirements";
 import { handleResponseError } from "../utils/APIErrorHandler";
 import { errorRedirect } from "../utils/APIErrorHandler";
 import { loading } from "../utils/Utilities";
@@ -25,7 +26,8 @@ class Account extends Component {
     super(properties);
     this.state = {
       name: "",
-      dietaryRequirements: [],
+      diets: [],
+      customDiets: [],
       isLoading: true,
       error: null,
     };
@@ -38,7 +40,8 @@ class Account extends Component {
       .then((json) =>
         this.setState({
           name: json.name,
-          dietaryRequirements: json.dietaryRequirements,
+          diets: json.diets,
+          customDiets: json.customDiets,
           isLoading: false,
         })
       )
@@ -61,15 +64,32 @@ class Account extends Component {
         <h4>{this.state.name}</h4>
         <h3>My dietary requirements:</h3>
         <ul>
-          {this.state.dietaryRequirements.map((item, index) => (
+          {this.state.diets.map((item, index) => (
+            <li key={index}>{this.getLabelForDiet(item)}</li>
+          ))}
+          {this.state.customDiets.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
         </ul>
-        <Link to="/dietary">
-          <Button>Change Dietary requirements</Button>
+        <Link
+          to={{
+            pathname: "/sign-up",
+            state: {
+              name: this.state.name,
+              diets: this.state.diets,
+              customDiets: this.state.customDiets,
+            },
+          }}
+        >
+          <Button>Change account details</Button>
         </Link>
       </div>
     );
+  }
+
+  getLabelForDiet(diet) {
+    return getDietaryRequirements().filter((item) => item.value === diet)[0]
+      .label;
   }
 }
 export default Account;

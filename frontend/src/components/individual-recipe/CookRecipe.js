@@ -31,6 +31,7 @@ class CookRecipe extends Component {
 
   render() {
     const recipe = this.state.recipe;
+    const renderHTML = (rawHTML) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
     return (
       <div>
         {backButton()}
@@ -40,7 +41,7 @@ class CookRecipe extends Component {
             <div className="tab-content">
               <ul>
                 {recipe.ingredients.map((item, i) => (
-                  <li key={i}>{item}</li>
+                  <li key={i}>{renderHTML(item)}</li>
                 ))}
               </ul>
             </div>
