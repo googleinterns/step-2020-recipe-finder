@@ -102,11 +102,12 @@ class Tutorial extends Component {
     });
     fetch(request)
       .then((response) => {
-        let blob = new Blob([response.value], { type: 'audio/mp3' });
-        let url = window.URL.createObjectURL(blob)
+        let blob = new Blob([response.value], { type: "audio/mp3" });
+        let url = window.URL.createObjectURL(blob);
         window.audio = new Audio();
         window.audio.src = url;
-        window.audio.play();})
+        window.audio.play();
+      })
       .catch((err) => console.log(err));
   }
 
@@ -149,9 +150,8 @@ class Tutorial extends Component {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(recipe)
+      body: JSON.stringify(recipe),
     });
-
   }
 
   getSpeakerIcon() {
