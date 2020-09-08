@@ -20,9 +20,7 @@ import "./FinishedRecipe.css";
 class FinishedRecipe extends Component {
   render() {
     return (
-      <div
-        onLoad={() =>
-          this.saveToHistory(this.props.location.state.recipeId)}>
+      <div>
         <h1>Well Done!</h1>
         <h4>Did you like cooking {this.props.location.state.recipeName}?</h4>
         <Link
@@ -51,6 +49,5 @@ class FinishedRecipe extends Component {
     });
     fetch(request).catch((err) => console.log(err));
   }
-
 }
 export default FinishedRecipe;

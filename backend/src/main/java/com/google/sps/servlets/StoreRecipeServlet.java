@@ -48,11 +48,11 @@ public class StoreRecipeServlet extends AuthenticationServlet {
     String calories = recipe.get(RecipeConstants.PROPERTY_CALORIES).getAsString();
     String difficulty = recipe.get(RecipeConstants.PROPERTY_DIFFICULTY).getAsString();
     List<String> diet =
-        splitJsonArrayIntoList(recipe.get(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS));
+        splitJsonArrayIntoList(recipe.get(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS).getAsJsonArray());
     List<String> ingredients =
-        splitJsonArrayIntoList(recipe.get(RecipeConstants.PROPERTY_INGREDIENTS));
+        splitJsonArrayIntoList(recipe.get(RecipeConstants.PROPERTY_INGREDIENTS).getAsJsonArray());
     List<String> instructions =
-        splitJsonArrayIntoList(recipe.get(RecipeConstants.PROPERTY_INSTRUCTIONS));
+        splitJsonArrayIntoList(recipe.get(RecipeConstants.PROPERTY_INSTRUCTIONS).getAsJsonArray());
 
     Entity recipeEntity = new Entity(RecipeConstants.ENTITY_RECIPE, recipeId);
 
@@ -71,8 +71,8 @@ public class StoreRecipeServlet extends AuthenticationServlet {
 
   private List<String> splitJsonArrayIntoList(JsonArray jsonArray) {
     List<String> list = new ArrayList<String>();
-    for (int i = 0; i < jsonArray.length(); i++) {
-      list.add(jsonArray.getString(i));
+    for (int i = 0; i < jsonArray.size(); i++) {
+      list.add(jsonArray.get(i).getAsString());
     }
     return list;
   }
