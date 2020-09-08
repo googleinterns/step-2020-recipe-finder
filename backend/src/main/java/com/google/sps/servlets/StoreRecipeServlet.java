@@ -17,10 +17,14 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.sps.utils.RecipeConstants;
+import com.google.sps.utils.UserCollector;
+import com.google.sps.utils.UserConstants;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +40,34 @@ public class StoreRecipeServlet extends AuthenticationServlet {
     // no get request
   }
 
-  /*Puts recipe into datastore*/
+  /** Puts recipe entity into datastore and adds it to user's history */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String json = request.getReader().lines().collect(Collectors.joining());
     JsonObject recipe = new JsonParser().parse(json).getAsJsonObject();
+    Entity recipeEntity = getRecipeEntity(recipe);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(recipeEntity);
 
+    Long recipeId = Long.parseLong(recipe.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString());
+    UserService userService = UserServiceFactory.getUserService();
+
+    String userId = userService.getCurrentUser().getUserId();
+    Entity userEntity = UserCollector.getUserEntity(userId, datastore);
+
+    UserCollector.addRecipeToUserRecipeList(
+        userEntity, UserConstants.PROPERTY_HISTORY, recipeId, datastore);
+  }
+
+  private List<String> splitJsonArrayIntoList(JsonArray jsonArray) {
+    List<String> list = new ArrayList<String>();
+    for (int i = 0; i < jsonArray.size(); i++) {
+      list.add(jsonArray.get(i).getAsString());
+    }
+    return list;
+  }
+
+  private Entity getRecipeEntity(JsonObject recipe) {
     String recipeId = recipe.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString();
     String name = recipe.get(RecipeConstants.PROPERTY_NAME).getAsString();
     String time = recipe.get(RecipeConstants.PROPERTY_TIME).getAsString();
@@ -65,16 +91,6 @@ public class StoreRecipeServlet extends AuthenticationServlet {
     recipeEntity.setProperty(RecipeConstants.PROPERTY_INGREDIENTS, ingredients);
     recipeEntity.setProperty(RecipeConstants.PROPERTY_INSTRUCTIONS, instructions);
     recipeEntity.setProperty(RecipeConstants.PROPERTY_RECIPE_ID, recipeId);
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(recipeEntity);
-  }
-
-  private List<String> splitJsonArrayIntoList(JsonArray jsonArray) {
-    List<String> list = new ArrayList<String>();
-    for (int i = 0; i < jsonArray.size(); i++) {
-      list.add(jsonArray.get(i).getAsString());
-    }
-    return list;
+    return recipeEntity;
   }
 }

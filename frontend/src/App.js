@@ -27,6 +27,7 @@ import {PrivateRoute} from "./components/PrivateRoute";
 import SignUp from "./components/SignUp";
 import Favourites from "./components/account/Favourites";
 import Account from "./components/account/Account";
+import History from "./components/account/History";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <PrivateRoute exact path="/shop" component={ShoppingList} />
             <PrivateRoute exact path="/inventory" component={Inventory} />
             <PrivateRoute exact path="/favourites" component={Favourites} />
+            <PrivateRoute exact path="/history" component={History} />
             <PrivateRoute exact path="/finished" component={FinishedRecipe} />
             <PrivateRoute
               exact
