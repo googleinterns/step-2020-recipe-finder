@@ -26,19 +26,19 @@ import { Link } from "react-router-dom";
 class Tutorial extends Component {
   constructor(properties) {
     super(properties);
-    const isSpeakerOff = JSON.parse(sessionStorage.getItem("isSpeakerOff"));
+    const isSpeakerOn = JSON.parse(sessionStorage.getItem("isSpeakerOn"));
     this.state = {
       isLastStep: false,
-      isSpeakerOff: isSpeakerOff === null ? true : isSpeakerOff,
+      isSpeakerOn: isSpeakerOn === null ? true : isSpeakerOn,
       audioSteps: new Array(properties.recipe.instructions.length),
-      showModal: isSpeakerOff === null ? true : false,
+      showModal: isSpeakerOn === null ? true : false,
     };
     this.switchSpeaker = this.switchSpeaker.bind(this);
   }
 
   componentDidMount() {
     this.noteIfLastStep();
-    if (!this.state.showModal) {
+    if (!this.state.showModal && this.state.isSpeakerOn) {
       this.readStep(this.getSelectedStep());
     }
   }
@@ -65,7 +65,7 @@ class Tutorial extends Component {
         <audio
           controls
           id="audio"
-          style={{ display: this.state.isSpeakerOff ? "none" : "block" }}
+          style={{ display: this.state.isSpeakerOn ? "block" : "none" }}
         >
           <source src="" id="source" />
           Your browser does not support the audio element.
@@ -107,14 +107,16 @@ class Tutorial extends Component {
     );
   }
 
-  handleClose(isSpeakerOff) {
-    this.setState({ isSpeakerOff: isSpeakerOff, showModal: false });
+  handleClose(isSpeakerOn) {
+    this.setState({ isSpeakerOn: isSpeakerOn, showModal: false });
     try {
-      sessionStorage.setItem("isSpeakerOff", isSpeakerOff);
+      sessionStorage.setItem("isSpeakerOn", isSpeakerOn);
     } catch (error) {
       console.log(error);
     }
-    this.readStep(this.getSelectedStep());
+    if (isSpeakerOn) {
+      this.readStep(this.getSelectedStep());
+    }
   }
 
   setSelectedStepAndMaybeRead = (selectedIndex, e) => {
@@ -124,10 +126,9 @@ class Tutorial extends Component {
       console.log(error);
     }
     this.noteIfLastStep();
-    if (this.state.isSpeakerOff) {
-      return;
+    if (this.state.isSpeakerOn) {
+      this.readStep(selectedIndex);
     }
-    this.readStep(selectedIndex);
   };
 
   getSelectedStep() {
@@ -209,12 +210,15 @@ class Tutorial extends Component {
   }
 
   switchSpeaker() {
-    const previousStateIsSpeakerOff = this.state.isSpeakerOff;
-    this.setState({ isSpeakerOff: !previousStateIsSpeakerOff });
+    const currentStateIsSpeakerOn = !this.state.isSpeakerOn;
+    this.setState({ isSpeakerOn: currentStateIsSpeakerOn });
     try {
-      sessionStorage.setItem("isSpeakerOff", !previousStateIsSpeakerOff);
+      sessionStorage.setItem("isSpeakerOn", currentStateIsSpeakerOn);
     } catch (error) {
       console.log(error);
+    }
+    if (currentStateIsSpeakerOn) {
+      this.readStep(this.getSelectedStep());
     }
   }
 
@@ -230,11 +234,11 @@ class Tutorial extends Component {
   }
 
   getSpeakerIcon() {
-    return this.state.isSpeakerOff ? speakerOn : speakerOff;
+    return this.state.isSpeakerOn ? speakerOff : speakerOn;
   }
 
   getSpeakerMessage() {
-    return this.state.isSpeakerOff ? "Always read steps" : "Don't read steps";
+    return this.state.isSpeakerOn ? "Don't read steps" : "Always read steps";
   }
 }
 export default Tutorial;

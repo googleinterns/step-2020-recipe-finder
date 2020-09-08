@@ -60,7 +60,6 @@ public class TextToSpeechServlet extends AuthenticationServlet {
       ByteString audioContents = speechResponse.getAudioContent();
 
       byte[] audio = audioContents.toByteArray();
-      System.out.println(Arrays.toString(audio));
       response.setContentType("application/json;");
       response.getWriter().println(new Gson().toJson(audio));
     } catch (Exception e) {
