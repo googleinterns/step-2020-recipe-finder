@@ -26,6 +26,7 @@ import Login from "./components/Login";
 import SignUp from "./components/account/SignUp";
 import Favourites from "./components/account/Favourites";
 import Account from "./components/account/Account";
+import History from "./components/account/History";
 import ReactErrorHandler from "./components/utils/ReactErrorHandler";
 import ErrorPage from "./components/utils/APIErrorHandler";
 import { PrivateRoute } from "./components/PrivateRoute";
@@ -45,6 +46,7 @@ function App() {
               <PrivateRoute exact path="/account" component={Account} />
               <PrivateRoute exact path="/cook" component={CookRecipe} />
               <PrivateRoute exact path="/shop" component={ShoppingList} />
+              <PrivateRoute exact path="/history" component={History} />
               <PrivateRoute exact path="/inventory" component={Inventory} />
               <PrivateRoute exact path="/favourites" component={Favourites} />
               <PrivateRoute exact path="/finished" component={FinishedRecipe} />

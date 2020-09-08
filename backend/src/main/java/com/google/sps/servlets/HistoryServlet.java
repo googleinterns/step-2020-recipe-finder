@@ -30,9 +30,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/api/favourites")
-public class FavouritesServlet extends AuthenticationServlet {
-  /** Returns user's list of favourite recipes */
+@WebServlet("/api/history")
+public class HistoryServlet extends AuthenticationServlet {
+  /** Returns user's past recipes that they cooked */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
@@ -41,25 +41,16 @@ public class FavouritesServlet extends AuthenticationServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
 
-    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    List<Long> history = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_HISTORY);
 
-    List<Recipe> recipes = RecipeCollector.getRecipes(favourites, datastore);
+    List<Recipe> recipes = RecipeCollector.getRecipes(history, datastore);
 
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(recipes));
   }
 
-  /** Adds a recipe to user's list of favourite recipes */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Long recipeId = Long.parseLong(request.getReader().readLine());
-    UserService userService = UserServiceFactory.getUserService();
-    String userId = userService.getCurrentUser().getUserId();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-
-    UserCollector.addRecipeToUserRecipeList(
-        userEntity, UserConstants.PROPERTY_FAVOURITES, recipeId, datastore);
+    // no post request
   }
 }

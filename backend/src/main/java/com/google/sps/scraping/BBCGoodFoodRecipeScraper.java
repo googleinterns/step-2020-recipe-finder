@@ -55,7 +55,7 @@ public class BBCGoodFoodRecipeScraper {
 
   /*Outputs link to custom search api*/
   public static String searchRecipeLink(String ingredients, String key) {
-    return "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&exactTerms="
+    return "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&q="
         + ingredients +"&key=" + key;
   }
 

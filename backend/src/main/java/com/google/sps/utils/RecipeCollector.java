@@ -33,7 +33,9 @@ public final class RecipeCollector {
           new Query(RecipeConstants.ENTITY_RECIPE)
               .setFilter(
                   new Query.FilterPredicate(
-                      RecipeConstants.PROPERTY_RECIPE_ID, Query.FilterOperator.EQUAL, recipeId));
+                      RecipeConstants.PROPERTY_RECIPE_ID,
+                      Query.FilterOperator.EQUAL,
+                      Integer.toString(recipeId)));
       PreparedQuery results = datastore.prepare(query);
       Entity recipeEntity = results.asSingleEntity();
       if (recipeEntity != null) {
