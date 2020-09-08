@@ -105,15 +105,15 @@ public class BBCGoodFoodRecipeScraper {
 
   /* Structure of jsonObject:
    * {suitableForDiet: "http://schema.org/VegetarianDiet, http://schema.org/GlutenFreeDiet .."} */
-  private static String[] getDietFromJson(JsonObject jsonObject) {
+  private static List<String> getDietFromJson(JsonObject jsonObject) {
     JsonElement dietElements = jsonObject.get("suitableForDiet");
     if (dietElements == null) {
-      return new String[0];
+      return new ArrayList<>();
     }
-    String[] diet = dietElements.getAsString().split(", ");
+    List<String> diet = Arrays.asList(dietElements.getAsString().split(", "));
     int counter = 0;
     for (String item : diet) {
-      diet[counter++] = item.replaceAll("http://schema.org/|Diet", "").toLowerCase();
+      diet.set(counter++, item.replaceAll("http://schema.org/|Diet", "").toLowerCase());
     }
     return diet;
   }

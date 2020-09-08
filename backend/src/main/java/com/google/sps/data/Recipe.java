@@ -73,19 +73,12 @@ public final class Recipe {
 
   @Override
   public String toString() {
-    return "name: "
-        + name
-        + ", time: "
-        + time
-        + ", calories: "
-        + calories
-        + ", difficulty: "
-        + difficulty
-        + ", diet: "
-        + Arrays.toString(dietaryRequirements)
-        + ", ingredients: "
-        + Arrays.toString(ingredients)
-        + ", instructions: "
-        + Arrays.toString(instructions);
+    return "name: " + name + "\n"
+        + "time: " + time + "\n" 
+        + "calories: " + calories + "\n" 
+        + "difficulty: " + difficulty + "\n"
+        + "diet: " + dietaryRequirements + "\n" 
+        + "ingredients: " + ingredients + "\n" 
+        + "instructions: " + instructions;
   }
 }

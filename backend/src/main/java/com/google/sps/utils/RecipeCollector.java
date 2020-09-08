@@ -50,16 +50,15 @@ public final class RecipeCollector {
         List<String> instructions =
             (List<String>) recipeEntity.getProperty(RecipeConstants.PROPERTY_INSTRUCTIONS);
 
-        // TODO: convert Recipe's fields to lists nad remove toArray()
         recipes.add(
             new Recipe(
                 name,
                 time,
                 calories,
                 difficulty,
-                dietaryRequirements.toArray(new String[0]),
-                ingredients.toArray(new String[0]),
-                instructions.toArray(new String[0])));
+                dietaryRequirements,
+                ingredients,
+                instructions));
       }
     }
     return recipes;

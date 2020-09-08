@@ -61,6 +61,7 @@ public final class BBCGoodFoodRecipeScraperTest {
   @Test
   public void scrapesRecipe() {
     Recipe scrapedRecipe = BBCGoodFoodRecipeScraper.scrapeRecipe(URL);
+    System.out.println(scrapedRecipe);
     Assert.assertTrue(mExpectedRecipe.equals(scrapedRecipe));
   }
 }
