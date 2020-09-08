@@ -27,18 +27,34 @@ class Tutorial extends Component {
     super(properties);
     this.state = {
       isLastStep: false,
-      isSpeakerOff: false,
     };
+
     this.switchSpeaker = this.switchSpeaker.bind(this);
+    this.getSelectedStep = this.getSelectedStep.bind(this);
   }
 
   componentDidMount() {
     this.noteIfLastStep();
+    if (
+      !this.state.showModal &&
+      this.props.isSpeakerOn &&
+      this.props.isTutorialActive
+    ) {
+      this.readStep(this.getSelectedStep());
+    }
   }
 
   render() {
     return (
       <div>
+        <audio
+          controls
+          id="audio"
+          style={{ display: this.props.isSpeakerOn ? "block" : "none" }}
+        >
+          <source src="" id="source" />
+          Your browser does not support the audio element.
+        </audio>
         <div className="centered-div">
           <Button variant="primary" onClick={this.switchSpeaker}>
             <img src={this.getSpeakerIcon()} alt="switch speaker" />
@@ -75,23 +91,44 @@ class Tutorial extends Component {
       </div>
     );
   }
+  
+  getSelectedStep() {
+    return this.props.getSelectedStep();
+  }
+
+  readStep(index) {
+    return this.props.readStep(index);
+  }
 
   setSelectedStepAndMaybeRead = (selectedIndex, e) => {
-    localStorage.setItem("tutorial-step", selectedIndex);
-    this.noteIfLastStep();
-    if (this.state.isSpeakerOff) {
-      return;
+    try {
+      sessionStorage.setItem("tutorial-step", selectedIndex);
+    } catch (error) {
+      console.log(error);
     }
-    // to do : read the step
+    this.noteIfLastStep();
+    if (this.props.isSpeakerOn) {
+      this.readStep(selectedIndex);
+    }
   };
 
-  getSelectedStep() {
-    const step = JSON.parse(localStorage.getItem("tutorial-step"));
-    return step ? step : 0;
+  pauseAudio() {
+    const audio = document.getElementById("audio");
+    var promise = audio.pause();
+    if (promise !== undefined) {
+      promise
+        .then((_) => {
+          // audio paused
+        })
+        .catch((error) => {
+          console.log(error);
+          // pause was prevented
+        });
+    }
   }
 
   noteIfLastStep() {
-    const step = this.getSelectedStep();
+    const step = this.props.getSelectedStep();
     const isLastStep = this.props.recipe.instructions.length === step + 1;
     this.setState({ isLastStep: isLastStep });
   }
@@ -118,8 +155,18 @@ class Tutorial extends Component {
   }
 
   switchSpeaker() {
-    const previousStateIsSpeakerOff = this.state.isSpeakerOff;
-    this.setState({ isSpeakerOff: !previousStateIsSpeakerOff });
+    const currentStateIsSpeakerOn = !this.props.isSpeakerOn;
+    this.props.switchSpeaker();
+    try {
+      sessionStorage.setItem("isSpeakerOn", currentStateIsSpeakerOn);
+    } catch (error) {
+      console.log(error);
+    }
+    if (currentStateIsSpeakerOn) {
+      this.readStep(this.getSelectedStep());
+    } else {
+      this.pauseAudio();
+    }
   }
 
   finishCooking(recipe) {
@@ -129,17 +176,17 @@ class Tutorial extends Component {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(recipe)
+      body: JSON.stringify(recipe),
     });
     fetch(request).catch((err) => console.log(err));
   }
 
   getSpeakerIcon() {
-    return this.state.isSpeakerOff ? speakerOn : speakerOff;
+    return this.props.isSpeakerOn ? speakerOff : speakerOn;
   }
 
   getSpeakerMessage() {
-    return this.state.isSpeakerOff ? "Always read steps" : "Don't read steps";
+    return this.props.isSpeakerOn ? "Don't read steps" : "Always read steps";
   }
 }
 export default Tutorial;

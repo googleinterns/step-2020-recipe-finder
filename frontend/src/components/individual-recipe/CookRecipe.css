@@ -41,3 +41,25 @@ li {
 .back-btn {
   margin-bottom: 20px;
 }
+
+.modal-footer {
+  justify-content: center;
+  border-top: none;
+}
+
+.modal-header {
+  border-bottom: none;
+}
+
+.modal-title {
+  text-align: center;
+}
+
+.modal-dialog {
+  top: 200px;
+}
+
+audio {
+  margin: auto;
+  margin-bottom: 10px;
+}
