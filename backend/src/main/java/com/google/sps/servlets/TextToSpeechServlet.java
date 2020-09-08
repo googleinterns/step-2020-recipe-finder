@@ -23,23 +23,26 @@ import com.google.cloud.texttospeech.v1.TextToSpeechClient;
 import com.google.cloud.texttospeech.v1.VoiceSelectionParams;
 import com.google.gson.Gson;
 import com.google.protobuf.ByteString;
-import java.io.IOException;
-import javax.servlet.ServletOutputStream;
+import javxa.io.IOException;
+import java.util.Arrays;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 
 /* Servlet that:
- * in Post request, returns an audio for the text in the request */
+ * in Post request, returns byte array of the audio for the text in the request */
 @WebServlet("/api/text-to-speech")
 public class TextToSpeechServlet extends AuthenticationServlet {
+
+  @Override
+  protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // no get request
+  }
 
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String text = request.getReader().readLine();
     try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
-
       SynthesisInput input = SynthesisInput.newBuilder().setText(text).build();
 
       VoiceSelectionParams voice =
@@ -54,7 +57,6 @@ public class TextToSpeechServlet extends AuthenticationServlet {
       SynthesizeSpeechResponse speechResponse =
           textToSpeechClient.synthesizeSpeech(input, voice, audioConfig);
 
-      // Get the audio contents from the response
       ByteString audioContents = speechResponse.getAudioContent();
 
       byte[] audio = audioContents.toByteArray();
@@ -64,10 +66,5 @@ public class TextToSpeechServlet extends AuthenticationServlet {
     } catch (Exception e) {
       System.out.println(e);
     }
-  }
-
-  @Override
-  protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // no get request
   }
 }

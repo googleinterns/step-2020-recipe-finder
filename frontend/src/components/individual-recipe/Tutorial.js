@@ -26,10 +26,10 @@ import { Link } from "react-router-dom";
 class Tutorial extends Component {
   constructor(properties) {
     super(properties);
-    const isSpeakerOff = sessionStorage.getItem("isSpeakerOff");
+    const isSpeakerOff = JSON.parse(sessionStorage.getItem("isSpeakerOff"));
     this.state = {
       isLastStep: false,
-      isSpeakerOff: isSpeakerOff === null ? true : JSON.parse(isSpeakerOff),
+      isSpeakerOff: isSpeakerOff === null ? true : isSpeakerOff,
       audioSteps: new Array(properties.recipe.instructions.length),
       showModal: isSpeakerOff === null ? true : false,
     };
@@ -172,12 +172,11 @@ class Tutorial extends Component {
     if (promise !== undefined) {
       promise
         .then((_) => {
-          // Autoplay started!
+          // autoplay started
         })
         .catch((error) => {
           console.log(error);
-          // Autoplay was prevented.
-          // Show a "Play" button so that user can start playback.
+          // Autoplay was prevented
         });
     }
   }
