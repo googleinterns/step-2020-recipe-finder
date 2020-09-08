@@ -75,6 +75,7 @@ class Tutorial extends Component {
       </div>
     );
   }
+
   setSelectedStepAndMaybeRead = (selectedIndex, e) => {
     localStorage.setItem("tutorial-step", selectedIndex);
     this.noteIfLastStep();
@@ -131,7 +132,6 @@ class Tutorial extends Component {
       body: JSON.stringify(recipe)
     });
     fetch(request).catch((err) => console.log(err));
-
   }
 
   getSpeakerIcon() {

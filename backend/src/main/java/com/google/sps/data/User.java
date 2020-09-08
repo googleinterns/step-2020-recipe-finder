@@ -19,12 +19,12 @@ import java.util.List;
 public final class User {
 
   private final String name;
-  private final List<String> dietaryRequirements;
+  private final List<String> diets;
+  private final List<String> customDiets;
 
-  public User(
-      String name,
-      List<String> dietaryRequirements) {
+  public User(String name, List<String> diets, List<String> customDiets) {
     this.name = name;
-    this.dietaryRequirements = dietaryRequirements;
+    this.diets = diets;
+    this.customDiets = customDiets;
   }
 }
