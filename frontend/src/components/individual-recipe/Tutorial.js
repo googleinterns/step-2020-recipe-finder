@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import Carousel from "react-bootstrap/Carousel";
 import React, { Component } from "react";
 import "./CookRecipe.css";
@@ -25,22 +26,47 @@ import { Link } from "react-router-dom";
 class Tutorial extends Component {
   constructor(properties) {
     super(properties);
+    const isSpeakerOff = sessionStorage.getItem("isSpeakerOff");
     this.state = {
       isLastStep: false,
-      isSpeakerOff: false,
+      isSpeakerOff: isSpeakerOff === null ? true : JSON.parse(isSpeakerOff),
+      audioSteps: new Array(properties.recipe.instructions.length),
+      showModal: isSpeakerOff === null ? true : false,
     };
     this.switchSpeaker = this.switchSpeaker.bind(this);
   }
 
   componentDidMount() {
     this.noteIfLastStep();
-    this.readStep(this.props.recipe.instructions[this.getSelectedStep()]);
+    if (!this.state.showModal) {
+      this.readStep(this.getSelectedStep());
+    }
   }
 
   render() {
     return (
       <div>
-        <audio controls id="audio">
+        <Modal show={this.state.showModal} backdrop="static" keyboard={false}>
+          <Modal.Header>
+            <Modal.Title>
+              Do you want the recipe to be read out loud?
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Footer>
+            <Button variant="primary" onClick={() => this.handleClose(false)}>
+              Yes
+            </Button>
+            <Button variant="secondary" onClick={() => this.handleClose(true)}>
+              No
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <audio
+          controls
+          id="audio"
+          style={{ display: this.state.isSpeakerOff ? "none" : "block" }}
+        >
           <source src="" id="source" />
           Your browser does not support the audio element.
         </audio>
@@ -81,13 +107,27 @@ class Tutorial extends Component {
     );
   }
 
+  handleClose(isSpeakerOff) {
+    this.setState({ isSpeakerOff: isSpeakerOff, showModal: false });
+    try {
+      sessionStorage.setItem("isSpeakerOff", isSpeakerOff);
+    } catch (error) {
+      console.log(error);
+    }
+    this.readStep(this.getSelectedStep());
+  }
+
   setSelectedStepAndMaybeRead = (selectedIndex, e) => {
-    localStorage.setItem("tutorial-step", selectedIndex);
+    try {
+      localStorage.setItem("tutorial-step", selectedIndex);
+    } catch (error) {
+      console.log(error);
+    }
     this.noteIfLastStep();
     if (this.state.isSpeakerOff) {
       return;
     }
-    this.readStep(this.props.recipe.instructions[selectedIndex]);
+    this.readStep(selectedIndex);
   };
 
   getSelectedStep() {
@@ -95,7 +135,13 @@ class Tutorial extends Component {
     return step ? step : 0;
   }
 
-  readStep(step) {
+  readStep(index) {
+    if (this.state.audioSteps[index] !== undefined) {
+      this.playAudio(this.state.audioSteps[index]);
+      return;
+    }
+
+    const step = this.props.recipe.instructions[index];
     const request = new Request("/api/text-to-speech", {
       method: "POST",
       headers: {
@@ -104,30 +150,36 @@ class Tutorial extends Component {
       },
       body: JSON.stringify(step),
     });
+
     fetch(request)
       .then((response) => response.json())
       .then((json) => {
         const blob = new Blob([new Uint8Array(json)], { type: "audio/wav" });
         const url = URL.createObjectURL(blob);
+        this.state.audioSteps[index] = url;
+        this.playAudio(url);
+      })
+      .catch((error) => console.log(error));
+  }
 
-        const audio = document.getElementById("audio");
-        const source = document.getElementById("source");
+  playAudio(url) {
+    const audio = document.getElementById("audio");
+    const source = document.getElementById("source");
 
-        source.src = url;
-        audio.load();
-        var promise = audio.play();
-        if (promise !== undefined) {
-          promise
-            .then((_) => {
-              // Autoplay started!
-            })
-            .catch((error) => {
-              console.log(error);
-              // Autoplay was prevented.
-              // Show a "Play" button so that user can start playback.
-            });
-        }
-      });
+    source.src = url;
+    audio.load();
+    var promise = audio.play();
+    if (promise !== undefined) {
+      promise
+        .then((_) => {
+          // Autoplay started!
+        })
+        .catch((error) => {
+          console.log(error);
+          // Autoplay was prevented.
+          // Show a "Play" button so that user can start playback.
+        });
+    }
   }
 
   noteIfLastStep() {
@@ -160,6 +212,11 @@ class Tutorial extends Component {
   switchSpeaker() {
     const previousStateIsSpeakerOff = this.state.isSpeakerOff;
     this.setState({ isSpeakerOff: !previousStateIsSpeakerOff });
+    try {
+      sessionStorage.setItem("isSpeakerOff", !previousStateIsSpeakerOff);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   finishCooking(recipe) {
