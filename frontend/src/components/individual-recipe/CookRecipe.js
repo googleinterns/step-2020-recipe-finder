@@ -36,7 +36,7 @@ class CookRecipe extends Component {
       <div>
         {backButton()}
         <h1>{recipe.name}</h1>
-        <Tabs defaultActiveKey="tutorial">
+        <Tabs defaultActiveKey="ingredients">
           <Tab eventKey="ingredients" title="Ingredients">
             <div className="tab-content">
               <ul>
