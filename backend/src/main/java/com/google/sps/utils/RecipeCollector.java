@@ -18,8 +18,6 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.FetchOptions;
-
 import com.google.sps.data.Recipe;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +33,9 @@ public final class RecipeCollector {
           new Query(RecipeConstants.ENTITY_RECIPE)
               .setFilter(
                   new Query.FilterPredicate(
-                      RecipeConstants.PROPERTY_RECIPE_ID, Query.FilterOperator.EQUAL, Integer.toString(recipeId)));
+                      RecipeConstants.PROPERTY_RECIPE_ID,
+                      Query.FilterOperator.EQUAL,
+                      Integer.toString(recipeId)));
       PreparedQuery results = datastore.prepare(query);
       Entity recipeEntity = results.asSingleEntity();
       if (recipeEntity != null) {

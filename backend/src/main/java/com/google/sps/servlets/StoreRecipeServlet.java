@@ -48,7 +48,8 @@ public class StoreRecipeServlet extends AuthenticationServlet {
     String calories = recipe.get(RecipeConstants.PROPERTY_CALORIES).getAsString();
     String difficulty = recipe.get(RecipeConstants.PROPERTY_DIFFICULTY).getAsString();
     List<String> diet =
-        splitJsonArrayIntoList(recipe.get(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS).getAsJsonArray());
+        splitJsonArrayIntoList(
+            recipe.get(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS).getAsJsonArray());
     List<String> ingredients =
         splitJsonArrayIntoList(recipe.get(RecipeConstants.PROPERTY_INGREDIENTS).getAsJsonArray());
     List<String> instructions =
