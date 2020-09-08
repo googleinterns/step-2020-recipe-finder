@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import "./CookRecipe.css";
@@ -26,17 +26,21 @@ class CookRecipe extends Component {
       recipe: localStorage.getItem("recipe")
         ? JSON.parse(localStorage.getItem("recipe"))
         : this.props.location.state.recipe,
+      key: "ingredients",
     };
   }
 
   render() {
     const recipe = this.state.recipe;
-    const renderHTML = (rawHTML) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
+    const renderHTML = (rawHTML) =>
+      React.createElement("div", {
+        dangerouslySetInnerHTML: { __html: rawHTML },
+      });
     return (
       <div>
         {backButton()}
         <h1>{recipe.name}</h1>
-        <Tabs defaultActiveKey="ingredients">
+        <Tabs activeKey={this.state.key} onSelect={(key) => this.setKey(key)}>
           <Tab eventKey="ingredients" title="Ingredients">
             <div className="tab-content">
               <ul>
@@ -57,13 +61,15 @@ class CookRecipe extends Component {
           </Tab>
           <Tab eventKey="tutorial" title="Tutorial">
             <div className="tab-content">
-              <Tutorial recipe={this.state.recipe} />
+              <Tutorial recipe={this.state.recipe} activeTab={this.state.key} />
             </div>
           </Tab>
         </Tabs>
       </div>
     );
   }
-
+  setKey(key) {
+    this.setState({ key: key });
+  }
 }
 export default CookRecipe;

@@ -38,7 +38,11 @@ class Tutorial extends Component {
 
   componentDidMount() {
     this.noteIfLastStep();
-    if (!this.state.showModal && this.state.isSpeakerOn) {
+    if (
+      !this.state.showModal &&
+      this.state.isSpeakerOn &&
+      this.props.activeTab === "tutorial"
+    ) {
       this.readStep(this.getSelectedStep());
     }
   }
@@ -114,7 +118,7 @@ class Tutorial extends Component {
     } catch (error) {
       console.log(error);
     }
-    if (isSpeakerOn) {
+    if (isSpeakerOn && this.props.activeTab === "tutorial") {
       this.readStep(this.getSelectedStep());
     }
   }
