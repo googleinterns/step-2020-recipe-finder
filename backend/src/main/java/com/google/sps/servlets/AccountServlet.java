@@ -25,11 +25,11 @@ import com.google.gson.Gson;
 import com.google.sps.data.User;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet("/api/account")
 public class AccountServlet extends AuthenticationServlet {
@@ -51,19 +51,24 @@ public class AccountServlet extends AuthenticationServlet {
       response.sendRedirect("/sign-up");
       return;
     }
-    List<String> dietaryRequirements =
-        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
-    if (dietaryRequirements == null) {
-      dietaryRequirements = new ArrayList<>();
+    List<String> diets = (List<String>) userEntity.getProperty(UserConstants.PROPERTY_DIETS);
+    List<String> customDiets =
+        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_CUSTOM_DIETS);
+    if (diets == null) {
+      diets = new ArrayList<>();
+    }
+    if (customDiets == null) {
+      customDiets = new ArrayList<>();
     }
     String name = (String) userEntity.getProperty(UserConstants.PROPERTY_NAME);
 
-    User user = new User(name, dietaryRequirements);
+    User user = new User(name, diets, customDiets);
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(user));
   }
 
   /** TODO: modify dietary requirements */
   @Override
-  protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {}
+  protected void post(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {}
 }

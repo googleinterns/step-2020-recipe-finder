@@ -16,6 +16,9 @@ import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import "./RecommendedRecipes.css";
+import { handleResponseError } from "./utils/APIErrorHandler";
+import { errorRedirect } from "./utils/APIErrorHandler";
+import { loading } from "./utils/Utilities";
 import { Recipe } from "./Recipe";
 
 class RecommendedRecipes extends Component {
@@ -26,6 +29,7 @@ class RecommendedRecipes extends Component {
       isRedirect: false,
       recipes: [],
       chosenRecipe: {},
+      error: null,
     };
   }
 
@@ -41,21 +45,19 @@ class RecommendedRecipes extends Component {
       body: JSON.stringify(ingredients)
     });
     fetch(request)
+      .then(handleResponseError)
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json, isLoading: false }))
-      .catch((err) => console.log(err));
+      .catch((error) => this.setState({ error: error }));
   }
 
   render() {
+    if (this.state.error !== null) {
+      return errorRedirect(this.state.error);
+    }
+
     if (this.state.isLoading) {
-      return (
-        <div className="spinner-div">
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-          <h3>Scanning recipes...</h3>
-        </div>
-      );
+      return loading("Scanning recipes ...");
     }
 
     if (this.state.isRedirect) {
