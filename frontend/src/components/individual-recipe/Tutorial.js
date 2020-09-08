@@ -53,10 +53,10 @@ class Tutorial extends Component {
             </Modal.Title>
           </Modal.Header>
           <Modal.Footer>
-            <Button variant="primary" onClick={() => this.handleClose(false)}>
+            <Button variant="primary" onClick={() => this.handleClose(true)}>
               Yes
             </Button>
-            <Button variant="secondary" onClick={() => this.handleClose(true)}>
+            <Button variant="secondary" onClick={() => this.handleClose(false)}>
               No
             </Button>
           </Modal.Footer>
@@ -177,7 +177,7 @@ class Tutorial extends Component {
         })
         .catch((error) => {
           console.log(error);
-          // Autoplay was prevented
+          // autoplay was prevented
         });
     }
   }
@@ -219,6 +219,20 @@ class Tutorial extends Component {
     }
     if (currentStateIsSpeakerOn) {
       this.readStep(this.getSelectedStep());
+    } else {
+      // pause audio
+      const audio = document.getElementById("audio");
+      var promise = audio.pause();
+      if (promise !== undefined) {
+        promise
+          .then((_) => {
+            // audio paused
+          })
+          .catch((error) => {
+            console.log(error);
+            // pause was prevented
+          });
+      }
     }
   }
 
