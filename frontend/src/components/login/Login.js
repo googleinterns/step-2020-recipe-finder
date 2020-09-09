@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { handleResponseError } from "../utils/APIErrorHandler";
 import { errorRedirect } from "../utils/APIErrorHandler";
 import { loading } from "../utils/Utilities";
+import "./Login.css";
+import { getBackground } from "../../utils/Background";
 
 class Login extends Component {
   constructor(properties) {
@@ -55,21 +58,34 @@ class Login extends Component {
     }
 
     if (this.state.isFirstTime) {
-      localStorage.setItem("logOutUrl", this.state.logUrl);
+      this.trySavingSignOutToLocalStorage();
       return <Redirect to="/sign-up" />;
     }
 
     if (this.state.isLoggedIn) {
-      localStorage.setItem("logOutUrl", this.state.logUrl);
+      this.trySavingSignOutToLocalStorage();
       return <Redirect to="/home" />;
     }
 
     return (
       <div>
-        <h1>Recipe Finder</h1>
-        <a href={this.state.logUrl}>Login</a>
+        {getBackground()}
+        <h1 className="white-text">Recipe Finder</h1>
+        <div className="login-div">
+          <a href={this.state.logUrl}>
+            <Button className="login-btn">Login</Button>
+          </a>
+        </div>
       </div>
     );
+  }
+
+  trySavingSignOutToLocalStorage() {
+    try {
+      localStorage.setItem("signOutUrl", this.state.logUrl);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 export default Login;
