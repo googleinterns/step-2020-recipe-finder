@@ -28,3 +28,7 @@ limitations under the License. */
   float: left;
   width: 100%;
 }
+
+#sign-out-text {
+  font-size: 15px;
+}

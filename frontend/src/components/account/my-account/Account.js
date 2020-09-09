@@ -71,7 +71,7 @@ class Account extends Component {
             </div>
             <div className="sign-out-div">
               <img src={sign_out} alt="account" id="account-icon" />
-              <div>Sign Out</div>
+              <div id="sign-out-text">Sign Out</div>
             </div>
           </div>
           <h3>My name/nickname:</h3>
