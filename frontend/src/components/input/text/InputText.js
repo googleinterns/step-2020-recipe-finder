@@ -16,7 +16,9 @@ import React, { Component } from "react";
 import InputTextItems from "./InputTextItems";
 import "./InputText.css";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
+import { backButton } from "../../utils/Utilities";
 
 class InputText extends Component {
   constructor(properties) {
@@ -31,13 +33,13 @@ class InputText extends Component {
   }
 
   addItem(event) {
-    if (this._inputElement.value === "") {
+    const value = this._inputElement.value;
+    if (value === "") {
+      event.preventDefault();
       return;
     }
     var newItem = {
-      text:
-        this._inputElement.value.charAt(0).toUpperCase() +
-        this._inputElement.value.slice(1).toLowerCase(),
+      text: value.charAt(0).toUpperCase() + value.slice(1).toLowerCase(),
       key: Date.now(),
     };
     var isDuplicate = false;
@@ -56,7 +58,6 @@ class InputText extends Component {
         return {
           items: [newItem].concat(prevState.items),
         };
-
       }
     });
     this._inputElement.value = "";
@@ -76,34 +77,43 @@ class InputText extends Component {
   render() {
     const ingredients = this.state.items.map((item) => item.text);
     return (
-      <div className="ingredientList">
-        <div className="header">
+      <div>
+        {backButton()}
+        <div className="ingredient-list">
           <h1>Input Ingredients</h1>
-          <form onSubmit={this.addItem}>
-            <input
-              ref={(a) => (this._inputElement = a)}
-              placeholder="New Ingredient"
-            ></input>
-            <Button type="submit">Add</Button>
-            <Link
-              to={{
-                pathname: "/recommendations",
-                state: {
-                  ingredients: ingredients,
-                },
-              }}
-            >
-              <Button
-                disabled={this.state.items.length === 0}
-                variant="primary"
-              >
-                Confirm
-              </Button>
-            </Link>
-          </form>
-        </div>
+          <Form onSubmit={this.addItem}>
+            <Form.Row>
+              <div className="input">
+                <Form.Control
+                  ref={(a) => (this._inputElement = a)}
+                  type="text"
+                  placeholder="New Ingredient"
+                />
+              </div>
 
-        <InputTextItems entries={this.state.items} delete={this.deleteItem} />
+              <div>
+                <Button type="submit">Add</Button>
+              </div>
+
+              <div>
+                <Link
+                  to={{
+                    pathname: "/recommendations",
+                    state: {
+                      ingredients: ingredients,
+                    },
+                  }}
+                >
+                  <Button disabled={this.state.items.length === 0}>
+                    Confirm
+                  </Button>
+                </Link>
+              </div>
+            </Form.Row>
+          </Form>
+
+          <InputTextItems entries={this.state.items} delete={this.deleteItem} />
+        </div>
       </div>
     );
   }
