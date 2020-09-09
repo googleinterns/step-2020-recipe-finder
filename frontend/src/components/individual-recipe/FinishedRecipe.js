@@ -22,8 +22,7 @@ class FinishedRecipe extends Component {
     return (
       <div>
         <h1>Well Done!</h1>
-        <h4>Did you like cooking pasta?</h4>
-        {/* <h4>Did you like cooking {this.props.location.state.recipeName}?</h4> */}
+        <h4>Did you like cooking {this.props.location.state.recipeName}?</h4>
         <Link
           to="/home"
           onClick={() =>

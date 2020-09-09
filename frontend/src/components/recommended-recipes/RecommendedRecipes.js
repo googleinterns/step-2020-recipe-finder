@@ -27,61 +27,38 @@ class RecommendedRecipes extends Component {
     this.state = {
       isLoading: true,
       isRedirect: false,
-      recipes: [        {
-        name: "Dish 1",
-        time: "18 min",
-        level: "Easy",
-        calories: "383 kcal",
-        ingredients: ["broccoli", "tomato"],
-        instructions: ["step1: broccoli", "step2: tomato"],
-      },
-      {
-        name: "Dish 2",
-        time: "25 min",
-        level: "Hard",
-        calories: "243 kcal",
-        ingredients: ["egg", "tomato"],
-        instructions: ["step1: egg", "step2: tomato"],
-      },
-      {
-        name: "Dish 3",
-        time: "20 min",
-        level: "Easy",
-        calories: "342 kcal",
-        ingredients: ["egg", "pasta"],
-        instructions: ["step1: egg", "step2: pasta"],
-      },],
+      recipes: [],
       chosenRecipe: {},
       error: null,
     };
   }
 
   // retrieves recommended recipes from the back end
-  // componentDidMount() {
-  //   const { ingredients } = this.props.location.state;
-  //   const request = new Request("/api/find-recipes", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //     },
-  //     body: JSON.stringify(ingredients),
-  //   });
-  //   fetch(request)
-  //     .then(handleResponseError)
-  //     .then((response) => response.json())
-  //     .then((json) => this.setState({ recipes: json, isLoading: false }))
-  //     .catch((error) => this.setState({ error: error }));
-  // }
+  componentDidMount() {
+    const { ingredients } = this.props.location.state;
+    const request = new Request("/api/find-recipes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(ingredients),
+    });
+    fetch(request)
+      .then(handleResponseError)
+      .then((response) => response.json())
+      .then((json) => this.setState({ recipes: json, isLoading: false }))
+      .catch((error) => this.setState({ error: error }));
+  }
 
   render() {
     if (this.state.error !== null) {
       return errorRedirect(this.state.error);
     }
 
-    // if (this.state.isLoading) {
-    //   return loading("Scanning recipes ...");
-    // }
+    if (this.state.isLoading) {
+      return loading("Scanning recipes ...");
+    }
 
     if (this.state.isRedirect) {
       return (
