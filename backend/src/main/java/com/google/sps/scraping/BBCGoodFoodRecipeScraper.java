@@ -110,10 +110,9 @@ public class BBCGoodFoodRecipeScraper {
     if (dietElements == null) {
       return new ArrayList<>();
     }
-    List<String> diet = Arrays.asList(dietElements.getAsString().split(", "));
-    int counter = 0;
-    for (String item : diet) {
-      diet.set(counter++, item.replaceAll("http://schema.org/|Diet", "").toLowerCase());
+    List<String> diet = new ArrayList<>();
+    for (String item : dietElements.getAsString().split(", ")) {
+      diet.add(item.replaceAll("http://schema.org/|Diet", "").toLowerCase());
     }
     return diet;
   }
