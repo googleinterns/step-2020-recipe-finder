@@ -25,7 +25,6 @@ import com.google.sps.utils.RecipeCollector;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -60,14 +59,7 @@ public class FavouritesServlet extends AuthenticationServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
 
-    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
-    if (favourites == null) {
-      favourites = new ArrayList<>();
-    }
-    if (!favourites.contains(recipeId)) {
-      favourites.add(recipeId);
-      userEntity.setProperty(UserConstants.PROPERTY_FAVOURITES, favourites);
-      datastore.put(userEntity);
-    }
+    UserCollector.addRecipeToUserRecipeList(
+        userEntity, UserConstants.PROPERTY_FAVOURITES, recipeId, datastore);
   }
 }

@@ -24,34 +24,41 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import RecommendedRecipes from "./components/RecommendedRecipes";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import {PrivateRoute} from "./components/PrivateRoute";
-import SignUp from "./components/SignUp";
+import SignUp from "./components/account/SignUp";
 import Favourites from "./components/account/Favourites";
 import Account from "./components/account/Account";
+import History from "./components/account/History";
+import ReactErrorHandler from "./components/utils/ReactErrorHandler";
+import ErrorPage from "./components/utils/APIErrorHandler";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
   return (
     <div className="App">
       <Router>
         <div>
-          <Switch>
-            <Route exact path="/" component={Login} />
-            <PrivateRoute exact path="/sign-up" component={SignUp} />
-            <PrivateRoute exact path="/home" component={Home} />
-            <PrivateRoute exact path="/text" component={InputText} />
-            <Route exact path="/audio" component={InputAudio} />
-            <PrivateRoute exact path="/account" component={Account} />
-            <PrivateRoute exact path="/cook" component={CookRecipe} />
-            <PrivateRoute exact path="/shop" component={ShoppingList} />
-            <PrivateRoute exact path="/inventory" component={Inventory} />
-            <PrivateRoute exact path="/favourites" component={Favourites} />
-            <PrivateRoute exact path="/finished" component={FinishedRecipe} />
-            <PrivateRoute
-              exact
-              path="/recommendations"
-              component={RecommendedRecipes}
-            />
-          </Switch>
+          <ReactErrorHandler>
+            <Switch>
+              <Route exact path="/" component={Login} />
+              <Route exact path="/error" component={ErrorPage} />
+              <PrivateRoute exact path="/sign-up" component={SignUp} />
+              <PrivateRoute exact path="/home" component={Home} />
+              <PrivateRoute exact path="/text" component={InputText} />
+              <Route exact path="/audio" component={InputAudio} />
+              <PrivateRoute exact path="/account" component={Account} />
+              <PrivateRoute exact path="/cook" component={CookRecipe} />
+              <PrivateRoute exact path="/shop" component={ShoppingList} />
+              <PrivateRoute exact path="/history" component={History} />
+              <PrivateRoute exact path="/inventory" component={Inventory} />
+              <PrivateRoute exact path="/favourites" component={Favourites} />
+              <PrivateRoute exact path="/finished" component={FinishedRecipe} />
+              <PrivateRoute
+                exact
+                path="/recommendations"
+                component={RecommendedRecipes}
+              />
+            </Switch>
+          </ReactErrorHandler>
         </div>
       </Router>
     </div>

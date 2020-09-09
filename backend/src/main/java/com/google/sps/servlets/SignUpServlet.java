@@ -22,7 +22,10 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,10 +41,19 @@ public class SignUpServlet extends AuthenticationServlet {
   /** Creates a user entity in datastore */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String redirectLink = request.getParameter("redirectLink");
     String name = request.getParameter(UserConstants.PROPERTY_NAME);
-    String[] dietaryRequirementsArray =
-        request.getParameterValues(UserConstants.PROPERTY_DIETARY_REQUIREMENTS);
-    Set<String> dietaryRequirements = getFormattedDietaryRequirements(dietaryRequirementsArray);
+    String[] dietsArray = request.getParameterValues(UserConstants.PROPERTY_DIETS);
+    String[] customDietsArray = request.getParameterValues(UserConstants.PROPERTY_CUSTOM_DIETS);
+
+    List<String> diets;
+    if (dietsArray == null) {
+      diets = new ArrayList<>();
+    } else {
+      diets = Arrays.asList(dietsArray);
+    }
+    
+    Set<String> customDiets = getFormattedDietaryRequirements(customDietsArray);
 
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
@@ -50,20 +62,24 @@ public class SignUpServlet extends AuthenticationServlet {
     Entity userEntity = UserCollector.getUserEntity(userId, datastore);
 
     userEntity.setProperty(UserConstants.PROPERTY_NAME, name);
-    userEntity.setProperty(UserConstants.PROPERTY_DIETARY_REQUIREMENTS, dietaryRequirements);
+    userEntity.setProperty(UserConstants.PROPERTY_DIETS, diets);
+    userEntity.setProperty(UserConstants.PROPERTY_CUSTOM_DIETS, customDiets);
     datastore.put(userEntity);
-    response.sendRedirect("/home");
+    response.sendRedirect(redirectLink);
   }
 
-  private Set<String> getFormattedDietaryRequirements(String[] dietaryRequirementsArray) {
-    Set<String> dietaryRequirements = new HashSet<>();
-    for (String diet : dietaryRequirementsArray) {
+  private Set<String> getFormattedDietaryRequirements(String[] dietsArray) {
+    Set<String> diets = new HashSet<>();
+    if (dietsArray == null) {
+      return diets;
+    }
+    for (String diet : dietsArray) {
       if (diet.isEmpty()) {
         continue;
       }
       String formattedDiet = diet.toLowerCase().replaceAll("[^a-z]", "");
-      dietaryRequirements.add(formattedDiet);
+      diets.add(formattedDiet);
     }
-    return dietaryRequirements;
+    return diets;
   }
 }

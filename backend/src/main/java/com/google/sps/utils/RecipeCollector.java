@@ -33,7 +33,9 @@ public final class RecipeCollector {
           new Query(RecipeConstants.ENTITY_RECIPE)
               .setFilter(
                   new Query.FilterPredicate(
-                      RecipeConstants.PROPERTY_RECIPE_ID, Query.FilterOperator.EQUAL, recipeId));
+                      RecipeConstants.PROPERTY_RECIPE_ID,
+                      Query.FilterOperator.EQUAL,
+                      Integer.toString(recipeId)));
       PreparedQuery results = datastore.prepare(query);
       Entity recipeEntity = results.asSingleEntity();
       if (recipeEntity != null) {
@@ -48,16 +50,15 @@ public final class RecipeCollector {
         List<String> instructions =
             (List<String>) recipeEntity.getProperty(RecipeConstants.PROPERTY_INSTRUCTIONS);
 
-        // TODO: convert Recipe's fields to lists nad remove toArray()
         recipes.add(
             new Recipe(
                 name,
                 time,
                 calories,
                 difficulty,
-                dietaryRequirements.toArray(new String[0]),
-                ingredients.toArray(new String[0]),
-                instructions.toArray(new String[0])));
+                dietaryRequirements,
+                ingredients,
+                instructions));
       }
     }
     return recipes;

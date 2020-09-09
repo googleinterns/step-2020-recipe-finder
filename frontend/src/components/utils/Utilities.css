@@ -12,54 +12,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-.tab-content {
-  padding-top: 10px;
-  text-align: justify;
-}
-
-li {
-  padding-bottom: 10px;
-}
-
-.carousel-step {
-  width: 100%;
-  padding-left: 17%;
-  padding-right: 17%;
-  padding-top: 100px;
-  padding-bottom: 100px;
-}
-
-.carousel-control {
-  width: 40px;
-}
-
-.centered-div {
-  margin: auto;
+.spinner-div {
   text-align: center;
-}
-
-.back-btn {
-  margin-bottom: 20px;
-}
-
-.modal-footer {
-  justify-content: center;
-  border-top: none;
-}
-
-.modal-header {
-  border-bottom: none;
-}
-
-.modal-title {
-  text-align: center;
-}
-
-.modal-dialog {
-  top: 200px;
-}
-
-audio {
   margin: auto;
-  margin-bottom: 10px;
+  padding-top: 200px;
 }

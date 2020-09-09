@@ -11,13 +11,13 @@ limitations under the License. */
 
 export function getDietaryRequirements() {
   return [
-    "Vegetarian",
-    "Vegan",
-    "Dairy Free",
-    "Gluten Free",
-    "Halal",
-    "Kosher",
-    "Nut allergy",
-    "Lactose intolerant"
+    { value: "vegetarian", label: "Vegetarian" },
+    { value: "vegan", label: "Vegan" },
+    { value: "dairyfree", label: "Dairy Free" },
+    { value: "glutenfree", label: "Gluten Free" },
+    { value: "halal", label: "Halal" },
+    { value: "kosher", label: "Kosher" },
+    { value: "nutallergy", label: "Nut allergy" },
+    { value: "lactoseintolerant", label: "Lactose intolerant" },
   ];
 }

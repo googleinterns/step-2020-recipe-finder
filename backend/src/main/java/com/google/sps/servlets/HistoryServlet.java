@@ -17,58 +17,40 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
-import com.google.sps.data.User;
+import com.google.sps.data.Recipe;
+import com.google.sps.utils.RecipeCollector;
+import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/api/account")
-public class AccountServlet extends AuthenticationServlet {
-  /** Returns user's account details */
+@WebServlet("/api/history")
+public class HistoryServlet extends AuthenticationServlet {
+  /** Returns user's past recipes that they cooked */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query(UserConstants.ENTITY_USER)
-            .setFilter(
-                new Query.FilterPredicate(
-                    UserConstants.PROPERTY_USER_ID, Query.FilterOperator.EQUAL, userId));
-    PreparedQuery results = datastore.prepare(query);
-    Entity userEntity = results.asSingleEntity();
-    if (userEntity == null) {
-      response.sendRedirect("/sign-up");
-      return;
-    }
-    List<String> diets = (List<String>) userEntity.getProperty(UserConstants.PROPERTY_DIETS);
-    List<String> customDiets =
-        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_CUSTOM_DIETS);
-    if (diets == null) {
-      diets = new ArrayList<>();
-    }
-    if (customDiets == null) {
-      customDiets = new ArrayList<>();
-    }
-    String name = (String) userEntity.getProperty(UserConstants.PROPERTY_NAME);
+    Entity userEntity = UserCollector.getUserEntity(userId, datastore);
 
-    User user = new User(name, diets, customDiets);
+    List<Long> history = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_HISTORY);
+
+    List<Recipe> recipes = RecipeCollector.getRecipes(history, datastore);
+
     response.setContentType("application/json;");
-    response.getWriter().println(new Gson().toJson(user));
+    response.getWriter().println(new Gson().toJson(recipes));
   }
 
-  /** TODO: modify dietary requirements */
   @Override
-  protected void post(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {}
+  protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // no post request
+  }
 }
