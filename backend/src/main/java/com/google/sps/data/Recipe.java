@@ -14,7 +14,7 @@
 
 package com.google.sps.data;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public final class Recipe {
@@ -23,9 +23,9 @@ public final class Recipe {
   private final String time;
   private final String calories;
   private final String difficulty;
-  private final String[] dietaryRequirements;
-  private final String[] ingredients;
-  private final String[] instructions;
+  private final List<String> dietaryRequirements;
+  private final List<String> ingredients;
+  private final List<String> instructions;
   private final int recipeId;
 
   public Recipe(
@@ -33,9 +33,9 @@ public final class Recipe {
       String time,
       String calories,
       String difficulty,
-      String[] dietaryRequirements,
-      String[] ingredients,
-      String[] instructions) {
+      List<String> dietaryRequirements,
+      List<String> ingredients,
+      List<String> instructions) {
     this.name = name;
     this.time = time;
     this.calories = calories;
@@ -51,40 +51,33 @@ public final class Recipe {
     if (this == other) return true;
     if (other == null || getClass() != other.getClass()) return false;
     Recipe recipe = (Recipe) other;
-    return name.equals(recipe.name)
-        && time.equals(recipe.time)
-        && calories.equals(recipe.calories)
-        && difficulty.equals(recipe.difficulty)
-        && Arrays.equals(dietaryRequirements, recipe.dietaryRequirements)
-        && Arrays.equals(ingredients, recipe.ingredients)
-        && Arrays.equals(instructions, recipe.instructions);
+    return name.equals(recipe.name) &&
+            time.equals(recipe.time) &&
+            calories.equals(recipe.calories) &&
+            difficulty.equals(recipe.difficulty) &&
+            dietaryRequirements.equals(recipe.dietaryRequirements) &&
+            ingredients.equals(recipe.ingredients) &&
+            instructions.equals(recipe.instructions);
   }
 
   @Override
   public int hashCode() {
     int multiplier = 31;
     int result = Objects.hash(name, time, calories, difficulty);
-    result = multiplier * result + Arrays.hashCode(dietaryRequirements);
-    result = multiplier * result + Arrays.hashCode(ingredients);
-    result = multiplier * result + Arrays.hashCode(instructions);
+    result = multiplier * result + dietaryRequirements.hashCode();
+    result = multiplier * result + ingredients.hashCode();
+    result = multiplier * result + instructions.hashCode();
     return result;
   }
 
   @Override
   public String toString() {
-    return "name: "
-        + name
-        + ", time: "
-        + time
-        + ", calories: "
-        + calories
-        + ", difficulty: "
-        + difficulty
-        + ", diet: "
-        + Arrays.toString(dietaryRequirements)
-        + ", ingredients: "
-        + Arrays.toString(ingredients)
-        + ", instructions: "
-        + Arrays.toString(instructions);
+    return "name: " + name + "\n"
+        + "time: " + time + "\n" 
+        + "calories: " + calories + "\n" 
+        + "difficulty: " + difficulty + "\n"
+        + "diet: " + dietaryRequirements + "\n" 
+        + "ingredients: " + ingredients + "\n" 
+        + "instructions: " + instructions;
   }
 }
