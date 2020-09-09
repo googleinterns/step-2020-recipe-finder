@@ -20,16 +20,20 @@ import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
 import { handleResponseError } from "../../utils/APIErrorHandler";
 import { errorRedirect } from "../../utils/APIErrorHandler";
 import { loading } from "../../utils/Utilities";
+import sign_out from "../../../icons/sign_out.svg";
+import "./Account.css";
 
 class Account extends Component {
   constructor(properties) {
     super(properties);
+    const signOut = localStorage.getItem("signOutUrl");
     this.state = {
       name: "",
       diets: [],
       customDiets: [],
       isLoading: true,
       error: null,
+      signOut: signOut === null ? "" : signOut,
     };
   }
 
@@ -60,31 +64,49 @@ class Account extends Component {
     return (
       <div>
         <AccountHeader />
-        <h1>My Account</h1>
-        <h4>{this.state.name}</h4>
-        <h3>My dietary requirements:</h3>
-        <ul>
-          {this.state.diets.map((item, index) => (
-            <li key={index}>{this.getLabelForDiet(item)}</li>
-          ))}
-          {this.state.customDiets.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-        <Link
-          to={{
-            pathname: "/sign-up",
-            state: {
-              name: this.state.name,
-              diets: this.state.diets,
-              customDiets: this.state.customDiets,
-            },
-          }}
-        >
-          <Button>Change account details</Button>
-        </Link>
+        <div className="centered-container">
+          <div className="my-account-header">
+            <div className="account-title">
+              <h1 className="account-page-title">My Account</h1>
+            </div>
+            <div className="sign-out-div">
+              <img src={sign_out} alt="account" id="account-icon" />
+              <div>Sign Out</div>
+            </div>
+          </div>
+          <h3>My name/nickname:</h3>
+          <h4>{this.state.name}</h4>
+          <h3>My dietary requirements:</h3>
+          <p>{this.getMessageIfNoDiet()}</p>
+          <ul>
+            {this.state.diets.map((item, index) => (
+              <li key={index}>{this.getLabelForDiet(item)}</li>
+            ))}
+            {this.state.customDiets.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+          <Link
+            to={{
+              pathname: "/sign-up",
+              state: {
+                name: this.state.name,
+                diets: this.state.diets,
+                customDiets: this.state.customDiets,
+              },
+            }}
+          >
+            <Button>Change account details</Button>
+          </Link>
+        </div>
       </div>
     );
+  }
+
+  getMessageIfNoDiet() {
+    if (this.state.diets.length === 0 && this.state.customDiets.length === 0) {
+      return "No dietary requirements";
+    }
   }
 
   getLabelForDiet(diet) {

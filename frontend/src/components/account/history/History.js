@@ -38,21 +38,30 @@ class History extends Component {
     return (
       <div>
         <AccountHeader />
-        <h1>History</h1>
-        {this.state.recipes.map((recipe, index) => {
-          const button = (
-            <div className="right-side-btn">
-              <Link to={{ pathname: "/cook", state: { recipe: recipe } }}>
-                <Button className="lets-go-btn" variant="primary">
-                  Let's Go!
-                </Button>
-              </Link>
-            </div>
-          );
-          return <Recipe key={index} recipe={recipe} buttons={button} />;
-        })}
+        <div className="centered-container">
+          <h1 className="account-page-title">History</h1>
+          <p>{this.getMessageIfNoHistory()}</p>
+          {this.state.recipes.map((recipe, index) => {
+            const button = (
+              <div className="right-side-btn">
+                <Link to={{ pathname: "/cook", state: { recipe: recipe } }}>
+                  <Button className="lets-go-btn" variant="primary">
+                    Let's Go!
+                  </Button>
+                </Link>
+              </div>
+            );
+            return <Recipe key={index} recipe={recipe} buttons={button} />;
+          })}
+        </div>
       </div>
     );
+  }
+
+  getMessageIfNoHistory() {
+    if (this.state.recipes.length === 0) {
+      return "You didn't make anything yet :(";
+    }
   }
 }
 export default History;
