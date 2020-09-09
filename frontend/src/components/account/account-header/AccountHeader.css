@@ -22,7 +22,7 @@ limitations under the License. */
 }
 
 .navbar-light .navbar-toggler-icon {
-    background-image: url("../../icons/toggle.svg");
+    background-image: url("../../../icons/toggle.svg");
 }
 
 .navbar-div {

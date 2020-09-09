@@ -13,13 +13,13 @@
 // limitations under the License.
 
 import React, { Component } from "react";
-import AccountHeader from "./AccountHeader";
+import AccountHeader from "../account-header/AccountHeader";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import { getDietaryRequirements } from "../../utils/DietaryRequirements";
-import { handleResponseError } from "../utils/APIErrorHandler";
-import { errorRedirect } from "../utils/APIErrorHandler";
-import { loading } from "../utils/Utilities";
+import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
+import { handleResponseError } from "../../utils/APIErrorHandler";
+import { errorRedirect } from "../../utils/APIErrorHandler";
+import { loading } from "../../utils/Utilities";
 
 class Account extends Component {
   constructor(properties) {
