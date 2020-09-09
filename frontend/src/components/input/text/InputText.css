@@ -96,7 +96,7 @@ form {
   }
 }
 
-@media only screen and (max-width: 456px) {
+@media only screen and (max-width: 400px) {
   .input {
     width: 110px;
   }
