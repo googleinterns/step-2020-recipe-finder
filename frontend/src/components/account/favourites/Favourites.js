@@ -23,47 +23,59 @@ class Favourites extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      recipes: []
+      recipes: [],
     };
   }
 
   componentDidMount() {
+    this.getFavourites();
+  }
+
+  render() {
+    return (
+      <div>
+        <AccountHeader />
+        <div className="centered-container">
+          <h1 className="account-page-title">Favourites</h1>
+          <p>{this.getMessageIfNoFavourites()}</p>
+          {this.state.recipes.map((recipe, index) => {
+            const button = (
+              <div className="right-side-btns">
+                <Link to={{ pathname: "/cook", state: { recipe: recipe } }}>
+                  <Button className="lets-go-btn" variant="primary">
+                    Let's Go!
+                  </Button>
+                </Link>
+                <Button
+                  className="remove-btn"
+                  variant="danger"
+                  onClick={() => this.removeFavourite(recipe.recipeId)}
+                >
+                  Remove
+                </Button>
+              </div>
+            );
+            return <Recipe key={index} recipe={recipe} buttons={button} />;
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  getMessageIfNoFavourites() {
+    if (this.state.recipes.length === 0) {
+      return "You didn't like any recipe yet";
+    }
+  }
+
+  getFavourites() {
     fetch("/api/favourites")
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json }))
       .catch((err) => console.log(err));
   }
 
-  render() {
-    return (
-      <div>
-        <AccountHeader /> 
-        <h1>Favourites</h1>
-        {this.state.recipes.map((recipe, index) => {
-          const button = (
-            <div className="right-side-btn">
-              <Link to={{ pathname: "/cook", state: { recipe: recipe } }}>
-                <Button className="lets-go-btn" variant="primary">
-                  Let's Go!
-                </Button>
-              </Link>
-              <Button
-                className="remove-btn"
-                variant="danger"
-                onClick={this.removeFavourite}
-              >
-                Remove
-              </Button>
-            </div>
-          );
-          return <Recipe key={index} recipe={recipe} buttons={button} />;
-        })}
-      </div>
-    );
-  }
-
-  removeFavourite = (recipe) => {
-    const recipeId = recipe.recipeId;
+  removeFavourite = (recipeId) => {
     const request = new Request("/api/remove-favourite", {
       method: "POST",
       headers: {
@@ -72,8 +84,9 @@ class Favourites extends Component {
       },
       body: JSON.stringify(recipeId),
     });
-    fetch(request).catch((err) => console.log(err));
-    window.location.reload();
-  }
+    fetch(request)
+      .then((response) => this.getFavourites())
+      .catch((err) => console.log(err));
+  };
 }
 export default Favourites;
