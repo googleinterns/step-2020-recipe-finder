@@ -70,14 +70,14 @@ class Tutorial extends Component {
             <img
               src={navigateNext}
               alt="next step"
-              className="carousel-control"
+              className={this.getIconClassName(/** isNext*/ true)}
             />
           }
           prevIcon={
             <img
               src={navigatePrevious}
               alt="previous step"
-              className="carousel-control"
+              className={this.getIconClassName(/** isNext*/ false)}
             />
           }
         >
@@ -91,7 +91,25 @@ class Tutorial extends Component {
       </div>
     );
   }
-  
+
+  getIconClassName(isNext) {
+    const carousel_control = "carousel-control";
+    const carousel_control_hidden = carousel_control + " d-none";
+    if (isNext) {
+      if (
+        this.getSelectedStep() ===
+        this.props.recipe.instructions.length - 1
+      ) {
+        return carousel_control_hidden;
+      }
+    } else {
+      if (this.getSelectedStep() === 0) {
+        return carousel_control_hidden;
+      }
+    }
+    return carousel_control;
+  }
+
   getSelectedStep() {
     return this.props.getSelectedStep();
   }
@@ -111,21 +129,6 @@ class Tutorial extends Component {
       this.readStep(selectedIndex);
     }
   };
-
-  pauseAudio() {
-    const audio = document.getElementById("audio");
-    var promise = audio.pause();
-    if (promise !== undefined) {
-      promise
-        .then((_) => {
-          // audio paused
-        })
-        .catch((error) => {
-          console.log(error);
-          // pause was prevented
-        });
-    }
-  }
 
   noteIfLastStep() {
     const step = this.props.getSelectedStep();
@@ -165,7 +168,7 @@ class Tutorial extends Component {
     if (currentStateIsSpeakerOn) {
       this.readStep(this.getSelectedStep());
     } else {
-      this.pauseAudio();
+      this.props.pauseAudio();
     }
   }
 

@@ -22,7 +22,8 @@ class FinishedRecipe extends Component {
     return (
       <div>
         <h1>Well Done!</h1>
-        <h4>Did you like cooking {this.props.location.state.recipeName}?</h4>
+        <h4>Did you like cooking pasta?</h4>
+        {/* <h4>Did you like cooking {this.props.location.state.recipeName}?</h4> */}
         <Link
           to="/home"
           onClick={() =>
@@ -32,7 +33,9 @@ class FinishedRecipe extends Component {
           <Button className="finished-btns">Yes! Save to my favourites</Button>
         </Link>
         <Link to="/home">
-          <Button className="finished-btns">It was alright</Button>
+          <Button variant="secondary" className="finished-btns">
+            It was alright
+          </Button>
         </Link>
       </div>
     );
