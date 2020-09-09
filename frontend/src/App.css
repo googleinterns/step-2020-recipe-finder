@@ -69,9 +69,11 @@ limitations under the License. */
   border-color: #339966;
 }
 
-.btn-primary:hover {
-  background-color: #44bb99;
-  border-color: #44bb99;
+.btn-primary:hover,
+.button-link:hover,
+.btn-primary:disabled {
+  background-color: #2c8357;
+  border-color: #2c8357;
 }
 
 a,
