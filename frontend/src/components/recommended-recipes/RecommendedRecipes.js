@@ -104,8 +104,8 @@ class RecommendedRecipes extends Component {
 
   setRecipeAndRedirect(recipe) {
     try {
-      localStorage.setItem("recipe", JSON.stringify(recipe));
-      localStorage.setItem(
+      sessionStorage.setItem("recipe", JSON.stringify(recipe));
+      sessionStorage.setItem(
         "tutorial-step",
         /*starting index for tutorial's carousel*/ 0
       );

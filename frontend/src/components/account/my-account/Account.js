@@ -74,7 +74,6 @@ class Account extends Component {
               </a>
             </div>
           </div>
-          <h1>My Account</h1>
           <h3>My name/nickname:</h3>
           <h4>{this.state.name}</h4>
           <h3>My dietary requirements:</h3>
@@ -85,6 +84,7 @@ class Account extends Component {
             ))}
           </ul>
           <h3>Allergies/Food I can't eat:</h3>
+          <p>{this.getMessageIfNoAllergies()}</p>
           <ul>
             {this.state.allergies.map((item, index) => (
               <li key={index}>{item}</li>
@@ -123,11 +123,17 @@ class Account extends Component {
   }
 
   getMessageIfNoDiet() {
-    if (this.state.diets.length === 0 && this.state.customDiets.length === 0) {
+    if (this.state.diets.length === 0) {
       return "No dietary requirements";
     }
   }
 
+  getMessageIfNoAllergies() {
+    if (this.state.allergies.length === 0) {
+      return "No allergies/food I can't eat";
+    }
+  }
+  
   getLabelForDiet(diet) {
     return getDietaryRequirements().filter((item) => item.value === diet)[0]
       .label;
