@@ -17,6 +17,7 @@ import Button from "react-bootstrap/Button";
 import EyeIcon from "../../icons/eye.svg";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
+import "./Recipe.css";
 
 export function Recipe(props) {
   const recipe = props.recipe;
@@ -40,7 +41,7 @@ export function Recipe(props) {
           placement="left"
           overlay={previewPopover}
         >
-          <div className="right-side-btn">
+          <div className="preview-btn">
             <Button variant="link">
               <img src={EyeIcon} alt="recipe-preview" /> Preview
             </Button>

@@ -15,18 +15,20 @@ limitations under the License. */
 .custom-diet-input {
   width: 70%;
   float: left;
-  margin-right: 10px;
+  margin-right: 2%;
 }
 
 .custom-diet-div {
   float: left;
   margin-top: 10px;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .custom-diet-remove-btn {
   float: left;
-  width: 27%;
+  width: 28%;
+  margin-right: 0;
 }
 
 .add-diet-btn {

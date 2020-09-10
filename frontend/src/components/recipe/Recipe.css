@@ -12,31 +12,48 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-body {
-  margin: 0;
-  font-family: "Noto Sans JP", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.dish-name {
+  width: 70%;
+  float: left;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
-.centered-container {
+.dish-header {
+  padding-bottom: 10px;
+  position: relative;
+  display: flex;
   margin: auto;
-  width: 80%;
 }
 
-@media only screen and (max-width: 1442px) {
-  .centered-container {
-    width: 90%;
-  }
+.dish {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  border-bottom: solid 1px rgb(222, 226, 230);
 }
 
-@media only screen and (max-width: 800px) {
-  .centered-container {
-    width: 100%;
-  }
+.dish-contents-container {
+  display: flex;
+  margin: auto;
+}
+
+.dish-contents {
+  width: 70%;
+  float: left;
+}
+
+.popover h3 {
+  font-weight: 700;
+}
+
+.popover {
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.preview-btn {
+  height: 100%;
+  margin-top: auto;
+  margin-left: auto;
+  margin-bottom: auto;
+  margin-right: 0;
+  display: block;
+  text-align: right;
 }

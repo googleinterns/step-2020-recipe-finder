@@ -17,16 +17,21 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import account from "../../icons/account.svg";
 import "./Home.css";
+import { getBackground } from "../../utils/Background";
 
 class Home extends Component {
   render() {
     return (
       <div>
+        {getBackground()}
         <div className="home-header">
-          <h1 id="home-title">Recipe Finder</h1>
+          <h1 id="home-title" className="white-text">
+            Recipe Finder
+          </h1>
           <div className="account-div">
             <Link to="/account">
               <img src={account} alt="account" id="account-icon" />
+              <div id="account-text">Account</div>
             </Link>
           </div>
         </div>

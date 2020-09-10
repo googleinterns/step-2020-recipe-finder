@@ -28,9 +28,7 @@ class SignUp extends Component {
     this.state = {
       name: isSignUp ? "" : propertiesState.name,
       diets: isSignUp ? [] : propertiesState.diets,
-      allergies: isSignUp
-        ? []
-        : propertiesState.allergies,
+      allergies: isSignUp ? [] : propertiesState.allergies,
       isSignUp: isSignUp,
     };
 
@@ -48,69 +46,72 @@ class SignUp extends Component {
     return (
       <div>
         {this.state.isSignUp ? "" : backButton()}
-        <h1>{title}</h1>
-        <Form action="/api/sign-up" method="POST">
-        <Form.Control
+        <div className="centered-container">
+          <h1>{title}</h1>
+          <Form action="/api/sign-up" method="POST">
+            <Form.Control
               type="hidden"
               name="redirectLink"
               value={redirectLink}
             />
-          <Form.Group>
-            <Form.Label>Name/Nickname</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              name="name"
-              placeholder="Enter your name/nickname"
-              value={this.state.name}
-              onChange={this.handleNameChange}
-            />
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label>Dietary Requirements</Form.Label>
-            {getDietaryRequirements().map((item, index) => (
-              <Form.Check
-                key={index}
-                type="checkbox"
-                name="diets"
-                checked={this.state.diets.includes(item.value)}
-                onChange={this.handleDietChange}
-                value={item.value}
-                label={item.label}
+            <Form.Group>
+              <Form.Label>Name/Nickname</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                name="name"
+                placeholder="Enter your name/nickname"
+                value={this.state.name}
+                onChange={this.handleNameChange}
               />
-            ))}
-            {this.state.allergies.map((item, index) => (
-              <div className="custom-diet-div">
-                <Form.Control
-                  className="custom-diet-input"
-                  type="text"
-                  name="allergies"
-                  placeholder="Enter allergy/food you can't eat"
-                  value={item}
-                  onChange={event => this.handleAllergyChange(event, index)}
-                ></Form.Control>
-                <Button
-                  className="custom-diet-remove-btn"
-                  onClick={() => this.removeAllergy(index)}
-                  variant="outline-danger"
-                >
-                  Remove
-                </Button>
-              </div>
-            ))}
-            <Button
-              className="add-diet-btn w-100"
-              variant="outline-primary"
-              onClick={this.addAllergy}
-            >
-              Add allergy/food I can't eat
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Dietary Requirements</Form.Label>
+              {getDietaryRequirements().map((item, index) => (
+                <Form.Check
+                  key={index}
+                  type="checkbox"
+                  name="diets"
+                  checked={this.state.diets.includes(item.value)}
+                  onChange={this.handleDietChange}
+                  value={item.value}
+                  label={item.label}
+                />
+              ))}
+
+              {this.state.allergies.map((item, index) => (
+                <div className="custom-diet-div">
+                  <Form.Control
+                    className="custom-diet-input"
+                    type="text"
+                    name="allergies"
+                    placeholder="Enter allergy/food you can't eat"
+                    value={item}
+                    onChange={(event) => this.handleAllergyChange(event, index)}
+                  ></Form.Control>
+                  <Button
+                    className="custom-diet-remove-btn"
+                    onClick={() => this.removeAllergy(index)}
+                    variant="outline-danger"
+                  >
+                    Remove
+                  </Button>
+                </div>
+              ))}
+              <Button
+                className="add-diet-btn w-100"
+                variant="outline-primary"
+                onClick={this.addAllergy}
+              >
+                Add allergy/food I can't eat
+              </Button>
+            </Form.Group>
+            <Button className="w-100" variant="primary" type="submit">
+              Submit
             </Button>
-          </Form.Group>
-          <Button className="w-100" variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+          </Form>
+        </div>
       </div>
     );
   }
@@ -149,7 +150,7 @@ class SignUp extends Component {
     const diet = event.target.value;
     const diets = this.state.allergies;
     diets[index] = diet;
-    this.setState({allergies: diets});
+    this.setState({ allergies: diets });
   }
 }
 export default SignUp;

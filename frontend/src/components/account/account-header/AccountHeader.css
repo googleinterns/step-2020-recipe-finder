@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 .navbar-light {
-  background-color: #44bb99;
+  background-color: #339966;
 }
 
 .navbar-light .navbar-nav .nav-link,
@@ -22,9 +22,14 @@ limitations under the License. */
 }
 
 .navbar-light .navbar-toggler-icon {
-    background-image: url("../../../icons/toggle.svg");
+  background-image: url("../../../icons/toggle.svg");
 }
 
 .navbar-div {
   margin-bottom: 56px;
+}
+
+.account-page-title {
+  padding-bottom: 20px;
+  border-bottom: solid 1px rgb(222, 226, 230);
 }

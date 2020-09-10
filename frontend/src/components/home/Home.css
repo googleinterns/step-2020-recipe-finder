@@ -13,17 +13,18 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 #account-icon {
-  width: 40px;
+  width: 48px;
 }
 
 #home-title {
-  width: 80%;
+  width: 82%;
   float: left;
 }
 
 #input-btn {
-  margin: auto;
-  margin-top: 100px;
+  width: 300px;
+  margin-top: 525px;
+  position: relative;
 }
 
 .input-div {
@@ -31,11 +32,23 @@ limitations under the License. */
 }
 
 .account-div {
-  width: 20%;
+  width: 18%;
   float: left;
+  margin: auto;
+  text-align: center;
+}
+
+#account-text {
+  color: white;
 }
 
 .home-header {
   float: left;
   width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  #input-btn {
+    width: 100%;
+  }
 }

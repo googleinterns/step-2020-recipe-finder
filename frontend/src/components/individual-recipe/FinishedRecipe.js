@@ -32,7 +32,9 @@ class FinishedRecipe extends Component {
           <Button className="finished-btns">Yes! Save to my favourites</Button>
         </Link>
         <Link to="/home">
-          <Button className="finished-btns">It was alright</Button>
+          <Button variant="secondary" className="finished-btns">
+            It was alright
+          </Button>
         </Link>
       </div>
     );

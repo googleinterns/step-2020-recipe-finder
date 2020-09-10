@@ -12,17 +12,30 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+.right-side-btns,
 .right-side-btn {
-  height: 100%;
+  text-align: right;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.right-side-btns {
+  margin-top: 14px;
+  margin-bottom: 14px;
+  margin-right: 0;
+  margin-left: 20%;
+  display: inline-block;
+}
+
+.right-side-btn {
   width: 30%;
 }
 
 .lets-go-btn {
-  float: left;
-  width: 100%;
+  width: 100px;
 }
 
 .remove-btn {
+  width: 100px;
   margin-top: 16px;
-  width: 100%;
 }
