@@ -27,7 +27,7 @@ class Account extends Component {
     this.state = {
       name: "",
       diets: [],
-      customDiets: [],
+      allergies: [],
       isLoading: true,
       error: null,
     };
@@ -41,7 +41,7 @@ class Account extends Component {
         this.setState({
           name: json.name,
           diets: json.diets,
-          customDiets: json.customDiets,
+          allergies: json.allergies,
           isLoading: false,
         })
       )
@@ -67,7 +67,7 @@ class Account extends Component {
           {this.state.diets.map((item, index) => (
             <li key={index}>{this.getLabelForDiet(item)}</li>
           ))}
-          {this.state.customDiets.map((item, index) => (
+          {this.state.allergies.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
         </ul>
@@ -77,7 +77,7 @@ class Account extends Component {
             state: {
               name: this.state.name,
               diets: this.state.diets,
-              customDiets: this.state.customDiets,
+              allergies: this.state.allergies,
             },
           }}
         >

@@ -44,7 +44,7 @@ public class SignUpServlet extends AuthenticationServlet {
     String redirectLink = request.getParameter("redirectLink");
     String name = request.getParameter(UserConstants.PROPERTY_NAME);
     String[] dietsArray = request.getParameterValues(UserConstants.PROPERTY_DIETS);
-    String[] customDietsArray = request.getParameterValues(UserConstants.PROPERTY_CUSTOM_DIETS);
+    String[] allergiesArray = request.getParameterValues(UserConstants.PROPERTY_ALLERGIES);
 
     List<String> diets;
     if (dietsArray == null) {
@@ -53,7 +53,7 @@ public class SignUpServlet extends AuthenticationServlet {
       diets = Arrays.asList(dietsArray);
     }
     
-    Set<String> customDiets = getFormattedDietaryRequirements(customDietsArray);
+    Set<String> allergies = getFormattedDietaryRequirements(allergiesArray);
 
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
@@ -63,7 +63,7 @@ public class SignUpServlet extends AuthenticationServlet {
 
     userEntity.setProperty(UserConstants.PROPERTY_NAME, name);
     userEntity.setProperty(UserConstants.PROPERTY_DIETS, diets);
-    userEntity.setProperty(UserConstants.PROPERTY_CUSTOM_DIETS, customDiets);
+    userEntity.setProperty(UserConstants.PROPERTY_ALLERGIES, allergies);
     datastore.put(userEntity);
     response.sendRedirect(redirectLink);
   }

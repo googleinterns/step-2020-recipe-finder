@@ -57,7 +57,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
       JsonObject object = item.getAsJsonObject();
       String url = object.get("link").getAsString();
       Recipe recipe = BBCGoodFoodRecipeScraper.scrapeRecipe(url);
-      if (recipe != null) {
+      if (recipe != null && isDietFriendly(recipe, diets, allergies)) {
         recipes.add(recipe);
         counter++;
       }
@@ -68,6 +68,10 @@ public class FindRecipesServlet extends AuthenticationServlet {
     response.setCharacterEncoding("UTF8");
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(recipes));
+  }
+
+  private boolean isDietFriendly(Recipe recipe, List<String> diets, List<String> allergies) {
+    return true
   }
 
 }

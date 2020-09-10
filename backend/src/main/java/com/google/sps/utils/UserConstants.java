@@ -21,5 +21,5 @@ public final class UserConstants {
   public static final String PROPERTY_HISTORY = "history";
   public static final String PROPERTY_FAVOURITES = "favourites";
   public static final String PROPERTY_DIETS = "diets";
-  public static final String PROPERTY_CUSTOM_DIETS = "customDiets";
+  public static final String PROPERTY_ALLERGIES = "allergies";
 }

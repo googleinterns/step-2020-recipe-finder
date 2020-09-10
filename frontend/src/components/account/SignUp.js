@@ -28,9 +28,9 @@ class SignUp extends Component {
     this.state = {
       name: isSignUp ? "" : propertiesState.name,
       diets: isSignUp ? ["vegetarian"] : propertiesState.diets,
-      customDiets: isSignUp
+      allergies: isSignUp
         ? []
-        : propertiesState.customDiets,
+        : propertiesState.allergies,
       isSignUp: isSignUp,
     };
 
@@ -80,12 +80,12 @@ class SignUp extends Component {
                 label={item.label}
               />
             ))}
-            {this.state.customDiets.map((item, index) => (
+            {this.state.allergies.map((item, index) => (
               <div className="custom-diet-div">
                 <Form.Control
                   className="custom-diet-input"
                   type="text"
-                  name="customDiets"
+                  name="allergies"
                   placeholder="Enter dietary requirement"
                   value={item}
                   onChange={event => this.handleCustomDietChange(event, index)}
@@ -116,15 +116,15 @@ class SignUp extends Component {
   }
 
   addCustomDiet() {
-    const previousCustomDiets = this.state.customDiets;
-    previousCustomDiets.push("");
-    this.setState({ customDiets: previousCustomDiets });
+    const previousallergies = this.state.allergies;
+    previousallergies.push("");
+    this.setState({ allergies: previousallergies });
   }
 
   removeCustomDiet(index) {
-    const previousCustomDiets = this.state.customDiets;
-    previousCustomDiets.splice(index, 1);
-    this.setState({ numberCustomDiets: previousCustomDiets });
+    const previousallergies = this.state.allergies;
+    previousallergies.splice(index, 1);
+    this.setState({ numberallergies: previousallergies });
   }
 
   handleNameChange(event) {
@@ -147,9 +147,9 @@ class SignUp extends Component {
 
   handleCustomDietChange(event, index) {
     const diet = event.target.value;
-    const diets = this.state.customDiets;
+    const diets = this.state.allergies;
     diets[index] = diet;
-    this.setState({customDiets: diets});
+    this.setState({allergies: diets});
   }
 }
 export default SignUp;
