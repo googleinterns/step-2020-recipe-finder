@@ -16,14 +16,19 @@ import React from "react";
 import "./Utilities.css";
 import navigatePrevious from "../../icons/navigate_previous.svg";
 import Button from "react-bootstrap/Button";
+import { getBackground } from "../../utils/Background";
 
 export function loading(text) {
+  const message = text === undefined ? "Loading..." : text;
   return (
-    <div className="spinner-div">
-      <div className="spinner-border" role="status">
-        <span className="sr-only">Loading...</span>
+    <div>
+      {getBackground()}
+      <div className="spinner-div">
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <h3>{message}</h3>
       </div>
-      <h3>{text}</h3>
     </div>
   );
 }
