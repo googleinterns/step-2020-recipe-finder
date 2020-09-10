@@ -67,6 +67,9 @@ class Account extends Component {
           {this.state.diets.map((item, index) => (
             <li key={index}>{this.getLabelForDiet(item)}</li>
           ))}
+        </ul>
+        <h3>Allergies/Food I can't eat:</h3>
+        <ul>
           {this.state.allergies.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
