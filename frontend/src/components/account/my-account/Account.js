@@ -26,14 +26,12 @@ import "./Account.css";
 class Account extends Component {
   constructor(properties) {
     super(properties);
-    const signOut = localStorage.getItem("signOutUrl");
     this.state = {
       name: "",
       diets: [],
       customDiets: [],
       isLoading: true,
       error: null,
-      signOut: signOut === null ? "" : signOut,
     };
   }
 
@@ -70,8 +68,10 @@ class Account extends Component {
               <h1 className="account-page-title">My Account</h1>
             </div>
             <div className="sign-out-div">
-              <img src={sign_out} alt="account" id="account-icon" />
-              <div id="sign-out-text">Sign Out</div>
+              <a href={this.getSignOutLink()}>
+                <img src={sign_out} alt="account" id="account-icon" />
+                <div id="sign-out-text">Sign Out</div>
+              </a>
             </div>
           </div>
           <h3>My name/nickname:</h3>
@@ -101,6 +101,21 @@ class Account extends Component {
         </div>
       </div>
     );
+  }
+
+  getSignOutLink() {
+    const signOut = localStorage.getItem("signOutUrl");
+    if (signOut === null) {
+      fetch("/api/login-status")
+        .then(handleResponseError)
+        .then((response) => response.json())
+        .then((json) => {
+          return json.logUrl;
+        })
+        .catch((error) => this.setState({ error: error }));
+    } else {
+      return signOut;
+    }
   }
 
   getMessageIfNoDiet() {
