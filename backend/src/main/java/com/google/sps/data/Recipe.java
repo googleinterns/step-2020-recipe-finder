@@ -46,6 +46,27 @@ public final class Recipe {
     this.recipeId = this.hashCode();
   }
 
+  public boolean containsDietaryRequirement(String diet) {
+    if (dietaryRequirements == null) {
+      return false;
+    }
+    for (String recipeDiet : dietaryRequirements) {
+      if (recipeDiet.contains(diet)) {
+        return true;
+      }
+    }
+    return false
+  }
+
+  public boolean containsIngredient(String ingredient) {
+    for (String recipeIngredient : ingredients) {
+      if (recipeIngredient.contains(ingredient)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Override
   public boolean equals(Object other) {
     if (this == other) return true;

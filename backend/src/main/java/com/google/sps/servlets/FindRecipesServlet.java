@@ -86,8 +86,25 @@ public class FindRecipesServlet extends AuthenticationServlet {
   }
 
   private boolean isDietFriendly(Recipe recipe, List<String> diets, List<String> allergies) {
+    if (diets.isEmpty() && allergies.isEmpty()) {
+      return true;
+    }
+
+    for (String diet : diets) {
+      // TODO: halal, dairy free, kosher, lactose intolerant
+      if (!recipe.containsDietaryRequirement(diet)) {
+        return false
+      }
+    } 
+
+    for (String allergy : allergies) {
+      if (recipe.containsIngredient(allergy)) {
+        return false;
+      }
+    }
     return true;
   }
+
 
   private Pair<List<String>, List<String>> getUserDietsAndAllergies() {
     UserService userService = UserServiceFactory.getUserService();
