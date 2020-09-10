@@ -55,7 +55,7 @@ public final class Recipe {
         return true;
       }
     }
-    return false
+    return false;
   }
 
   public boolean containsIngredient(String ingredient) {

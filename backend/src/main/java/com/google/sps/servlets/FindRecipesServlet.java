@@ -27,6 +27,7 @@ import com.google.gson.JsonParser;
 import com.google.sps.ApiKeys;
 import com.google.sps.data.Recipe;
 import com.google.sps.scraping.BBCGoodFoodRecipeScraper;
+import com.google.sps.utils.DietaryRequirements;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
@@ -91,11 +92,14 @@ public class FindRecipesServlet extends AuthenticationServlet {
     }
 
     for (String diet : diets) {
-      // TODO: halal, dairy free, kosher, lactose intolerant
-      if (!recipe.containsDietaryRequirement(diet)) {
-        return false
+      if (!DietaryRequirements.isRecipeLabelledDiet(diet)) {
+        DietaryRequirements.addRestrictedIngredientsToAllergies(diet, allergies);
+        continue;
       }
-    } 
+      if (!recipe.containsDietaryRequirement(diet)) {
+        return false;
+      }
+    }
 
     for (String allergy : allergies) {
       if (recipe.containsIngredient(allergy)) {
@@ -105,6 +109,8 @@ public class FindRecipesServlet extends AuthenticationServlet {
     return true;
   }
 
+
+  
 
   private Pair<List<String>, List<String>> getUserDietsAndAllergies() {
     UserService userService = UserServiceFactory.getUserService();
