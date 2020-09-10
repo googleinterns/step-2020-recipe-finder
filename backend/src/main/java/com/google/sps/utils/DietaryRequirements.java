@@ -45,6 +45,7 @@ public final class DietaryRequirements {
     for (Pair<String, String[]> dietAndRestrictions : NON_RECIPE_LABELLED_DIETS) {
       if (diet.equals(dietAndRestrictions.getLeft())) {
         allergies.addAll(Arrays.asList(dietAndRestrictions.getRight()));
+        return;
       }
     }
   }
