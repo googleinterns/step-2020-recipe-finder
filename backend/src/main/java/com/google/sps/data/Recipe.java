@@ -50,12 +50,7 @@ public final class Recipe {
     if (dietaryRequirements == null) {
       return false;
     }
-    for (String recipeDiet : dietaryRequirements) {
-      if (recipeDiet.contains(diet)) {
-        return true;
-      }
-    }
-    return false;
+    return dietaryRequirements.contains(diet);
   }
 
   public boolean containsIngredient(String ingredient) {

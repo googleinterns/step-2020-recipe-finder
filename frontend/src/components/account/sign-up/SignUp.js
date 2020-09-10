@@ -116,15 +116,15 @@ class SignUp extends Component {
   }
 
   addAllergy() {
-    const previousallergies = this.state.allergies;
-    previousallergies.push("");
-    this.setState({ allergies: previousallergies });
+    const previousAllergies = this.state.allergies;
+    previousAllergies.push("");
+    this.setState({ allergies: previousAllergies });
   }
 
   removeAllergy(index) {
-    const previousallergies = this.state.allergies;
-    previousallergies.splice(index, 1);
-    this.setState({ allergies: previousallergies });
+    const previousAllergies = this.state.allergies;
+    previousAllergies.splice(index, 1);
+    this.setState({ allergies: previousAllergies });
   }
 
   handleNameChange(event) {

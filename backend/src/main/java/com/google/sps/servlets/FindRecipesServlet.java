@@ -109,9 +109,6 @@ public class FindRecipesServlet extends AuthenticationServlet {
     return true;
   }
 
-
-  
-
   private Pair<List<String>, List<String>> getUserDietsAndAllergies() {
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
