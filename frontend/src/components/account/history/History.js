@@ -18,12 +18,14 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { Recipe } from "../../recipe/Recipe";
 import "../favourites/Favourites.css";
+import { loading } from "../../utils/Utilities";
 
 class History extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
       recipes: [],
+      isLoading: true
     };
   }
 
@@ -31,28 +33,42 @@ class History extends Component {
     fetch("/api/history")
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json }))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => this.setState({isLoading: false}));
   }
 
   render() {
+    if (this.state.isLoading) {
+      return loading("Getting your history ...");
+    }
+
     return (
       <div>
         <AccountHeader />
-        <h1>History</h1>
-        {this.state.recipes.map((recipe, index) => {
-          const button = (
-            <div className="right-side-btn">
-              <Link to={{ pathname: "/cook", state: { recipe: recipe } }}>
-                <Button className="lets-go-btn" variant="primary">
-                  Let's Go!
-                </Button>
-              </Link>
-            </div>
-          );
-          return <Recipe key={index} recipe={recipe} buttons={button} />;
-        })}
+        <div className="centered-container">
+          <h1 className="account-page-title">History</h1>
+          <p>{this.getMessageIfNoHistory()}</p>
+          {this.state.recipes.map((recipe, index) => {
+            const button = (
+              <div className="right-side-btn">
+                <Link to={{ pathname: "/cook", state: { recipe: recipe } }}>
+                  <Button className="lets-go-btn" variant="primary">
+                    Let's Go!
+                  </Button>
+                </Link>
+              </div>
+            );
+            return <Recipe key={index} recipe={recipe} buttons={button} />;
+          })}
+        </div>
       </div>
     );
+  }
+
+  getMessageIfNoHistory() {
+    if (this.state.recipes.length === 0) {
+      return "You didn't make anything yet :(";
+    }
   }
 }
 export default History;

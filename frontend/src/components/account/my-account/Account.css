@@ -12,31 +12,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-body {
-  margin: 0;
-  font-family: "Noto Sans JP", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.account-title {
+  width: 82%;
+  float: left;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
-.centered-container {
+.sign-out-div {
+  width: 18%;
+  float: left;
+  text-align: center;
   margin: auto;
-  width: 80%;
 }
 
-@media only screen and (max-width: 1442px) {
-  .centered-container {
-    width: 90%;
-  }
+.my-account-header {
+  float: left;
+  width: 100%;
 }
 
-@media only screen and (max-width: 800px) {
-  .centered-container {
-    width: 100%;
-  }
+#sign-out-text {
+  font-size: 15px;
 }
