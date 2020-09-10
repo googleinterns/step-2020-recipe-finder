@@ -12,48 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-.dish-name {
-  width: 70%;
-  float: left;
-}
-
-.dish-header {
-  padding-bottom: 10px;
-  position: relative;
-  display: flex;
-  margin: auto;
-}
-
-.dish {
-  padding-top: 30px;
-  padding-bottom: 20px;
-  border-bottom: solid 1px rgb(222, 226, 230);
-}
-
-.dish-contents-container {
-  display: flex;
-  margin: auto;
-}
-
-.dish-contents {
-  width: 70%;
-  float: left;
+#no-recipes-text {
+  margin-top: 100px;
 }
 
 .right-side-btn {
-  height: 50px;
-  display: block;
+  width: 30%;
+  text-align: right;
   margin-top: auto;
-  margin-left: auto;
   margin-bottom: auto;
-  margin-right: 0;
-  display: block;
-}
-
-.popover h3 {
-  font-weight: 700;
-}
-
-.popover {
-  font-family: "Noto Sans JP", sans-serif;
 }

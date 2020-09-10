@@ -12,50 +12,48 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-.tab-content {
-  padding-top: 10px;
-  text-align: justify;
+.dish-name {
+  width: 70%;
+  float: left;
 }
 
-li {
+.dish-header {
   padding-bottom: 10px;
-}
-
-.carousel-step {
-  width: 100%;
-  padding-left: 17%;
-  padding-right: 17%;
-  padding-top: 100px;
-  padding-bottom: 100px;
-}
-
-.carousel-control {
-  width: 40px;
-}
-
-.centered-div {
+  position: relative;
+  display: flex;
   margin: auto;
-  text-align: center;
 }
 
-.modal-footer {
-  justify-content: center;
-  border-top: none;
+.dish {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  border-bottom: solid 1px rgb(222, 226, 230);
 }
 
-.modal-header {
-  border-bottom: none;
-}
-
-.modal-title {
-  text-align: center;
-}
-
-.modal-dialog {
-  top: 200px;
-}
-
-audio {
+.dish-contents-container {
+  display: flex;
   margin: auto;
-  margin-bottom: 10px;
+}
+
+.dish-contents {
+  width: 70%;
+  float: left;
+}
+
+.popover h3 {
+  font-weight: 700;
+}
+
+.popover {
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.preview-btn {
+  height: 100%;
+  margin-top: auto;
+  margin-left: auto;
+  margin-bottom: auto;
+  margin-right: 0;
+  display: block;
+  text-align: right;
 }
