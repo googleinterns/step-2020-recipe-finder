@@ -14,9 +14,9 @@
 
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { handleResponseError } from "./utils/APIErrorHandler";
-import { errorRedirect } from "./utils/APIErrorHandler";
-import { loading } from "./utils/Utilities";
+import { handleResponseError } from "../utils/APIErrorHandler";
+import { errorRedirect } from "../utils/APIErrorHandler";
+import { loading } from "../utils/Utilities";
 
 class Login extends Component {
   constructor(properties) {

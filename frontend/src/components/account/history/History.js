@@ -13,22 +13,22 @@
 // limitations under the License.
 
 import React, { Component } from "react";
-import AccountHeader from "./AccountHeader";
+import AccountHeader from "../account-header/AccountHeader";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import { Recipe } from "../Recipe";
-import "./Favourites.css";
+import { Recipe } from "../../recipe/Recipe";
+import "../favourites/Favourites.css";
 
-class Favourites extends Component {
+class History extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      recipes: []
+      recipes: [],
     };
   }
 
   componentDidMount() {
-    fetch("/api/favourites")
+    fetch("/api/history")
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json }))
       .catch((err) => console.log(err));
@@ -37,8 +37,8 @@ class Favourites extends Component {
   render() {
     return (
       <div>
-        <AccountHeader /> 
-        <h1>Favourites</h1>
+        <AccountHeader />
+        <h1>History</h1>
         {this.state.recipes.map((recipe, index) => {
           const button = (
             <div className="right-side-btn">
@@ -47,13 +47,6 @@ class Favourites extends Component {
                   Let's Go!
                 </Button>
               </Link>
-              <Button
-                className="remove-btn"
-                variant="danger"
-                onClick={this.removeFavourite}
-              >
-                Remove
-              </Button>
             </div>
           );
           return <Recipe key={index} recipe={recipe} buttons={button} />;
@@ -61,19 +54,5 @@ class Favourites extends Component {
       </div>
     );
   }
-
-  removeFavourite = (recipe) => {
-    const recipeId = recipe.recipeId;
-    const request = new Request("/api/remove-favourite", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(recipeId),
-    });
-    fetch(request).catch((err) => console.log(err));
-    window.location.reload();
-  }
 }
-export default Favourites;
+export default History;

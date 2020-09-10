@@ -16,8 +16,8 @@ import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import "./SignUp.css";
 import Button from "react-bootstrap/Button";
-import { getDietaryRequirements } from "../../utils/DietaryRequirements";
-// import { backButton } from "../utils/Utilities";
+import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
+import { backButton } from "../../utils/Utilities";
 
 class SignUp extends Component {
   constructor(properties) {
@@ -47,7 +47,7 @@ class SignUp extends Component {
 
     return (
       <div>
-        {/* {this.state.isSignUp ? "" : backButton()} */}
+        {this.state.isSignUp ? "" : backButton()}
         <h1>{title}</h1>
         <Form action="/api/sign-up" method="POST">
         <Form.Control

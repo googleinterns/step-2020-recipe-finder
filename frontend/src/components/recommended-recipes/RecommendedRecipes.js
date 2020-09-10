@@ -16,10 +16,10 @@ import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import "./RecommendedRecipes.css";
-import { handleResponseError } from "./utils/APIErrorHandler";
-import { errorRedirect } from "./utils/APIErrorHandler";
-import { loading } from "./utils/Utilities";
-import { Recipe } from "./Recipe";
+import { handleResponseError } from "../utils/APIErrorHandler";
+import { errorRedirect } from "../utils/APIErrorHandler";
+import { loading } from "../utils/Utilities";
+import { Recipe } from "../recipe/Recipe";
 
 class RecommendedRecipes extends Component {
   constructor(properties) {
