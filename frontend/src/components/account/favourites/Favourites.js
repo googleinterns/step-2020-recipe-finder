@@ -18,12 +18,14 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { Recipe } from "../../recipe/Recipe";
 import "./Favourites.css";
+import { loading } from "../../utils/Utilities";
 
 class Favourites extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
       recipes: [],
+      isLoading: true
     };
   }
 
@@ -32,6 +34,10 @@ class Favourites extends Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return loading("Getting your favourite recipes ...");
+    }
+
     return (
       <div>
         <AccountHeader />
@@ -72,7 +78,8 @@ class Favourites extends Component {
     fetch("/api/favourites")
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json }))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => this.setState({isLoading: false}));
   }
 
   removeFavourite = (recipeId) => {

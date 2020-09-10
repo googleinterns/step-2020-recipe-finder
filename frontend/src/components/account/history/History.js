@@ -18,12 +18,14 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { Recipe } from "../../recipe/Recipe";
 import "../favourites/Favourites.css";
+import { loading } from "../../utils/Utilities";
 
 class History extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
       recipes: [],
+      isLoading: true
     };
   }
 
@@ -31,10 +33,15 @@ class History extends Component {
     fetch("/api/history")
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json }))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => this.setState({isLoading: false}));
   }
 
   render() {
+    if (this.state.isLoading) {
+      return loading("Getting your history ...");
+    }
+
     return (
       <div>
         <AccountHeader />
