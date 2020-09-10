@@ -14,7 +14,7 @@ limitations under the License. */
 
 import React from "react";
 import Button from "react-bootstrap/Button";
-import EyeIcon from "../icons/eye.svg";
+import EyeIcon from "../../icons/eye.svg";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 
