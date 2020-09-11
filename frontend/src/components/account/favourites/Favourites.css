@@ -23,7 +23,7 @@ limitations under the License. */
   margin-top: 14px;
   margin-bottom: 14px;
   margin-right: 0;
-  margin-left: 2%;
+  margin-left: 10%;
   display: inline-block;
 }
 
@@ -42,6 +42,6 @@ limitations under the License. */
 
 @media only screen and (max-width: 600px) {
   .right-side-btn {
-      width: 40%;
+    width: 40%;
   }
 }

@@ -63,13 +63,13 @@ limitations under the License. */
 }
 
 @media only screen and (max-width: 600px) {
-.recipe-image {
-  width: 150px;
-  margin-bottom: 16px;
-}
+  .recipe-image {
+    width: 150px;
+    margin-bottom: 16px;
+  }
 
-.dish-contents {
-  width: 60%;
-  float: left;
-}
+  .dish-contents {
+    width: 60%;
+    float: left;
+  }
 }

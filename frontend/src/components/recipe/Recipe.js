@@ -31,7 +31,9 @@ export function Recipe(props) {
       <Popover.Title as="h3">Recipe preview</Popover.Title>
       <Popover.Content>
         {recipe.instructions.map((step, i) => (
-          <p key={i}>{i+1}. {step}</p>
+          <p key={i}>
+            {i + 1}. {step}
+          </p>
         ))}
       </Popover.Content>
     </Popover>
@@ -55,15 +57,24 @@ export function Recipe(props) {
       </div>
       <div className="dish-contents-container">
         <div className="dish-contents">
-        <Row>
-          <Col lg="5">
-          <img src={recipe.image} alt="recipe" className="recipe-image"/>
-          </Col>
-                  <Col lg="7" xs="12">
-          <p><img src={time} alt="cooking-time" /> Cooking time: {recipe.time}</p>
-          <p><img src={difficulty} alt="difficulty" /> Difficulty: {recipe.difficulty}</p>
-          <p><img src={calories} alt="calories" /> Per serving: {recipe.calories}</p>
-          </Col>
+          <Row>
+            <Col lg="5">
+              <img src={recipe.image} alt="recipe" className="recipe-image" />
+            </Col>
+            <Col lg="7" xs="12">
+              <p>
+                <img src={time} alt="cooking-time" /> Cooking time:{" "}
+                {recipe.time}
+              </p>
+              <p>
+                <img src={difficulty} alt="difficulty" /> Difficulty:{" "}
+                {recipe.difficulty}
+              </p>
+              <p>
+                <img src={calories} alt="calories" /> Per serving:{" "}
+                {recipe.calories}
+              </p>
+            </Col>
           </Row>
         </div>
         {props.buttons}

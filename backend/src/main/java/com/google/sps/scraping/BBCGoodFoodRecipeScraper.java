@@ -18,11 +18,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.sps.ApiKeys;
 import com.google.sps.data.Recipe;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -60,7 +58,9 @@ public class BBCGoodFoodRecipeScraper {
   /*Outputs link to custom search api*/
   public static String searchRecipeLink(String ingredients, String key) {
     return "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&q="
-        + ingredients +"&key=" + key;
+        + ingredients
+        + "&key="
+        + key;
   }
 
   /* Time in the JSON object is in ISO 8601 duration format
@@ -98,6 +98,7 @@ public class BBCGoodFoodRecipeScraper {
     return document.select("div[class='" + className + "']").first().child(1).text();
   }
 
+  /* Structure of jsonObject: {image: {url: "image-link", ..} ..} */
   private static String getImageFromJson(JsonObject jsonObject) {
     return jsonObject.get("image").getAsJsonObject().get("url").getAsString();
   }
