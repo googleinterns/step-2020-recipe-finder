@@ -14,11 +14,7 @@
 
 package com.google.sps.servlets;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -27,8 +23,8 @@ import com.google.gson.JsonParser;
 import com.google.sps.ApiKeys;
 import com.google.sps.data.Recipe;
 import com.google.sps.scraping.BBCGoodFoodRecipeScraper;
+import com.google.sps.utils.DatastoreUtils;
 import com.google.sps.utils.DietaryRequirements;
-import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,8 +32,6 @@ import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jsoup.Jsoup;
 
 /* Servlet that:
@@ -63,9 +57,10 @@ public class FindRecipesServlet extends AuthenticationServlet {
     JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
     JsonArray items = jsonObject.get("items").getAsJsonArray();
 
-    Pair<List<String>, List<String>> dietsAndAllergies = getUserDietsAndAllergies();
-    List<String> diets = dietsAndAllergies.getLeft();
-    List<String> allergies = dietsAndAllergies.getRight();
+    Entity userEntity = DatastoreUtils.getUserEntity();
+    List<String> diets = DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_DIETS);
+    List<String> allergies =
+        DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_ALLERGIES);
 
     List<Recipe> recipes = new ArrayList<>();
     int counter = 0;
@@ -107,22 +102,5 @@ public class FindRecipesServlet extends AuthenticationServlet {
       }
     }
     return true;
-  }
-
-  private Pair<List<String>, List<String>> getUserDietsAndAllergies() {
-    UserService userService = UserServiceFactory.getUserService();
-    String userId = userService.getCurrentUser().getUserId();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-    List<String> diets = (List<String>) userEntity.getProperty(UserConstants.PROPERTY_DIETS);
-    List<String> allergies =
-        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_ALLERGIES);
-    if (diets == null) {
-      diets = new ArrayList<>();
-    }
-    if (allergies == null) {
-      allergies = new ArrayList<>();
-    }
-    return new MutablePair(diets, allergies);
   }
 }
