@@ -35,6 +35,8 @@ class RecommendedRecipes extends Component {
       error: null,
       ingredients: []
     };
+
+    this.filterIngredients = this.filterIngredients.bind(this);
   }
 
   // retrieves recommended recipes from the back end
@@ -61,7 +63,7 @@ class RecommendedRecipes extends Component {
     }
 
     if (this.state.isLoading) {
-      return loading("Scanning recipes ...");
+      return loading("Scanning recipes...", /** withBackground*/ true);
     }
 
     if (this.state.isRedirect) {
@@ -87,7 +89,7 @@ class RecommendedRecipes extends Component {
                 >
                 <div>
                     <Button variant="link" className="missing-ingredients-btn">
-                    <img src={fridge} alt="missing-ingredients" /> Missing ingredients
+                    <img src={fridge} alt="missing-ingredients" /> Ingredients
                     </Button>
                 </div>
                 </OverlayTrigger>
@@ -114,7 +116,7 @@ class RecommendedRecipes extends Component {
       });
       const missingIngredients = recipe.ingredients.filter(this.filterIngredients);
       return (<Popover>
-        <Popover.Title as="h3">Missing Ingredients</Popover.Title>
+        <Popover.Title as="h3">Ingredients</Popover.Title>
         <Popover.Content>
             {missingIngredients.map((item, i) => (
             <p key={i}>{renderHTML(item)}</p>
