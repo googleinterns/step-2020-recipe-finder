@@ -37,14 +37,14 @@ class Login extends Component {
     fetch("/api/login-status")
       .then(handleResponseError)
       .then((response) => response.json())
-      .then((json) =>
+      .then((json) => {
         this.setState({
           isLoggedIn: json.isLoggedIn,
           logUrl: json.logUrl,
           isLoading: false,
           isFirstTime: json.isFirstTime,
-        })
-      )
+        });
+      })
       .catch((error) => this.setState({ error: error }));
   }
 
@@ -58,12 +58,12 @@ class Login extends Component {
     }
 
     if (this.state.isFirstTime) {
-      this.trySavingSignOutToLocalStorage();
+      this.trySavingSignOutToSessionStorage();
       return <Redirect to="/sign-up" />;
     }
 
     if (this.state.isLoggedIn) {
-      this.trySavingSignOutToLocalStorage();
+      this.trySavingSignOutToSessionStorage();
       return <Redirect to="/home" />;
     }
 
@@ -80,9 +80,9 @@ class Login extends Component {
     );
   }
 
-  trySavingSignOutToLocalStorage() {
+  trySavingSignOutToSessionStorage() {
     try {
-      localStorage.setItem("signOutUrl", this.state.logUrl);
+      sessionStorage.setItem("signOutUrl", this.state.logUrl);
     } catch (error) {
       console.log(error);
     }

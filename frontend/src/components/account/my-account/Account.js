@@ -26,12 +26,14 @@ import "./Account.css";
 class Account extends Component {
   constructor(properties) {
     super(properties);
+    const signOut = sessionStorage.getItem("signOutUrl");
     this.state = {
       name: "",
       diets: [],
       allergies: [],
       isLoading: true,
       error: null,
+      signOut: signOut !== null ? signOut: this.fetchSignOut()
     };
   }
 
@@ -68,7 +70,7 @@ class Account extends Component {
               <h1 className="account-page-title">My Account</h1>
             </div>
             <div className="sign-out-div">
-              <a href={this.getSignOutLink()}>
+              <a href={this.state.signOut} onClick={this.removeSignOut}>
                 <img src={sign_out} alt="account" id="account-icon" />
                 <div id="sign-out-text">Sign Out</div>
               </a>
@@ -107,19 +109,18 @@ class Account extends Component {
     );
   }
 
-  getSignOutLink() {
-    const signOut = localStorage.getItem("signOutUrl");
-    if (signOut === null) {
-      fetch("/api/login-status")
-        .then(handleResponseError)
-        .then((response) => response.json())
-        .then((json) => {
-          return json.logUrl;
-        })
-        .catch((error) => this.setState({ error: error }));
-    } else {
-      return signOut;
-    }
+  fetchSignOut() {
+    fetch("/api/login-status")
+      .then(handleResponseError)
+      .then((response) => response.json())
+      .then((json) => {
+        return json.logUrl;
+      })
+      .catch((error) => this.setState({ error: error }));
+  }
+
+  removeSignOut() {
+    sessionStorage.removeItem("signOutUrl");
   }
 
   getMessageIfNoDiet() {

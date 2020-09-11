@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    String redirectUrl = "/home";
+    String redirectUrl = "/";
     String logUrl;
     boolean isFirstTime = false;
 
