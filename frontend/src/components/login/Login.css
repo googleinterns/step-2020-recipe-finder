@@ -13,56 +13,16 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 .login-btn {
-    width: 340px;
-    margin-top:520px;
+  width: 340px;
+  margin-top: 520px;
 }
 
 .walkthrough-btn {
-    width: 340px;
-    margin-top:470px;
-    position: fixed;
+  width: 340px;
+  margin-top: 470px;
+  position: fixed;
 }
 
 .login-div {
-    text-align: center;
-}
-
-.walkthrough-image {
-  width: 300px;
-  border: 2px solid #6c757d;
-  border-radius: 6px;
-}
-
-.walkthrough-step {
-  width: 100%;
-  padding-left: 15%;
-  padding-right: 15%;
   text-align: center;
-}
-
-.walkthrough-text {
-    margin-top: 8px;
-  width: 100%;
-  height: 56px;
-  font-weight: 700;
-}
-
-.carousel-indicators {
-    display: none;
-}
-
-.walkthrough-carousel .modal-dialog{
-  top: 70px;
-}
-.walkthrough-carousel .modal-dialog .modal-content .modal-footer{
-    padding-top: 0;
-}
-@media only screen and (max-width: 600px) {
-
-.walkthrough-carousel .modal-dialog{
-  top: 0;
-}
-.walkthrough-image {
-  width: 200px;
-}
 }

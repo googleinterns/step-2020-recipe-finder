@@ -35,8 +35,6 @@ class RecommendedRecipes extends Component {
       error: null,
       ingredients: []
     };
-
-    this.filterIngredients = this.filterIngredients.bind(this);
   }
 
   // retrieves recommended recipes from the back end
