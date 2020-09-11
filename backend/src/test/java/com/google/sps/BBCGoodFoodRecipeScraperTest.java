@@ -31,6 +31,7 @@ public final class BBCGoodFoodRecipeScraperTest {
   private static final String TIME = "10 min ";
   private static final String CALORIES = "140 calories";
   private static final String DIFFICULTY = "Easy";
+  private static final String IMAGE = "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-559606_11-d900fed.jpg";
   private static final String[] DIET = {"vegetarian"};
   private static final String[] INGREDIENTS = {
     "3 unwaxed lemons,roughly chopped", "140g caster sugar", "1l cold water"
@@ -53,6 +54,7 @@ public final class BBCGoodFoodRecipeScraperTest {
             TIME,
             CALORIES,
             DIFFICULTY,
+            IMAGE,
             Arrays.asList(DIET),
             Arrays.asList(INGREDIENTS),
             Arrays.asList(INSTRUCTIONS));

@@ -46,10 +46,11 @@ public class BBCGoodFoodRecipeScraper {
       String time = getTimeFromJson(jsonObject);
       String calories = getCaloriesFromJson(jsonObject);
       String difficulty = getDifficultyFromDocument(document);
+      String image = getImageFromJson(jsonObject);
       List<String> diet = getDietFromJson(jsonObject);
       List<String> ingredients = getIngredientsFromJson(jsonObject);
       List<String> instructions = getInstructionsFromJson(jsonObject);
-      return new Recipe(name, time, calories, difficulty, diet, ingredients, instructions);
+      return new Recipe(name, time, calories, difficulty, image, diet, ingredients, instructions);
     } catch (Exception e) {
       System.out.println(e);
       return null;
@@ -95,6 +96,10 @@ public class BBCGoodFoodRecipeScraper {
         "icon-with-text masthead__skill-level body-copy-small body-copy-bold"
             + " icon-with-text--aligned";
     return document.select("div[class='" + className + "']").first().child(1).text();
+  }
+
+  private static String getImageFromJson(JsonObject jsonObject) {
+    return jsonObject.get("image").getAsJsonObject().get("url").getAsString();
   }
 
   /* Structure of jsonObject: {nutrition: {calories: "calories", ..} ..} */

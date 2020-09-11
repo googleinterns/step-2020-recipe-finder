@@ -18,6 +18,11 @@ import EyeIcon from "../../icons/eye.svg";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import "./Recipe.css";
+import time from "../../icons/time.svg";
+import difficulty from "../../icons/difficulty.svg";
+import calories from "../../icons/calories.svg";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 
 export function Recipe(props) {
   const recipe = props.recipe;
@@ -26,7 +31,7 @@ export function Recipe(props) {
       <Popover.Title as="h3">Recipe preview</Popover.Title>
       <Popover.Content>
         {recipe.instructions.map((step, i) => (
-          <p key={i}>{step}</p>
+          <p key={i}>{i+1}. {step}</p>
         ))}
       </Popover.Content>
     </Popover>
@@ -35,7 +40,7 @@ export function Recipe(props) {
   return (
     <div className="dish">
       <div className="dish-header">
-        <h1 className="dish-name">{recipe.name}</h1>
+        <h2 className="dish-name">{recipe.name}</h2>
         <OverlayTrigger
           trigger="click"
           placement="left"
@@ -50,9 +55,16 @@ export function Recipe(props) {
       </div>
       <div className="dish-contents-container">
         <div className="dish-contents">
-          <p>Cooking time: {recipe.time}</p>
-          <p>Difficulty: {recipe.difficulty}</p>
-          <p>Per serving: {recipe.calories}</p>
+        <Row>
+          <Col lg="5">
+          <img src={recipe.image} alt="recipe" className="recipe-image"/>
+          </Col>
+                  <Col lg="7" xs="12">
+          <p><img src={time} alt="cooking-time" /> Cooking time: {recipe.time}</p>
+          <p><img src={difficulty} alt="difficulty" /> Difficulty: {recipe.difficulty}</p>
+          <p><img src={calories} alt="calories" /> Per serving: {recipe.calories}</p>
+          </Col>
+          </Row>
         </div>
         {props.buttons}
       </div>

@@ -49,11 +49,27 @@ limitations under the License. */
 }
 
 .preview-btn {
-  height: 100%;
+  width: 100px;
   margin-top: auto;
   margin-left: auto;
   margin-bottom: auto;
   margin-right: 0;
   display: block;
-  text-align: right;
+  text-align: center;
+}
+
+.recipe-image {
+  width: 130px;
+}
+
+@media only screen and (max-width: 600px) {
+.recipe-image {
+  width: 150px;
+  margin-bottom: 16px;
+}
+
+.dish-contents {
+  width: 60%;
+  float: left;
+}
 }

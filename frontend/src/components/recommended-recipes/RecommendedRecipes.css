@@ -22,3 +22,15 @@ limitations under the License. */
   margin-top: auto;
   margin-bottom: auto;
 }
+
+.missing-ingredients-btn {
+  width: 100px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+@media only screen and (max-width: 600px) {
+  .right-side-btn {
+      width: 40%;
+  }
+}

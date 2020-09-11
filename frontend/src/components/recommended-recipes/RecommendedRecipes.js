@@ -16,6 +16,9 @@ import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import "./RecommendedRecipes.css";
+import fridge from "../../icons/fridge.svg";
+import Popover from "react-bootstrap/Popover";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { handleResponseError } from "../utils/APIErrorHandler";
 import { errorRedirect } from "../utils/APIErrorHandler";
 import { loading, backButton } from "../utils/Utilities";
@@ -30,6 +33,7 @@ class RecommendedRecipes extends Component {
       recipes: [],
       chosenRecipe: {},
       error: null,
+      ingredients: []
     };
   }
 
@@ -47,7 +51,7 @@ class RecommendedRecipes extends Component {
     fetch(request)
       .then(handleResponseError)
       .then((response) => response.json())
-      .then((json) => this.setState({ recipes: json, isLoading: false }))
+      .then((json) => this.setState({ recipes: json, isLoading: false, ingredients: ingredients }))
       .catch((error) => this.setState({ error: error }));
   }
 
@@ -76,7 +80,19 @@ class RecommendedRecipes extends Component {
           {this.state.recipes.map((recipe, index) => {
             const button = (
               <div className="right-side-btn">
+                <OverlayTrigger
+                trigger="click"
+                placement="left"
+                overlay={this.ingredientsPopover(recipe)}
+                >
+                <div>
+                    <Button variant="link" className="missing-ingredients-btn">
+                    <img src={fridge} alt="missing-ingredients" /> Missing ingredients
+                    </Button>
+                </div>
+                </OverlayTrigger>
                 <Button
+                  className="recommended-lets-go"
                   variant="primary"
                   onClick={() => this.setRecipeAndRedirect(recipe)}
                 >
@@ -89,6 +105,26 @@ class RecommendedRecipes extends Component {
         </div>
       </div>
     );
+  }
+
+  ingredientsPopover(recipe) {
+    const renderHTML = (rawHTML) =>
+      React.createElement("div", {
+        dangerouslySetInnerHTML: { __html: rawHTML },
+      });
+      const missingIngredients = recipe.ingredients.filter(this.filterIngredients);
+      return (<Popover>
+        <Popover.Title as="h3">Missing Ingredients</Popover.Title>
+        <Popover.Content>
+            {missingIngredients.map((item, i) => (
+            <p key={i}>{renderHTML(item)}</p>
+            ))}
+        </Popover.Content>
+        </Popover>);
+  }  
+
+  filterIngredients(ingredient) {
+    return this.state.ingredients.filter((item) => ingredient.includes(item)).length === 0;
   }
 
   getMessageIfNoRecipes() {

@@ -73,6 +73,7 @@ public class StoreRecipeServlet extends AuthenticationServlet {
     String time = recipe.get(RecipeConstants.PROPERTY_TIME).getAsString();
     String calories = recipe.get(RecipeConstants.PROPERTY_CALORIES).getAsString();
     String difficulty = recipe.get(RecipeConstants.PROPERTY_DIFFICULTY).getAsString();
+    String image = recipe.get(RecipeConstants.PROPERTY_IMAGE).getAsString();
     List<String> diet =
         splitJsonArrayIntoList(
             recipe.get(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS).getAsJsonArray());
@@ -87,6 +88,7 @@ public class StoreRecipeServlet extends AuthenticationServlet {
     recipeEntity.setProperty(RecipeConstants.PROPERTY_TIME, time);
     recipeEntity.setProperty(RecipeConstants.PROPERTY_CALORIES, calories);
     recipeEntity.setProperty(RecipeConstants.PROPERTY_DIFFICULTY, difficulty);
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_IMAGE, image);
     recipeEntity.setProperty(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS, diet);
     recipeEntity.setProperty(RecipeConstants.PROPERTY_INGREDIENTS, ingredients);
     recipeEntity.setProperty(RecipeConstants.PROPERTY_INSTRUCTIONS, instructions);
