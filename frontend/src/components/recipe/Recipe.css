@@ -12,31 +12,48 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-.custom-diet-input {
+.dish-name {
   width: 70%;
   float: left;
-  margin-right: 10px;
 }
 
-.custom-diet-div {
+.dish-header {
+  padding-bottom: 10px;
+  position: relative;
+  display: flex;
+  margin: auto;
+}
+
+.dish {
+  padding-top: 30px;
+  padding-bottom: 20px;
+  border-bottom: solid 1px rgb(222, 226, 230);
+}
+
+.dish-contents-container {
+  display: flex;
+  margin: auto;
+}
+
+.dish-contents {
+  width: 70%;
   float: left;
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 
-.custom-diet-remove-btn {
-  float: left;
-  width: 27%;
-}
-
-.add-diet-btn {
-  margin-top: 10px;
-}
-
-.form-label {
+.popover h3 {
   font-weight: 700;
 }
 
-.form-check {
-  margin-top: 10px;
+.popover {
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.preview-btn {
+  height: 100%;
+  margin-top: auto;
+  margin-left: auto;
+  margin-bottom: auto;
+  margin-right: 0;
+  display: block;
+  text-align: right;
 }

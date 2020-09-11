@@ -12,19 +12,33 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-.navbar-light {
-  background-color: #44bb99;
+.custom-diet-input {
+  width: 70%;
+  float: left;
+  margin-right: 2%;
 }
 
-.navbar-light .navbar-nav .nav-link,
-.navbar-light .navbar-brand {
-  color: white;
+.custom-diet-div {
+  float: left;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
-.navbar-light .navbar-toggler-icon {
-    background-image: url("../../icons/toggle.svg");
+.custom-diet-remove-btn {
+  float: left;
+  width: 28%;
+  margin-right: 0;
 }
 
-.navbar-div {
-  margin-bottom: 56px;
+.add-diet-btn {
+  margin-top: 10px;
+}
+
+.form-label {
+  font-weight: 700;
+}
+
+.form-check {
+  margin-top: 10px;
 }

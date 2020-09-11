@@ -12,13 +12,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-.spinner-div {
-  text-align: center;
-  margin: auto;
-  padding-top: 200px;
-  color: white;
+.account-title {
+  width: 82%;
+  float: left;
 }
 
-.spinner-border {
-  margin-bottom: 20px;
+.sign-out-div {
+  width: 18%;
+  float: left;
+  text-align: center;
+  margin: auto;
+}
+
+.my-account-header {
+  float: left;
+  width: 100%;
+}
+
+#sign-out-text {
+  font-size: 15px;
 }

@@ -16,10 +16,10 @@ import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import "./RecommendedRecipes.css";
-import { handleResponseError } from "./utils/APIErrorHandler";
-import { errorRedirect } from "./utils/APIErrorHandler";
-import { loading } from "./utils/Utilities";
-import { Recipe } from "./Recipe";
+import { handleResponseError } from "../utils/APIErrorHandler";
+import { errorRedirect } from "../utils/APIErrorHandler";
+import { loading, backButton } from "../utils/Utilities";
+import { Recipe } from "../recipe/Recipe";
 
 class RecommendedRecipes extends Component {
   constructor(properties) {
@@ -42,7 +42,7 @@ class RecommendedRecipes extends Component {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(ingredients)
+      body: JSON.stringify(ingredients),
     });
     fetch(request)
       .then(handleResponseError)
@@ -70,27 +70,42 @@ class RecommendedRecipes extends Component {
 
     return (
       <div>
-        {this.state.recipes.map((recipe, index) => {
-          const button = (
-            <div className="right-side-btn">
-              <Button
-                variant="primary"
-                onClick={() => this.setRecipeAndRedirect(recipe)}
-              >
-                Let's Go!
-              </Button>
-            </div>
-          );
-          return <Recipe key={index} recipe={recipe} buttons={button} />;
-        })}
+        {backButton()}
+        {this.getMessageIfNoRecipes()}
+        <div className="centered-container">
+          {this.state.recipes.map((recipe, index) => {
+            const button = (
+              <div className="right-side-btn">
+                <Button
+                  variant="primary"
+                  onClick={() => this.setRecipeAndRedirect(recipe)}
+                >
+                  Let's Go!
+                </Button>
+              </div>
+            );
+            return <Recipe key={index} recipe={recipe} buttons={button} />;
+          })}
+        </div>
       </div>
     );
   }
 
+  getMessageIfNoRecipes() {
+    if (this.state.recipes.length === 0) {
+      return (
+        <h3 id="no-recipes-text">
+          We couldn't find any recipes matching your ingredients, please try
+          again with other ingredients
+        </h3>
+      );
+    }
+  }
+
   setRecipeAndRedirect(recipe) {
     try {
-      localStorage.setItem("recipe", JSON.stringify(recipe));
-      localStorage.setItem(
+      sessionStorage.setItem("recipe", JSON.stringify(recipe));
+      sessionStorage.setItem(
         "tutorial-step",
         /*starting index for tutorial's carousel*/ 0
       );

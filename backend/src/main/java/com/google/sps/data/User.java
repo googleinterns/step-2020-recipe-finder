@@ -20,11 +20,11 @@ public final class User {
 
   private final String name;
   private final List<String> diets;
-  private final List<String> customDiets;
+  private final List<String> allergies;
 
-  public User(String name, List<String> diets, List<String> customDiets) {
+  public User(String name, List<String> diets, List<String> allergies) {
     this.name = name;
     this.diets = diets;
-    this.customDiets = customDiets;
+    this.allergies = allergies;
   }
 }

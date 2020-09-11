@@ -12,30 +12,24 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-#account-icon {
-  width: 40px;
+.navbar-light {
+  background-color: #339966;
 }
 
-#home-title {
-  width: 80%;
-  float: left;
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-brand {
+  color: white;
 }
 
-#input-btn {
-  margin: auto;
-  margin-top: 100px;
+.navbar-light .navbar-toggler-icon {
+  background-image: url("../../../icons/toggle.svg");
 }
 
-.input-div {
-  text-align: center;
+.navbar-div {
+  margin-bottom: 56px;
 }
 
-.account-div {
-  width: 20%;
-  float: left;
-}
-
-.home-header {
-  float: left;
-  width: 100%;
+.account-page-title {
+  padding-bottom: 20px;
+  border-bottom: solid 1px rgb(222, 226, 230);
 }

@@ -12,17 +12,43 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-.right-side-btn {
-  height: 100%;
-  width: 30%;
+#account-icon {
+  width: 48px;
 }
 
-.lets-go-btn {
+#home-title {
+  width: 82%;
+  float: left;
+}
+
+#input-btn {
+  width: 300px;
+  margin-top: 525px;
+  position: relative;
+}
+
+.input-div {
+  text-align: center;
+}
+
+.account-div {
+  width: 18%;
+  float: left;
+  margin: auto;
+  text-align: center;
+}
+
+#account-text {
+  color: white;
+}
+
+.home-header {
   float: left;
   width: 100%;
 }
 
-.remove-btn {
-  margin-top: 16px;
-  width: 100%;
+@media only screen and (max-width: 600px) {
+  #input-btn {
+    width: 100%;
+  }
 }

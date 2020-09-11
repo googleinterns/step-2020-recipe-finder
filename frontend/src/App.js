@@ -16,21 +16,21 @@ import React from "react";
 import "./App.css";
 import CookRecipe from "./components/individual-recipe/CookRecipe";
 import FinishedRecipe from "./components/individual-recipe/FinishedRecipe";
-import InputText from "./components/InputText";
-import InputAudio from "./components/InputAudio";
-import ShoppingList from "./components/ShoppingList";
-import Inventory from "./components/Inventory";
+import InputAudio from "./components/input/audio/InputAudio";
+import InputText from "./components/input/text/InputText";
+import ShoppingList from "./components/account/shopping/ShoppingList";
+import Inventory from "./components/account/inventory/Inventory";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import RecommendedRecipes from "./components/RecommendedRecipes";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import SignUp from "./components/account/SignUp";
-import Favourites from "./components/account/Favourites";
-import Account from "./components/account/Account";
-import History from "./components/account/History";
+import RecommendedRecipes from "./components/recommended-recipes/RecommendedRecipes";
+import Home from "./components/home/Home";
+import Login from "./components/login/Login";
+import SignUp from "./components/account/sign-up/SignUp";
+import Favourites from "./components/account/favourites/Favourites";
+import Account from "./components/account/my-account/Account";
+import History from "./components/account/history/History";
 import ReactErrorHandler from "./components/utils/ReactErrorHandler";
 import ErrorPage from "./components/utils/APIErrorHandler";
-import { PrivateRoute } from "./components/PrivateRoute";
+import { PrivateRoute } from "./components/utils/PrivateRoute";
 
 function App() {
   return (

@@ -24,7 +24,7 @@ import Button from "react-bootstrap/Button";
 class CookRecipe extends Component {
   constructor(properties) {
     super(properties);
-    const recipe = JSON.parse(localStorage.getItem("recipe"));
+    const recipe = JSON.parse(sessionStorage.getItem("recipe"));
     const activeKey = sessionStorage.getItem("key");
     const isSpeakerOn = JSON.parse(sessionStorage.getItem("isSpeakerOn"));
 
@@ -79,6 +79,7 @@ class CookRecipe extends Component {
                 getSelectedStep={this.getSelectedStep}
                 isSpeakerOn={this.state.isSpeakerOn}
                 switchSpeaker={this.switchSpeaker}
+                pauseAudio={this.pauseAudio}
               />
             </div>
           </Tab>
@@ -126,6 +127,8 @@ class CookRecipe extends Component {
     }
     if (key === "tutorial" && this.state.isSpeakerOn) {
       this.readStep(this.getSelectedStep());
+    } else {
+      this.pauseAudio();
     }
   }
 
@@ -184,6 +187,21 @@ class CookRecipe extends Component {
         .catch((error) => {
           console.log(error);
           // autoplay was prevented
+        });
+    }
+  }
+
+  pauseAudio() {
+    const audio = document.getElementById("audio");
+    var promise = audio.pause();
+    if (promise !== undefined) {
+      promise
+        .then((_) => {
+          // audio paused
+        })
+        .catch((error) => {
+          console.log(error);
+          // pause was prevented
         });
     }
   }
