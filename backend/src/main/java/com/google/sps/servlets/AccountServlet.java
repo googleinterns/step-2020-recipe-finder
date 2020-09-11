@@ -52,17 +52,17 @@ public class AccountServlet extends AuthenticationServlet {
       return;
     }
     List<String> diets = (List<String>) userEntity.getProperty(UserConstants.PROPERTY_DIETS);
-    List<String> customDiets =
-        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_CUSTOM_DIETS);
+    List<String> allergies =
+        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_ALLERGIES);
     if (diets == null) {
       diets = new ArrayList<>();
     }
-    if (customDiets == null) {
-      customDiets = new ArrayList<>();
+    if (allergies == null) {
+      allergies = new ArrayList<>();
     }
     String name = (String) userEntity.getProperty(UserConstants.PROPERTY_NAME);
 
-    User user = new User(name, diets, customDiets);
+    User user = new User(name, diets, allergies);
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(user));
   }

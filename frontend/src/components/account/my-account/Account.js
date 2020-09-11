@@ -26,12 +26,14 @@ import "./Account.css";
 class Account extends Component {
   constructor(properties) {
     super(properties);
+    const signOut = sessionStorage.getItem("signOutUrl");
     this.state = {
       name: "",
       diets: [],
-      customDiets: [],
+      allergies: [],
       isLoading: true,
       error: null,
+      signOut: signOut !== null ? signOut: this.fetchSignOut()
     };
   }
 
@@ -43,7 +45,7 @@ class Account extends Component {
         this.setState({
           name: json.name,
           diets: json.diets,
-          customDiets: json.customDiets,
+          allergies: json.allergies,
           isLoading: false,
         })
       )
@@ -68,7 +70,7 @@ class Account extends Component {
               <h1 className="account-page-title">My Account</h1>
             </div>
             <div className="sign-out-div">
-              <a href={this.getSignOutLink()}>
+              <a href={this.state.signOut} onClick={this.removeSignOut}>
                 <img src={sign_out} alt="account" id="account-icon" />
                 <div id="sign-out-text">Sign Out</div>
               </a>
@@ -82,7 +84,11 @@ class Account extends Component {
             {this.state.diets.map((item, index) => (
               <li key={index}>{this.getLabelForDiet(item)}</li>
             ))}
-            {this.state.customDiets.map((item, index) => (
+          </ul>
+          <h3>Allergies/Food I can't eat:</h3>
+          <p>{this.getMessageIfNoAllergies()}</p>
+          <ul>
+            {this.state.allergies.map((item, index) => (
               <li key={index}>{item}</li>
             ))}
           </ul>
@@ -92,7 +98,7 @@ class Account extends Component {
               state: {
                 name: this.state.name,
                 diets: this.state.diets,
-                customDiets: this.state.customDiets,
+                allergies: this.state.allergies,
               },
             }}
           >
@@ -103,27 +109,32 @@ class Account extends Component {
     );
   }
 
-  getSignOutLink() {
-    const signOut = localStorage.getItem("signOutUrl");
-    if (signOut === null) {
-      fetch("/api/login-status")
-        .then(handleResponseError)
-        .then((response) => response.json())
-        .then((json) => {
-          return json.logUrl;
-        })
-        .catch((error) => this.setState({ error: error }));
-    } else {
-      return signOut;
-    }
+  fetchSignOut() {
+    fetch("/api/login-status")
+      .then(handleResponseError)
+      .then((response) => response.json())
+      .then((json) => {
+        return json.logUrl;
+      })
+      .catch((error) => this.setState({ error: error }));
+  }
+
+  removeSignOut() {
+    sessionStorage.removeItem("signOutUrl");
   }
 
   getMessageIfNoDiet() {
-    if (this.state.diets.length === 0 && this.state.customDiets.length === 0) {
+    if (this.state.diets.length === 0) {
       return "No dietary requirements";
     }
   }
 
+  getMessageIfNoAllergies() {
+    if (this.state.allergies.length === 0) {
+      return "No allergies/food I can't eat";
+    }
+  }
+  
   getLabelForDiet(diet) {
     return getDietaryRequirements().filter((item) => item.value === diet)[0]
       .label;

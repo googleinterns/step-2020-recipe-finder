@@ -46,25 +46,43 @@ public final class Recipe {
     this.recipeId = this.hashCode();
   }
 
+  public boolean containsDietaryRequirement(String diet) {
+    if (dietaryRequirements == null) {
+      return false;
+    }
+    return dietaryRequirements.contains(diet);
+  }
+
+  public boolean containsIngredient(String ingredient) {
+    for (String recipeIngredient : ingredients) {
+      if (recipeIngredient.contains(ingredient)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Override
   public boolean equals(Object other) {
     if (this == other) return true;
     if (other == null || getClass() != other.getClass()) return false;
     Recipe recipe = (Recipe) other;
-    return name.equals(recipe.name) &&
-            time.equals(recipe.time) &&
-            calories.equals(recipe.calories) &&
-            difficulty.equals(recipe.difficulty) &&
-            dietaryRequirements.equals(recipe.dietaryRequirements) &&
-            ingredients.equals(recipe.ingredients) &&
-            instructions.equals(recipe.instructions);
+    return name.equals(recipe.name)
+        && time.equals(recipe.time)
+        && calories.equals(recipe.calories)
+        && difficulty.equals(recipe.difficulty)
+        && dietaryRequirements.equals(recipe.dietaryRequirements)
+        && ingredients.equals(recipe.ingredients)
+        && instructions.equals(recipe.instructions);
   }
 
   @Override
   public int hashCode() {
     int multiplier = 31;
     int result = Objects.hash(name, time, calories, difficulty);
-    result = multiplier * result + dietaryRequirements.hashCode();
+    if (dietaryRequirements != null) {
+      result = multiplier * result + dietaryRequirements.hashCode();
+    }
     result = multiplier * result + ingredients.hashCode();
     result = multiplier * result + instructions.hashCode();
     return result;

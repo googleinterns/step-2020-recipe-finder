@@ -28,15 +28,15 @@ class SignUp extends Component {
     this.state = {
       name: isSignUp ? "" : propertiesState.name,
       diets: isSignUp ? [] : propertiesState.diets,
-      customDiets: isSignUp ? [] : propertiesState.customDiets,
+      allergies: isSignUp ? [] : propertiesState.allergies,
       isSignUp: isSignUp,
     };
 
-    this.addCustomDiet = this.addCustomDiet.bind(this);
-    this.removeCustomDiet = this.removeCustomDiet.bind(this);
+    this.addAllergy = this.addAllergy.bind(this);
+    this.removeAllergy = this.removeAllergy.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDietChange = this.handleDietChange.bind(this);
-    this.handleCustomDietChange = this.handleCustomDietChange.bind(this);
+    this.handleAllergyChange = this.handleAllergyChange.bind(this);
   }
 
   render() {
@@ -79,21 +79,19 @@ class SignUp extends Component {
                   label={item.label}
                 />
               ))}
-              {this.state.customDiets.map((item, index) => (
+              {this.state.allergies.map((item, index) => (
                 <div className="custom-diet-div">
                   <Form.Control
                     className="custom-diet-input"
                     type="text"
-                    name="customDiets"
-                    placeholder="Enter dietary requirement"
+                    name="allergies"
+                    placeholder="Enter allergy/food you can't eat"
                     value={item}
-                    onChange={(event) =>
-                      this.handleCustomDietChange(event, index)
-                    }
+                    onChange={(event) => this.handleAllergyChange(event, index)}
                   ></Form.Control>
                   <Button
                     className="custom-diet-remove-btn"
-                    onClick={() => this.removeCustomDiet(index)}
+                    onClick={() => this.removeAllergy(index)}
                     variant="outline-danger"
                   >
                     Remove
@@ -103,9 +101,9 @@ class SignUp extends Component {
               <Button
                 className="add-diet-btn w-100"
                 variant="outline-primary"
-                onClick={this.addCustomDiet}
+                onClick={this.addAllergy}
               >
-                Add custom dietary requirement
+                Add allergy/food I can't eat
               </Button>
             </Form.Group>
             <Button className="w-100" variant="primary" type="submit">
@@ -117,16 +115,16 @@ class SignUp extends Component {
     );
   }
 
-  addCustomDiet() {
-    const previousCustomDiets = this.state.customDiets;
-    previousCustomDiets.push("");
-    this.setState({ customDiets: previousCustomDiets });
+  addAllergy() {
+    const previousAllergies = this.state.allergies;
+    previousAllergies.push("");
+    this.setState({ allergies: previousAllergies });
   }
 
-  removeCustomDiet(index) {
-    const previousCustomDiets = this.state.customDiets;
-    previousCustomDiets.splice(index, 1);
-    this.setState({ numberCustomDiets: previousCustomDiets });
+  removeAllergy(index) {
+    const previousAllergies = this.state.allergies;
+    previousAllergies.splice(index, 1);
+    this.setState({ allergies: previousAllergies });
   }
 
   handleNameChange(event) {
@@ -147,11 +145,11 @@ class SignUp extends Component {
     this.setState({ diets: diets });
   }
 
-  handleCustomDietChange(event, index) {
+  handleAllergyChange(event, index) {
     const diet = event.target.value;
-    const diets = this.state.customDiets;
+    const diets = this.state.allergies;
     diets[index] = diet;
-    this.setState({ customDiets: diets });
+    this.setState({ allergies: diets });
   }
 }
 export default SignUp;

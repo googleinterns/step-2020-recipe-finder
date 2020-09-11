@@ -19,6 +19,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.sps.utils.UserConstants;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class UserCollector {
@@ -42,7 +43,7 @@ public final class UserCollector {
       Entity userEntity, String property, Long recipeId, DatastoreService datastore) {
     List<Long> recipeIds = (List<Long>) userEntity.getProperty(property);
     if (recipeIds == null) {
-      return;
+      recipeIds = new ArrayList<>();
     }
     if (!recipeIds.contains(recipeId)) {
       recipeIds.add(recipeId);

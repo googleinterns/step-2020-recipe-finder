@@ -17,7 +17,5 @@ export function getDietaryRequirements() {
     { value: "glutenfree", label: "Gluten Free" },
     { value: "halal", label: "Halal" },
     { value: "kosher", label: "Kosher" },
-    { value: "nutallergy", label: "Nut allergy" },
-    { value: "lactoseintolerant", label: "Lactose intolerant" },
   ];
 }

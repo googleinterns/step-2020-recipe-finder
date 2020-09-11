@@ -24,7 +24,7 @@ import Button from "react-bootstrap/Button";
 class CookRecipe extends Component {
   constructor(properties) {
     super(properties);
-    const recipe = JSON.parse(localStorage.getItem("recipe"));
+    const recipe = JSON.parse(sessionStorage.getItem("recipe"));
     const activeKey = sessionStorage.getItem("key");
     const isSpeakerOn = JSON.parse(sessionStorage.getItem("isSpeakerOn"));
 

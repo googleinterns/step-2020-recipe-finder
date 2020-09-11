@@ -20,7 +20,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      localStorage.getItem("logOutUrl") ? (
+      sessionStorage.getItem("signOutUrl") ? (
         <Component {...props} />
       ) : (
         <Redirect to="/" />
