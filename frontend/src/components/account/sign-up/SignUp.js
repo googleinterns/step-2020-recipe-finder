@@ -79,7 +79,6 @@ class SignUp extends Component {
                   label={item.label}
                 />
               ))}
-
               {this.state.allergies.map((item, index) => (
                 <div className="custom-diet-div">
                   <Form.Control
