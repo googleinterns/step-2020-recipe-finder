@@ -28,32 +28,7 @@ import speakerOff from "../../icons/speaker-off.svg";
 class CookRecipe extends Component {
   constructor(properties) {
     super(properties);
-    // const recipe = JSON.parse(sessionStorage.getItem("recipe"));
-    const recipe = {
-      name: "Mediterranean potato salad",
-      time: "35 min ",
-      calories: "111 calories",
-      difficulty: "Easy",
-      image:
-        "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-994495_10-74b7456.jpg",
-      dietaryRequirements: ["vegan", "vegetarian"],
-      ingredients: [
-        "1 tbsp olive oil",
-        "1 small  onion, thinly sliced",
-        "1 garlic clove, crushed",
-        "1 tsp oregano, fresh or dried",
-        "&#189; x 400g can cherry tomatoes",
-        "100g roasted red pepper, from a jar, sliced",
-        "300g new potato, halved if large",
-        "25g black olive, sliced",
-        "handful  basil leaves, torn",
-      ],
-      instructions: [
-        "Heat the oil in a saucepan, add the onion and cook for 5-10 mins until soft. Add the garlic and oregano and cook for 1 min. Add the tomatoes and peppers, season well and simmer gently for 10 mins.",
-        "Meanwhile, cook the potatoes in a pan of boiling salted water for 10-15 mins until tender. Drain well, mix with the sauce and serve warm, sprinkled with olives and basil.",
-      ],
-      recipeId: -1793240321,
-    };
+    const recipe = JSON.parse(sessionStorage.getItem("recipe"));
     const activeKey = sessionStorage.getItem("key");
     const isSpeakerOn = JSON.parse(sessionStorage.getItem("isSpeakerOn"));
 
