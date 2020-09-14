@@ -1,10 +1,23 @@
+// Copyright 2020 Google LLC
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     https://www.apache.org/licenses/LICENSE-2.0
+
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import Modal from "react-bootstrap/Modal";
 import Carousel from "react-bootstrap/Carousel";
 import navigateNext from "../../icons/navigate_next.svg";
 import navigatePrevious from "../../icons/navigate_previous.svg";
 import signup from "../../walkthrough-images/sign-up.png";
 import inputtext from "../../walkthrough-images/input-text.png";
-import scanning from "../../walkthrough-images/scanning.png";
 import recommended from "../../walkthrough-images/recommended.png";
 import tutorial from "../../walkthrough-images/tutorial.png";
 import favourites from "../../walkthrough-images/favourites.png";
@@ -13,8 +26,17 @@ import home from "../../walkthrough-images/home.png";
 import done from "../../walkthrough-images/done.png";
 import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
+import "./Walkthrough.css";
 
 class Walkthrough extends Component {
+  constructor(properties) {
+    super(properties);
+    this.state = {
+      activeIndex: 0,
+    };
+    this.handleSelect = this.handleSelect.bind(this);
+  }
+
   render() {
     return (
       <Modal
@@ -30,9 +52,24 @@ class Walkthrough extends Component {
         </Modal.Header>
         <Modal.Body>
           <Carousel
+            indicators={false}
+            activeIndex={this.state.activeIndex}
+            onSelect={this.handleSelect}
             interval={2000}
-            nextIcon={<img src={navigateNext} alt="next step" />}
-            prevIcon={<img src={navigatePrevious} alt="previous step" />}
+            nextIcon={
+              <img
+                src={navigateNext}
+                alt="next step"
+                className={this.getNextIconClassName()}
+              />
+            }
+            prevIcon={
+              <img
+                src={navigatePrevious}
+                alt="previous step"
+                className={this.getPreviousIconClassName()}
+              />
+            }
           >
             {this.getWalkthrough().map((step, i) => (
               <Carousel.Item key={i} className="walkthrough-step">
@@ -51,6 +88,22 @@ class Walkthrough extends Component {
     );
   }
 
+  handleSelect(selectedIndex) {
+    this.setState({ activeIndex: selectedIndex });
+  }
+
+  getNextIconClassName() {
+    if (this.state.activeIndex + 1 === this.getWalkthrough().length) {
+      return "d-none";
+    }
+  }
+
+  getPreviousIconClassName() {
+    if (this.state.activeIndex === 0) {
+      return "d-none";
+    }
+  }
+
   getWalkthrough() {
     return [
       {
@@ -59,15 +112,11 @@ class Walkthrough extends Component {
         image: signup,
       },
       { text: "2. Enter your ingredients", image: inputtext },
-      {
-        text: "3. Wait for us to look for suitable recipes for you",
-        image: scanning,
-      },
-      { text: "4. Select a recipe you want to cook", image: recommended },
-      { text: "5. Cook with recipe steps read out to you", image: tutorial },
+      { text: "3. Select a recipe you want to cook", image: recommended },
+      { text: "4. Cook with recipe steps read out to you", image: tutorial },
       {
         text:
-          "6. Enjoy eating your masterpiece and don't forget to save it to favourites if you liked it!",
+          "5. Enjoy eating your masterpiece and don't forget to save it to favourites if you liked it!",
         image: done,
       },
       {

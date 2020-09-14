@@ -49,7 +49,6 @@ class Login extends Component {
           logUrl: json.logUrl,
           isLoading: false,
           isFirstTime: json.isFirstTime,
-          showModal: json.isFirstTime,
         });
       })
       .catch((error) => this.setState({ error: error }));
@@ -66,11 +65,7 @@ class Login extends Component {
 
     if (this.state.isFirstTime) {
       this.trySavingSignOutToSessionStorage();
-      if (this.state.showModal) {
-        return this.getWalkthrough();
-      } else {
-        return <Redirect to="/sign-up" />;
-      }
+      return <Redirect to="/sign-up" />;
     }
 
     if (this.state.isLoggedIn) {
@@ -80,7 +75,10 @@ class Login extends Component {
 
     return (
       <div>
-        {this.getWalkthrough()}
+        <Walkthrough
+          handleClose={this.handleClose}
+          showModal={this.state.showModal}
+        />
         {this.state.background}
         <h1 className="white-text">Recipe Finder</h1>
         <div className="login-div">
@@ -96,15 +94,6 @@ class Login extends Component {
           </a>
         </div>
       </div>
-    );
-  }
-
-  getWalkthrough() {
-    return (
-      <Walkthrough
-        handleClose={this.handleClose}
-        showModal={this.state.showModal}
-      />
     );
   }
 

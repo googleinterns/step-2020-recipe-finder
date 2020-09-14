@@ -32,10 +32,6 @@ limitations under the License. */
   font-weight: 700;
 }
 
-.carousel-indicators {
-  display: none;
-}
-
 .walkthrough-carousel .modal-dialog {
   top: 70px;
 }

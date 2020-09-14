@@ -18,6 +18,9 @@ import "./SignUp.css";
 import Button from "react-bootstrap/Button";
 import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
 import { backButton } from "../../utils/Utilities";
+import Walkthrough from "../../login/Walkthrough";
+import eye from "../../../icons/eye.svg";
+import Toast from "react-bootstrap/Toast";
 
 class SignUp extends Component {
   constructor(properties) {
@@ -30,6 +33,8 @@ class SignUp extends Component {
       diets: isSignUp ? [] : propertiesState.diets,
       allergies: isSignUp ? [] : propertiesState.allergies,
       isSignUp: isSignUp,
+      showModal: false,
+      showToast: true,
     };
 
     this.addAllergy = this.addAllergy.bind(this);
@@ -37,6 +42,9 @@ class SignUp extends Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDietChange = this.handleDietChange.bind(this);
     this.handleAllergyChange = this.handleAllergyChange.bind(this);
+    this.setShowModal = this.setShowModal.bind(this);
+    this.closeModalAndToast = this.closeModalAndToast.bind(this);
+    this.closeToast = this.closeToast.bind(this);
   }
 
   render() {
@@ -45,7 +53,8 @@ class SignUp extends Component {
 
     return (
       <div>
-        {this.state.isSignUp ? "" : backButton()}
+        {this.getBackButtonIfChangeAccountDetails()}
+        {this.getWalkthroughIfSignUp()}
         <div className="centered-container">
           <h1>{title}</h1>
           <Form action="/api/sign-up" method="POST">
@@ -113,6 +122,52 @@ class SignUp extends Component {
         </div>
       </div>
     );
+  }
+
+  getBackButtonIfChangeAccountDetails() {
+    if (!this.state.isSignUp) {
+      return backButton();
+    }
+  }
+
+  getWalkthroughIfSignUp() {
+    if (this.state.isSignUp) {
+      return (
+        <div>
+          <Walkthrough
+            handleClose={this.closeModalAndToast}
+            showModal={this.state.showModal}
+          />
+          <div className="text-center">
+            <Toast show={this.state.showToast}>
+              <Toast.Header>
+                Do you want to see how Recipe Finder works?
+              </Toast.Header>
+              <Toast.Body>
+                <Button variant="link" onClick={this.setShowModal}>
+                  Yes
+                </Button>
+                <Button variant="" onClick={this.closeToast}>
+                  No
+                </Button>
+              </Toast.Body>
+            </Toast>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  closeToast() {
+    this.setState({ showToast: false });
+  }
+
+  closeModalAndToast() {
+    this.setState({ showModal: false, showToast: false });
+  }
+
+  setShowModal() {
+    this.setState({ showModal: true });
   }
 
   addAllergy() {
