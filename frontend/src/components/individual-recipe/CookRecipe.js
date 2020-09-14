@@ -16,15 +16,44 @@ import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import "./CookRecipe.css";
 import Tutorial from "./Tutorial";
 import { backButton } from "../utils/Utilities";
 import Button from "react-bootstrap/Button";
+import speakerOn from "../../icons/speaker-on.svg";
+import speakerOff from "../../icons/speaker-off.svg";
 
 class CookRecipe extends Component {
   constructor(properties) {
     super(properties);
-    const recipe = JSON.parse(sessionStorage.getItem("recipe"));
+    // const recipe = JSON.parse(sessionStorage.getItem("recipe"));
+    const recipe = {
+      name: "Mediterranean potato salad",
+      time: "35 min ",
+      calories: "111 calories",
+      difficulty: "Easy",
+      image:
+        "https://images.immediate.co.uk/production/volatile/sites/30/2020/08/recipe-image-legacy-id-994495_10-74b7456.jpg",
+      dietaryRequirements: ["vegan", "vegetarian"],
+      ingredients: [
+        "1 tbsp olive oil",
+        "1 small  onion, thinly sliced",
+        "1 garlic clove, crushed",
+        "1 tsp oregano, fresh or dried",
+        "&#189; x 400g can cherry tomatoes",
+        "100g roasted red pepper, from a jar, sliced",
+        "300g new potato, halved if large",
+        "25g black olive, sliced",
+        "handful  basil leaves, torn",
+      ],
+      instructions: [
+        "Heat the oil in a saucepan, add the onion and cook for 5-10 mins until soft. Add the garlic and oregano and cook for 1 min. Add the tomatoes and peppers, season well and simmer gently for 10 mins.",
+        "Meanwhile, cook the potatoes in a pan of boiling salted water for 10-15 mins until tender. Drain well, mix with the sauce and serve warm, sprinkled with olives and basil.",
+      ],
+      recipeId: -1793240321,
+    };
     const activeKey = sessionStorage.getItem("key");
     const isSpeakerOn = JSON.parse(sessionStorage.getItem("isSpeakerOn"));
 
@@ -33,7 +62,8 @@ class CookRecipe extends Component {
       key: activeKey !== null ? activeKey : "ingredients",
       audioSteps: new Array(recipe.instructions.length),
       isSpeakerOn: isSpeakerOn === null ? true : isSpeakerOn,
-      showModal: isSpeakerOn === null ? true : false,
+      showModal:
+        isSpeakerOn === null && activeKey === "tutorial" ? true : false,
     };
 
     this.readStep = this.readStep.bind(this);
@@ -50,7 +80,21 @@ class CookRecipe extends Component {
       <div>
         {this.getModal()}
         {backButton()}
-        <h1>{recipe.name}</h1>
+        <Row>
+          <Col lg="7" xs="12" className="text-center">
+            <h2>{recipe.name}</h2>
+          </Col>
+          <Col lg="5" xs="12" className="text-center">
+            <Button
+              className="speaker-btn"
+              variant="primary"
+              onClick={this.switchSpeaker}
+            >
+              <img src={this.getSpeakerIcon()} alt="switch speaker" />
+              {this.getSpeakerMessage()}
+            </Button>
+          </Col>
+        </Row>
         <Tabs activeKey={this.state.key} onSelect={(key) => this.setKey(key)}>
           <Tab eventKey="ingredients" title="Ingredients">
             <div className="tab-content">
@@ -125,16 +169,18 @@ class CookRecipe extends Component {
     } catch (error) {
       console.log(error);
     }
-    if (key === "tutorial" && this.state.isSpeakerOn) {
-      this.readStep(this.getSelectedStep());
-    } else {
-      this.pauseAudio();
-    }
-  }
 
-  switchSpeaker() {
-    const currentStateIsSpeakerOn = !this.state.isSpeakerOn;
-    this.setState({ isSpeakerOn: currentStateIsSpeakerOn });
+    const isSpeakerOn = JSON.parse(sessionStorage.getItem("isSpeakerOn"));
+    if (key === "tutorial") {
+      if (isSpeakerOn === null) {
+        this.setState({ showModal: true });
+      }
+      if (this.state.isSpeakerOn) {
+        this.readStep(this.getSelectedStep());
+      } else {
+        this.pauseAudio();
+      }
+    }
   }
 
   getSelectedStep() {
@@ -204,6 +250,29 @@ class CookRecipe extends Component {
           // pause was prevented
         });
     }
+  }
+
+  switchSpeaker() {
+    const currentStateIsSpeakerOn = !this.state.isSpeakerOn;
+    this.setState({ isSpeakerOn: currentStateIsSpeakerOn });
+    try {
+      sessionStorage.setItem("isSpeakerOn", currentStateIsSpeakerOn);
+    } catch (error) {
+      console.log(error);
+    }
+    if (currentStateIsSpeakerOn) {
+      this.readStep(this.getSelectedStep());
+    } else {
+      this.pauseAudio();
+    }
+  }
+
+  getSpeakerIcon() {
+    return this.state.isSpeakerOn ? speakerOff : speakerOn;
+  }
+
+  getSpeakerMessage() {
+    return this.state.isSpeakerOn ? "Don't read steps" : "Always read steps";
   }
 }
 export default CookRecipe;
