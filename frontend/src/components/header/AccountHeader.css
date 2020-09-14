@@ -33,3 +33,8 @@ limitations under the License. */
   padding-bottom: 20px;
   border-bottom: solid 1px rgb(222, 226, 230);
 }
+
+.navbar-brand img {
+  padding-bottom: 5px;
+  padding-right: 3px;
+}
