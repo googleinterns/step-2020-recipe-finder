@@ -87,8 +87,8 @@ class RecommendedRecipes extends Component {
             const button = (
               <div className="right-side-btn">
                 <OverlayTrigger
-                  trigger="click"
-                  placement="left"
+                  trigger="focus"
+                  placement="auto"
                   overlay={this.ingredientsPopover(recipe)}
                 >
                   <div>

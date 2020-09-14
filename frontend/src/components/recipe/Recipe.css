@@ -36,7 +36,7 @@ limitations under the License. */
 }
 
 .dish-contents {
-  width: 70%;
+  width:85%;
   float: left;
 }
 
@@ -69,7 +69,7 @@ limitations under the License. */
   }
 
   .dish-contents {
-    width: 60%;
+    width: 80%;
     float: left;
   }
 }

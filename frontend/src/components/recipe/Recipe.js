@@ -44,8 +44,8 @@ export function Recipe(props) {
       <div className="dish-header">
         <h2 className="dish-name">{recipe.name}</h2>
         <OverlayTrigger
-          trigger="click"
-          placement="left"
+          trigger="focus"
+          placement="auto"
           overlay={previewPopover}
         >
           <div className="preview-btn">
