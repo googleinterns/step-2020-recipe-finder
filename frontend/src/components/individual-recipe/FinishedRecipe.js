@@ -13,12 +13,13 @@
 // limitations under the License.
 
 import Button from "react-bootstrap/Button";
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./FinishedRecipe.css";
+import ComponentWithHeader from "../header/ComponentWithHeader";
 
-class FinishedRecipe extends Component {
-  render() {
+class FinishedRecipe extends ComponentWithHeader {
+  renderContent() {
     return (
       <div>
         <h1>Well Done!</h1>

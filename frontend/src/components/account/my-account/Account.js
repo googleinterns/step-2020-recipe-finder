@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
-import AccountHeader from "../account-header/AccountHeader";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
@@ -22,8 +21,9 @@ import { errorRedirect } from "../../utils/APIErrorHandler";
 import { loading } from "../../utils/Utilities";
 import sign_out from "../../../icons/sign_out.svg";
 import "./Account.css";
+import ComponentWithHeader from "../../header/ComponentWithHeader";
 
-class Account extends Component {
+class Account extends ComponentWithHeader {
   constructor(properties) {
     super(properties);
     const signOut = sessionStorage.getItem("signOutUrl");
@@ -33,7 +33,7 @@ class Account extends Component {
       allergies: [],
       isLoading: true,
       error: null,
-      signOut: signOut !== null ? signOut: this.fetchSignOut()
+      signOut: signOut !== null ? signOut : this.fetchSignOut(),
     };
   }
 
@@ -52,7 +52,7 @@ class Account extends Component {
       .catch((error) => this.setState({ error: error }));
   }
 
-  render() {
+  renderContent() {
     if (this.state.error !== null) {
       return errorRedirect(this.state.error);
     }
@@ -63,7 +63,6 @@ class Account extends Component {
 
     return (
       <div>
-        <AccountHeader />
         <div className="centered-container">
           <div className="my-account-header">
             <div className="account-title">
@@ -134,7 +133,7 @@ class Account extends Component {
       return "No allergies/food I can't eat";
     }
   }
-  
+
   getLabelForDiet(diet) {
     return getDietaryRequirements().filter((item) => item.value === diet)[0]
       .label;

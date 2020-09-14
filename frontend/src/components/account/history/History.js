@@ -12,20 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
-import AccountHeader from "../account-header/AccountHeader";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { Recipe } from "../../recipe/Recipe";
 import "../favourites/Favourites.css";
 import { loading } from "../../utils/Utilities";
+import ComponentWithHeader from "../../header/ComponentWithHeader";
 
-class History extends Component {
+class History extends ComponentWithHeader {
   constructor(properties) {
     super(properties);
     this.state = {
       recipes: [],
-      isLoading: true
+      isLoading: true,
     };
   }
 
@@ -34,17 +34,16 @@ class History extends Component {
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json }))
       .catch((err) => console.log(err))
-      .finally(() => this.setState({isLoading: false}));
+      .finally(() => this.setState({ isLoading: false }));
   }
 
-  render() {
+  renderContent() {
     if (this.state.isLoading) {
       return loading("Getting your history ...");
     }
 
     return (
       <div>
-        <AccountHeader />
         <div className="centered-container">
           <h1 className="account-page-title">History</h1>
           <p>{this.getMessageIfNoHistory()}</p>

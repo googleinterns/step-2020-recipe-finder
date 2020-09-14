@@ -13,15 +13,16 @@
 // limitations under the License.
 
 import Button from "react-bootstrap/Button";
-import React, { Component } from "react";
+import React from "react";
 import { Redirect } from "react-router-dom";
 import "./RecommendedRecipes.css";
 import { handleResponseError } from "../utils/APIErrorHandler";
 import { errorRedirect } from "../utils/APIErrorHandler";
 import { loading, backButton } from "../utils/Utilities";
 import { Recipe } from "../recipe/Recipe";
+import ComponentWithHeader from "../header/ComponentWithHeader";
 
-class RecommendedRecipes extends Component {
+class RecommendedRecipes extends ComponentWithHeader {
   constructor(properties) {
     super(properties);
     this.state = {
@@ -51,7 +52,7 @@ class RecommendedRecipes extends Component {
       .catch((error) => this.setState({ error: error }));
   }
 
-  render() {
+  renderContent() {
     if (this.state.error !== null) {
       return errorRedirect(this.state.error);
     }

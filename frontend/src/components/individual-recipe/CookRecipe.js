@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
+import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -20,8 +20,9 @@ import "./CookRecipe.css";
 import Tutorial from "./Tutorial";
 import { backButton } from "../utils/Utilities";
 import Button from "react-bootstrap/Button";
+import ComponentWithHeader from "../header/ComponentWithHeader";
 
-class CookRecipe extends Component {
+class CookRecipe extends ComponentWithHeader {
   constructor(properties) {
     super(properties);
     const recipe = JSON.parse(sessionStorage.getItem("recipe"));
@@ -40,7 +41,7 @@ class CookRecipe extends Component {
     this.switchSpeaker = this.switchSpeaker.bind(this);
   }
 
-  render() {
+  renderContent() {
     const recipe = this.state.recipe;
     const renderHTML = (rawHTML) =>
       React.createElement("div", {
