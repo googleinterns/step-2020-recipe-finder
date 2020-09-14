@@ -57,9 +57,9 @@ public class BBCGoodFoodRecipeScraper {
   }
 
   /*Outputs link to custom search api*/
-  public static String searchRecipeLink(String ingredients, String key) {
+  public static String searchRecipeLink(String ingredients, String key, int start) {
     return "https://customsearch.googleapis.com/customsearch/v1?cx=c318350d7878a8a31&q="
-        + ingredients +"&key=" + key;
+        + ingredients +"&key=" + key + "&start=" + start;
   }
 
   /* Time in the JSON object is in ISO 8601 duration format
