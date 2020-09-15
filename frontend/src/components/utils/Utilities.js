@@ -42,6 +42,12 @@ export function backButton() {
   );
 }
 
+export function renderHTML(rawHTML) {
+  React.createElement("div", {
+    dangerouslySetInnerHTML: { __html: rawHTML },
+  });
+}
+
 function goBack() {
   window.history.back();
 }

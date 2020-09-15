@@ -48,7 +48,7 @@ class SignUp extends Component {
         {this.state.isSignUp ? "" : backButton()}
         <div className="centered-container">
           <h1>{title}</h1>
-          <Form action="/api/sign-up" method="POST">
+          <Form action="/api/account" method="POST">
             <Form.Control
               type="hidden"
               name="redirectLink"

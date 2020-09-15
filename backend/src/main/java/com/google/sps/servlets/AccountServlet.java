@@ -17,16 +17,16 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.User;
+import com.google.sps.utils.DatastoreUtils;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,39 +36,60 @@ public class AccountServlet extends AuthenticationServlet {
   /** Returns user's account details */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    String userId = userService.getCurrentUser().getUserId();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query(UserConstants.ENTITY_USER)
-            .setFilter(
-                new Query.FilterPredicate(
-                    UserConstants.PROPERTY_USER_ID, Query.FilterOperator.EQUAL, userId));
-    PreparedQuery results = datastore.prepare(query);
-    Entity userEntity = results.asSingleEntity();
-    if (userEntity == null) {
+    Entity userEntity = DatastoreUtils.getUserEntity();
+    if (userEntity.getProperty(UserConstants.PROPERTY_NAME) == null) {
       response.sendRedirect("/sign-up");
       return;
     }
-    List<String> diets = (List<String>) userEntity.getProperty(UserConstants.PROPERTY_DIETS);
-    List<String> allergies =
-        (List<String>) userEntity.getProperty(UserConstants.PROPERTY_ALLERGIES);
-    if (diets == null) {
-      diets = new ArrayList<>();
-    }
-    if (allergies == null) {
-      allergies = new ArrayList<>();
-    }
+
     String name = (String) userEntity.getProperty(UserConstants.PROPERTY_NAME);
+    List<String> diets = DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_DIETS);
+    List<String> allergies =
+        DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_ALLERGIES);
 
     User user = new User(name, diets, allergies);
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(user));
   }
 
-  /** TODO: modify dietary requirements */
+  /** Creates a user entity in datastore */
   @Override
-  protected void post(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {}
+  protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String redirectLink = request.getParameter("redirectLink");
+    String name = request.getParameter(UserConstants.PROPERTY_NAME);
+    String[] dietsArray = request.getParameterValues(UserConstants.PROPERTY_DIETS);
+    String[] allergiesArray = request.getParameterValues(UserConstants.PROPERTY_ALLERGIES);
+
+    List<String> diets;
+    if (dietsArray == null) {
+      diets = new ArrayList<>();
+    } else {
+      diets = Arrays.asList(dietsArray);
+    }
+
+    Set<String> allergies = getFormattedDietaryRequirements(allergiesArray);
+
+    Entity userEntity = DatastoreUtils.getUserEntity();
+    userEntity.setProperty(UserConstants.PROPERTY_NAME, name);
+    userEntity.setProperty(UserConstants.PROPERTY_DIETS, diets);
+    userEntity.setProperty(UserConstants.PROPERTY_ALLERGIES, allergies);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(userEntity);
+    response.sendRedirect(redirectLink);
+  }
+
+  private Set<String> getFormattedDietaryRequirements(String[] dietsArray) {
+    Set<String> diets = new HashSet<>();
+    if (dietsArray == null) {
+      return diets;
+    }
+    for (String diet : dietsArray) {
+      if (diet.isEmpty()) {
+        continue;
+      }
+      String formattedDiet = diet.toLowerCase().replaceAll("[^a-z]", "");
+      diets.add(formattedDiet);
+    }
+    return diets;
+  }
 }

@@ -53,7 +53,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
 
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String ingredients = request.getReader().readLine();
+    String ingredients = request.getReader().readLine().replaceAll(" ", "%20");
     Entity userEntity = DatastoreUtils.getUserEntity();
     List<String> diets = DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_DIETS);
     List<String> allergies =

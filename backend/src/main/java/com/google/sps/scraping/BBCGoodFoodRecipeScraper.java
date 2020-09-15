@@ -18,11 +18,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.sps.ApiKeys;
 import com.google.sps.data.Recipe;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -46,10 +44,11 @@ public class BBCGoodFoodRecipeScraper {
       String time = getTimeFromJson(jsonObject);
       String calories = getCaloriesFromJson(jsonObject);
       String difficulty = getDifficultyFromDocument(document);
+      String image = getImageFromJson(jsonObject);
       List<String> diet = getDietFromJson(jsonObject);
       List<String> ingredients = getIngredientsFromJson(jsonObject);
       List<String> instructions = getInstructionsFromJson(jsonObject);
-      return new Recipe(name, time, calories, difficulty, diet, ingredients, instructions);
+      return new Recipe(name, time, calories, difficulty, image, diet, ingredients, instructions);
     } catch (Exception e) {
       System.out.println(e);
       return null;
@@ -95,6 +94,11 @@ public class BBCGoodFoodRecipeScraper {
         "icon-with-text masthead__skill-level body-copy-small body-copy-bold"
             + " icon-with-text--aligned";
     return document.select("div[class='" + className + "']").first().child(1).text();
+  }
+
+  /* Structure of jsonObject: {image: {url: "image-link", ..} ..} */
+  private static String getImageFromJson(JsonObject jsonObject) {
+    return jsonObject.get("image").getAsJsonObject().get("url").getAsString();
   }
 
   /* Structure of jsonObject: {nutrition: {calories: "calories", ..} ..} */
