@@ -17,19 +17,26 @@ limitations under the License. */
 }
 
 .navbar-light .navbar-nav .nav-link,
-.navbar-light .navbar-brand {
+.navbar-light .navbar-brand,
+.navbar-light .navbar-brand:hover {
   color: white;
 }
 
 .navbar-light .navbar-toggler-icon {
-  background-image: url("../../../icons/toggle.svg");
+  background-image: url("../../icons/toggle.svg");
 }
 
 .navbar-div {
-  margin-bottom: 56px;
+  margin-bottom: 40px;
 }
 
 .account-page-title {
   padding-bottom: 20px;
   border-bottom: solid 1px rgb(222, 226, 230);
+}
+
+.navbar-brand img {
+  padding-bottom: 3px;
+  padding-right: 8px;
+  width: 29px;
 }

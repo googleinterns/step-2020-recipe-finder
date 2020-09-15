@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
-import AccountHeader from "../account-header/AccountHeader";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
@@ -22,18 +21,19 @@ import { errorRedirect } from "../../utils/APIErrorHandler";
 import { loading } from "../../utils/Utilities";
 import sign_out from "../../../icons/sign_out.svg";
 import "./Account.css";
+import ComponentWithHeader from "../../header/ComponentWithHeader";
 
-class Account extends Component {
+class Account extends ComponentWithHeader {
   constructor(properties) {
     super(properties);
-    const signOut = sessionStorage.getItem("signOutUrl");
+    const signOutUrl = sessionStorage.getItem("signOutUrl");
     this.state = {
       name: "",
       diets: [],
       allergies: [],
-      isLoading: true,
+      loading: true,
       error: null,
-      signOut: signOut !== null ? signOut: this.fetchSignOut()
+      signOutUrl: signOutUrl !== null ? signOutUrl : this.fetchSignOutUrl(),
     };
   }
 
@@ -46,31 +46,30 @@ class Account extends Component {
           name: json.name,
           diets: json.diets,
           allergies: json.allergies,
-          isLoading: false,
+          loading: false,
         })
       )
       .catch((error) => this.setState({ error: error }));
   }
 
-  render() {
+  renderContent() {
     if (this.state.error !== null) {
       return errorRedirect(this.state.error);
     }
 
-    if (this.state.isLoading) {
+    if (this.state.loading) {
       return loading("Getting account details ...");
     }
 
     return (
       <div>
-        <AccountHeader />
         <div className="centered-container">
           <div className="my-account-header">
             <div className="account-title">
               <h1 className="account-page-title">My Account</h1>
             </div>
             <div className="sign-out-div">
-              <a href={this.state.signOut} onClick={this.removeSignOut}>
+              <a href={this.state.signOutUrl} onClick={this.removeSignOut}>
                 <img src={sign_out} alt="account" id="account-icon" />
                 <div id="sign-out-text">Sign Out</div>
               </a>
@@ -109,7 +108,7 @@ class Account extends Component {
     );
   }
 
-  fetchSignOut() {
+  fetchSignOutUrl() {
     fetch("/api/login-status")
       .then(handleResponseError)
       .then((response) => response.json())
@@ -134,7 +133,7 @@ class Account extends Component {
       return "No allergies/food I can't eat";
     }
   }
-  
+
   getLabelForDiet(diet) {
     return getDietaryRequirements().filter((item) => item.value === diet)[0]
       .label;

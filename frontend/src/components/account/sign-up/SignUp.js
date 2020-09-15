@@ -18,6 +18,7 @@ import "./SignUp.css";
 import Button from "react-bootstrap/Button";
 import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
 import { backButton } from "../../utils/Utilities";
+import AccountHeader from "../../header/AccountHeader";
 
 class SignUp extends Component {
   constructor(properties) {
@@ -37,6 +38,7 @@ class SignUp extends Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDietChange = this.handleDietChange.bind(this);
     this.handleAllergyChange = this.handleAllergyChange.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   render() {
@@ -45,10 +47,11 @@ class SignUp extends Component {
 
     return (
       <div>
+        {this.state.isSignUp ? "" : <AccountHeader />}
         {this.state.isSignUp ? "" : backButton()}
         <div className="centered-container">
           <h1>{title}</h1>
-          <Form action="/api/account" method="POST">
+          <Form action="/api/sign-up" method="POST" onSubmit={this.submitForm}>
             <Form.Control
               type="hidden"
               name="redirectLink"
@@ -80,7 +83,7 @@ class SignUp extends Component {
                 />
               ))}
               {this.state.allergies.map((item, index) => (
-                <div className="custom-diet-div">
+                <div key={index} className="custom-diet-div">
                   <Form.Control
                     className="custom-diet-input"
                     type="text"
@@ -113,6 +116,10 @@ class SignUp extends Component {
         </div>
       </div>
     );
+  }
+
+  submitForm(event) {
+    event.preventDefault();
   }
 
   addAllergy() {
