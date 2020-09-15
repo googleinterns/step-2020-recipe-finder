@@ -27,7 +27,7 @@ public final class DatastoreUtils {
     UserService userService = UserServiceFactory.getUserService();
     String userId = userService.getCurrentUser().getUserId();
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    return UserCollector.getUserEntity(userId, datastore);
+    return UserCollector.getUserEntity(userId);
   }
 
   public static <T> List<T> getPropertyAsList(Entity entity, String property) {

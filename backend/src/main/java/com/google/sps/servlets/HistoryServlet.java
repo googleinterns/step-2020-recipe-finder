@@ -22,6 +22,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.sps.data.Recipe;
+import com.google.sps.utils.DatastoreUtils;
 import com.google.sps.utils.RecipeCollector;
 import com.google.sps.utils.RecipeConstants;
 import com.google.sps.utils.UserCollector;
@@ -39,12 +40,12 @@ public class HistoryServlet extends AuthenticationServlet {
   /** Returns user's past recipes that they cooked */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Entity userEntity = DatastoreUtils.gtUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity();
 
     List<Long> history =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_HISTORY);
 
-    List<Recipe> recipes = RecipeCollector.getRecipes(history, datastore);
+    List<Recipe> recipes = RecipeCollector.getRecipes(history);
 
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(recipes));
@@ -60,10 +61,10 @@ public class HistoryServlet extends AuthenticationServlet {
     datastore.put(recipeEntity);
 
     Long recipeId = Long.parseLong(recipe.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString());
-    Entity userEntity = DatastoreUtils.gtUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity();
 
     UserCollector.addRecipeToUserRecipeList(
-        userEntity, UserConstants.PROPERTY_HISTORY, recipeId, datastore);
+        userEntity, UserConstants.PROPERTY_HISTORY, recipeId);
   }
 
   private List<String> splitJsonArrayIntoList(JsonArray jsonArray) {
