@@ -80,7 +80,7 @@ class Login extends Component {
           showModal={this.state.showModal}
         />
         {this.state.background}
-        <h1 className="white-text">Recipe Finder</h1>
+        <h1 className="white-text text-center">Recipe Finder</h1>
         <div className="login-div">
           <Button
             variant="secondary"

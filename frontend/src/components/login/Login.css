@@ -13,14 +13,15 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 .login-btn {
-  width: 340px;
-  margin-top: 520px;
+  width: 300px;
+  margin-top: 16px;
+  margin-bottom: 40px;
+  position: relative;
 }
 
 .walkthrough-btn {
-  width: 340px;
+  width: 300px;
   margin-top: 470px;
-  position: fixed;
 }
 
 .login-div {

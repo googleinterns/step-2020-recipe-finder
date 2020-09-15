@@ -19,7 +19,6 @@ import Button from "react-bootstrap/Button";
 import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
 import { backButton } from "../../utils/Utilities";
 import Walkthrough from "../../login/Walkthrough";
-import eye from "../../../icons/eye.svg";
 import Toast from "react-bootstrap/Toast";
 
 class SignUp extends Component {
