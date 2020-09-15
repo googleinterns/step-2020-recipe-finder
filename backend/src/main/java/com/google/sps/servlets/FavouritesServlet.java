@@ -14,8 +14,6 @@
 
 package com.google.sps.servlets;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
@@ -38,8 +36,7 @@ public class FavouritesServlet extends AuthenticationServlet {
     List<Long> favourites =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_FAVOURITES);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    List<Recipe> recipes = RecipeCollector.getRecipes(favourites, datastore);
+    List<Recipe> recipes = RecipeCollector.getRecipes(favourites);
 
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(recipes));
@@ -50,8 +47,7 @@ public class FavouritesServlet extends AuthenticationServlet {
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Long recipeId = Long.parseLong(request.getReader().readLine());
     Entity userEntity = DatastoreUtils.getUserEntity();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     UserCollector.addRecipeToUserRecipeList(
-        userEntity, UserConstants.PROPERTY_FAVOURITES, recipeId, datastore);
+        userEntity, UserConstants.PROPERTY_FAVOURITES, recipeId);
   }
 }

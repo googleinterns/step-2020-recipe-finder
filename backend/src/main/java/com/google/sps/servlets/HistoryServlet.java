@@ -45,8 +45,7 @@ public class HistoryServlet extends AuthenticationServlet {
     List<Long> history =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_HISTORY);
 
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    List<Recipe> recipes = RecipeCollector.getRecipes(history, datastore);
+    List<Recipe> recipes = RecipeCollector.getRecipes(history);
 
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(recipes));
@@ -65,7 +64,7 @@ public class HistoryServlet extends AuthenticationServlet {
     Entity userEntity = DatastoreUtils.getUserEntity();
 
     UserCollector.addRecipeToUserRecipeList(
-        userEntity, UserConstants.PROPERTY_HISTORY, recipeId, datastore);
+        userEntity, UserConstants.PROPERTY_HISTORY, recipeId);
   }
 
   private List<String> splitJsonArrayIntoList(JsonArray jsonArray) {

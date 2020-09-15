@@ -28,6 +28,7 @@ import com.google.sps.utils.DietaryRequirements;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import javax.servlet.annotation.WebServlet;
@@ -62,10 +63,8 @@ public class FindRecipesServlet extends AuthenticationServlet {
     List<Recipe> recipes = new ArrayList<>();
     int counter = 0;
 
-    while (counter != MAX_NUMBER_OF_RECIPES_TO_STORE) {
-      if (mIndexOfFirstResult > MAX_NUMBER_OF_RESULTS_OVERALL) {
-        break;
-      }
+    while (counter != MAX_NUMBER_OF_RECIPES_TO_STORE
+        && mIndexOfFirstResult <= MAX_NUMBER_OF_RESULTS_OVERALL) {
 
       JsonArray items = getRecipeItemsFromCustomSearch(ingredients);
 
@@ -127,15 +126,10 @@ public class FindRecipesServlet extends AuthenticationServlet {
     }
 
     List<Recipe> result = new ArrayList<>();
-    Random random = new Random();
+    Collections.shuffle(recipes);
 
     for (int i = 0; i < MAX_NUMBER_OF_RECIPES_TO_RETURN; i++) {
-      if (recipes.isEmpty()) {
-        return result;
-      }
-      int index = random.nextInt(recipes.size());
-      result.add(recipes.get(index));
-      recipes.remove(index);
+      result.add(recipes.get(i));
     }
     return result;
   }

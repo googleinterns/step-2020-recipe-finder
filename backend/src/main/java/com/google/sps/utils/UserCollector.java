@@ -15,6 +15,7 @@
 package com.google.sps.utils;
 
 import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -23,7 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class UserCollector {
-  public static Entity getUserEntity(String userId, DatastoreService datastore) {
+  public static Entity getUserEntity(String userId) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
     Query query =
         new Query(UserConstants.ENTITY_USER)
             .setFilter(
@@ -40,7 +43,9 @@ public final class UserCollector {
   }
 
   public static void addRecipeToUserRecipeList(
-      Entity userEntity, String property, Long recipeId, DatastoreService datastore) {
+      Entity userEntity, String property, Long recipeId) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
     List<Long> recipeIds = (List<Long>) userEntity.getProperty(property);
     if (recipeIds == null) {
       recipeIds = new ArrayList<>();
