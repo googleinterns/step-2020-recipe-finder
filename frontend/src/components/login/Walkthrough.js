@@ -20,10 +20,7 @@ import signup from "../../walkthrough-images/sign-up.png";
 import inputtext from "../../walkthrough-images/input-text.png";
 import recommended from "../../walkthrough-images/recommended.png";
 import tutorial from "../../walkthrough-images/tutorial.png";
-import favourites from "../../walkthrough-images/favourites.png";
-import history from "../../walkthrough-images/history.png";
 import home from "../../walkthrough-images/home.png";
-import done from "../../walkthrough-images/done.png";
 import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
 import "./Walkthrough.css";
@@ -114,19 +111,6 @@ class Walkthrough extends Component {
       { text: "2. Enter your ingredients", image: inputtext },
       { text: "3. Select a recipe you want to cook", image: recommended },
       { text: "4. Cook with recipe steps read out to you", image: tutorial },
-      {
-        text:
-          "5. Enjoy eating your masterpiece and don't forget to save it to favourites if you liked it!",
-        image: done,
-      },
-      {
-        text: "You can view recipes that you've cooked in the past ..",
-        image: favourites,
-      },
-      {
-        text: ".. and view your favourite recipes in your account",
-        image: history,
-      },
       { text: "Welcome to Recipe Finder!", image: home },
     ];
   }

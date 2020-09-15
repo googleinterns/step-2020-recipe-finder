@@ -35,7 +35,6 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <div>
           <ReactErrorHandler>
             <Switch>
               <Route exact path="/" component={Login} />
@@ -57,7 +56,6 @@ function App() {
               />
             </Switch>
           </ReactErrorHandler>
-        </div>
       </Router>
     </div>
   );

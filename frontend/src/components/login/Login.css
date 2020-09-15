@@ -12,18 +12,23 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+.walkthrough-btn,
 .login-btn {
-  width: 300px;
+  width: 100%;
   margin-top: 16px;
-  margin-bottom: 40px;
-  position: relative;
-}
-
-.walkthrough-btn {
-  width: 300px;
-  margin-top: 470px;
 }
 
 .login-div {
   text-align: center;
+  bottom: 40px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 300px;
+  margin: auto;
+}
+
+#login-div {
+  height: 100%;
+  position: relative;
 }

@@ -74,7 +74,7 @@ class Login extends Component {
     }
 
     return (
-      <div>
+      <div id="login-div">
         <Walkthrough
           handleClose={this.handleClose}
           showModal={this.state.showModal}

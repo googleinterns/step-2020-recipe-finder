@@ -12,11 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
+html,
 body {
   margin: 0;
   font-family: "Noto Sans JP", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
 }
 
 code {
@@ -27,6 +29,10 @@ code {
 .centered-container {
   margin: auto;
   width: 80%;
+}
+
+#root {
+  height: 100%;
 }
 
 @media only screen and (max-width: 1442px) {
