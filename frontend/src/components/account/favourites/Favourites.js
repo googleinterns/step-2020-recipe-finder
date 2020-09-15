@@ -12,20 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
-import AccountHeader from "../account-header/AccountHeader";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { Recipe } from "../../recipe/Recipe";
 import "./Favourites.css";
 import { loading } from "../../utils/Utilities";
+import ComponentWithHeader from "../../header/ComponentWithHeader";
 
-class Favourites extends Component {
+class Favourites extends ComponentWithHeader {
   constructor(properties) {
     super(properties);
     this.state = {
       recipes: [],
-      isLoading: true
+      loading: true,
     };
   }
 
@@ -33,14 +33,13 @@ class Favourites extends Component {
     this.getFavourites();
   }
 
-  render() {
-    if (this.state.isLoading) {
+  renderContent() {
+    if (this.state.loading) {
       return loading("Getting your favourite recipes ...");
     }
 
     return (
       <div>
-        <AccountHeader />
         <div className="centered-container">
           <h1 className="account-page-title">Favourites</h1>
           <p>{this.getMessageIfNoFavourites()}</p>
@@ -79,7 +78,7 @@ class Favourites extends Component {
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json }))
       .catch((err) => console.log(err))
-      .finally(() => this.setState({isLoading: false}));
+      .finally(() => this.setState({ loading: false }));
   }
 
   removeFavourite = (recipeId) => {

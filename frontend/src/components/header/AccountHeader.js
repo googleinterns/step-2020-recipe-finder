@@ -15,6 +15,7 @@
 import React, { Component } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import home from "../../icons/home.svg";
 import "./AccountHeader.css";
 
 class AccountHeader extends Component {
@@ -22,7 +23,10 @@ class AccountHeader extends Component {
     return (
       <div className="navbar-div">
         <Navbar id="account-header" fixed="top" expand="lg">
-          <Navbar.Brand href="/home">Recipe Finder</Navbar.Brand>
+          <Navbar.Brand href="/home">
+            <img src={home} alt="home" />
+            Recipe Finder
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
