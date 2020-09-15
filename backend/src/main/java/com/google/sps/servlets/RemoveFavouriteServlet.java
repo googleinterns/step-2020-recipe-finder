@@ -14,7 +14,10 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.sps.utils.DatastoreUtils;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
 import java.util.List;
@@ -33,12 +36,13 @@ public class RemoveFavouriteServlet extends AuthenticationServlet {
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Long recipeId = Long.parseLong(request.getReader().readLine());
-    Entity userEntity = DatastoreUtils.gtUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity();
 
     List<Long> favourites =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_FAVOURITES);
     if (favourites.remove(recipeId)) {
       userEntity.setProperty(UserConstants.PROPERTY_FAVOURITES, favourites);
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       datastore.put(userEntity);
     }
   }

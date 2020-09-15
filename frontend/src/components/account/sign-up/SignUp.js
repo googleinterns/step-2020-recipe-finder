@@ -20,6 +20,7 @@ import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
 import { backButton } from "../../utils/Utilities";
 import Walkthrough from "../../login/Walkthrough";
 import Toast from "react-bootstrap/Toast";
+import AccountHeader from "../../header/AccountHeader";
 
 class SignUp extends Component {
   constructor(properties) {
@@ -44,6 +45,7 @@ class SignUp extends Component {
     this.setShowModal = this.setShowModal.bind(this);
     this.closeModalAndToast = this.closeModalAndToast.bind(this);
     this.closeToast = this.closeToast.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
   render() {
@@ -54,9 +56,10 @@ class SignUp extends Component {
       <div>
         {this.getBackButtonIfChangeAccountDetails()}
         {this.getWalkthroughIfSignUp()}
+        {this.state.isSignUp ? "" : <AccountHeader />}
         <div className="centered-container">
           <h1>{title}</h1>
-          <Form action="/api/account" method="POST">
+          <Form action="/api/sign-up" method="POST" onSubmit={this.submitForm}>
             <Form.Control
               type="hidden"
               name="redirectLink"
@@ -88,7 +91,7 @@ class SignUp extends Component {
                 />
               ))}
               {this.state.allergies.map((item, index) => (
-                <div className="custom-diet-div">
+                <div key={index} className="custom-diet-div">
                   <Form.Control
                     className="custom-diet-input"
                     type="text"
@@ -167,6 +170,10 @@ class SignUp extends Component {
 
   setShowModal() {
     this.setState({ showModal: true });
+  }
+  
+  submitForm(event) {
+    event.preventDefault();
   }
 
   addAllergy() {

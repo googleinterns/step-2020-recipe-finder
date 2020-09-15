@@ -14,6 +14,8 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import com.google.sps.data.User;
@@ -67,10 +69,11 @@ public class AccountServlet extends AuthenticationServlet {
 
     Set<String> allergies = getFormattedDietaryRequirements(allergiesArray);
 
-    Entity userEntity = DatastoreUtils.gtUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity();
     userEntity.setProperty(UserConstants.PROPERTY_NAME, name);
     userEntity.setProperty(UserConstants.PROPERTY_DIETS, diets);
     userEntity.setProperty(UserConstants.PROPERTY_ALLERGIES, allergies);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(userEntity);
     response.sendRedirect(redirectLink);
   }
