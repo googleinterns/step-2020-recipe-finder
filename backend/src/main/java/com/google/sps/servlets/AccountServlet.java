@@ -34,7 +34,7 @@ public class AccountServlet extends AuthenticationServlet {
   /** Returns user's account details */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Entity userEntity = DatastoreUtils.gtUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity();
     if (userEntity.getProperty(UserConstants.PROPERTY_NAME) == null) {
       response.sendRedirect("/sign-up");
       return;
