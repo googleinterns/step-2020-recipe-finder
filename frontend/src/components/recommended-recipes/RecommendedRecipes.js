@@ -16,9 +16,12 @@ import Button from "react-bootstrap/Button";
 import React from "react";
 import { Redirect } from "react-router-dom";
 import "./RecommendedRecipes.css";
+import fridge from "../../icons/fridge.svg";
+import Popover from "react-bootstrap/Popover";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { handleResponseError } from "../utils/APIErrorHandler";
 import { errorRedirect } from "../utils/APIErrorHandler";
-import { loading, backButton } from "../utils/Utilities";
+import { loading, backButton, renderHTML } from "../utils/Utilities";
 import { Recipe } from "../recipe/Recipe";
 import ComponentWithHeader from "../header/ComponentWithHeader";
 
@@ -31,6 +34,7 @@ class RecommendedRecipes extends ComponentWithHeader {
       recipes: [],
       chosenRecipe: {},
       error: null,
+      ingredients: [],
     };
   }
 
@@ -48,7 +52,13 @@ class RecommendedRecipes extends ComponentWithHeader {
     fetch(request)
       .then(handleResponseError)
       .then((response) => response.json())
-      .then((json) => this.setState({ recipes: json, loading: false }))
+      .then((json) =>
+        this.setState({
+          recipes: json,
+          loading: false,
+          ingredients: ingredients,
+        })
+      )
       .catch((error) => this.setState({ error: error }));
   }
 
@@ -77,7 +87,19 @@ class RecommendedRecipes extends ComponentWithHeader {
           {this.state.recipes.map((recipe, index) => {
             const button = (
               <div className="right-side-btn">
+                <OverlayTrigger
+                  trigger="focus"
+                  placement="auto"
+                  overlay={this.ingredientsPopover(recipe)}
+                >
+                  <div>
+                    <Button variant="link" className="ingredients-btn">
+                      <img src={fridge} alt="ingredients" /> Ingredients
+                    </Button>
+                  </div>
+                </OverlayTrigger>
                 <Button
+                  className="recommended-lets-go"
                   variant="primary"
                   onClick={() => this.setRecipeAndRedirect(recipe)}
                 >
@@ -89,6 +111,19 @@ class RecommendedRecipes extends ComponentWithHeader {
           })}
         </div>
       </div>
+    );
+  }
+
+  ingredientsPopover(recipe) {
+    return (
+      <Popover>
+        <Popover.Title as="h3">Ingredients</Popover.Title>
+        <Popover.Content>
+          {recipe.ingredients.map((item, i) => (
+            <p key={i}>{renderHTML(item)}</p>
+          ))}
+        </Popover.Content>
+      </Popover>
     );
   }
 

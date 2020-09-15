@@ -48,7 +48,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
 
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String ingredients = request.getReader().readLine();
+    String ingredients = request.getReader().readLine().replaceAll(" ", "%20");
     String json =
         Jsoup.connect(BBCGoodFoodRecipeScraper.searchRecipeLink(ingredients, key))
             .ignoreContentType(true)
