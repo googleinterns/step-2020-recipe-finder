@@ -21,7 +21,7 @@ import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { handleResponseError } from "../utils/APIErrorHandler";
 import { errorRedirect } from "../utils/APIErrorHandler";
-import { loading, backButton } from "../utils/Utilities";
+import { loading, backButton, renderHTML } from "../utils/Utilities";
 import { Recipe } from "../recipe/Recipe";
 
 class RecommendedRecipes extends Component {
@@ -33,7 +33,7 @@ class RecommendedRecipes extends Component {
       recipes: [],
       chosenRecipe: {},
       error: null,
-      ingredients: []
+      ingredients: [],
     };
   }
 
@@ -51,7 +51,13 @@ class RecommendedRecipes extends Component {
     fetch(request)
       .then(handleResponseError)
       .then((response) => response.json())
-      .then((json) => this.setState({ recipes: json, isLoading: false, ingredients: ingredients }))
+      .then((json) =>
+        this.setState({
+          recipes: json,
+          isLoading: false,
+          ingredients: ingredients,
+        })
+      )
       .catch((error) => this.setState({ error: error }));
   }
 
@@ -81,15 +87,15 @@ class RecommendedRecipes extends Component {
             const button = (
               <div className="right-side-btn">
                 <OverlayTrigger
-                trigger="click"
-                placement="left"
-                overlay={this.ingredientsPopover(recipe)}
+                  trigger="focus"
+                  placement="auto"
+                  overlay={this.ingredientsPopover(recipe)}
                 >
-                <div>
-                    <Button variant="link" className="missing-ingredients-btn">
-                    <img src={fridge} alt="missing-ingredients" /> Ingredients
+                  <div>
+                    <Button variant="link" className="ingredients-btn">
+                      <img src={fridge} alt="ingredients" /> Ingredients
                     </Button>
-                </div>
+                  </div>
                 </OverlayTrigger>
                 <Button
                   className="recommended-lets-go"
@@ -108,23 +114,16 @@ class RecommendedRecipes extends Component {
   }
 
   ingredientsPopover(recipe) {
-    const renderHTML = (rawHTML) =>
-      React.createElement("div", {
-        dangerouslySetInnerHTML: { __html: rawHTML },
-      });
-      const missingIngredients = recipe.ingredients.filter(this.filterIngredients);
-      return (<Popover>
+    return (
+      <Popover>
         <Popover.Title as="h3">Ingredients</Popover.Title>
         <Popover.Content>
-            {missingIngredients.map((item, i) => (
+          {recipe.ingredients.map((item, i) => (
             <p key={i}>{renderHTML(item)}</p>
-            ))}
+          ))}
         </Popover.Content>
-        </Popover>);
-  }  
-
-  filterIngredients(ingredient) {
-    return this.state.ingredients.filter((item) => ingredient.includes(item)).length === 0;
+      </Popover>
+    );
   }
 
   getMessageIfNoRecipes() {

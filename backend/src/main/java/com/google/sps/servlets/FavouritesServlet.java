@@ -14,13 +14,10 @@
 
 package com.google.sps.servlets;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
+import com.google.sps.utils.DatastoreUtils;
 import com.google.sps.utils.RecipeCollector;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
@@ -35,13 +32,9 @@ public class FavouritesServlet extends AuthenticationServlet {
   /** Returns user's list of favourite recipes */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    String userId = userService.getCurrentUser().getUserId();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity userEntity = UserCollector.getUserEntity(userId, datastore);
-
-    List<Long> favourites = (List<Long>) userEntity.getProperty(UserConstants.PROPERTY_FAVOURITES);
+    Entity userEntity = DatastoreUtils.gtUserEntity();
+    List<Long> favourites =
+        DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_FAVOURITES);
 
     List<Recipe> recipes = RecipeCollector.getRecipes(favourites, datastore);
 
@@ -53,11 +46,7 @@ public class FavouritesServlet extends AuthenticationServlet {
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Long recipeId = Long.parseLong(request.getReader().readLine());
-    UserService userService = UserServiceFactory.getUserService();
-    String userId = userService.getCurrentUser().getUserId();
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity userEntity = UserCollector.getUserEntity(userId, datastore);
+    Entity userEntity = DatastoreUtils.gtUserEntity();
 
     UserCollector.addRecipeToUserRecipeList(
         userEntity, UserConstants.PROPERTY_FAVOURITES, recipeId, datastore);

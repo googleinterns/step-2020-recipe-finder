@@ -23,7 +23,7 @@ public final class Recipe {
   private final String time;
   private final String calories;
   private final String difficulty;
-  private final String image;
+  private final String imageUrl;
   private final List<String> dietaryRequirements;
   private final List<String> ingredients;
   private final List<String> instructions;
@@ -34,7 +34,7 @@ public final class Recipe {
       String time,
       String calories,
       String difficulty,
-      String image,
+      String imageUrl,
       List<String> dietaryRequirements,
       List<String> ingredients,
       List<String> instructions) {
@@ -42,7 +42,7 @@ public final class Recipe {
     this.time = time;
     this.calories = calories;
     this.difficulty = difficulty;
-    this.image = image;
+    this.imageUrl = imageUrl;
     this.dietaryRequirements = dietaryRequirements;
     this.ingredients = ingredients;
     this.instructions = instructions;
@@ -74,7 +74,7 @@ public final class Recipe {
         && time.equals(recipe.time)
         && calories.equals(recipe.calories)
         && difficulty.equals(recipe.difficulty)
-        && image.equals(recipe.image)
+        && imageUrl.equals(recipe.imageUrl)
         && dietaryRequirements.equals(recipe.dietaryRequirements)
         && ingredients.equals(recipe.ingredients)
         && instructions.equals(recipe.instructions);
@@ -83,7 +83,7 @@ public final class Recipe {
   @Override
   public int hashCode() {
     int multiplier = 31;
-    int result = Objects.hash(name, time, calories, difficulty, image);
+    int result = Objects.hash(name, time, calories, difficulty, imageUrl);
     if (dietaryRequirements != null) {
       result = multiplier * result + dietaryRequirements.hashCode();
     }
@@ -98,7 +98,7 @@ public final class Recipe {
         + "time: " + time + "\n" 
         + "calories: " + calories + "\n" 
         + "difficulty: " + difficulty + "\n"
-        + "image: " + image + "\n"
+        + "imageUrl: " + imageUrl + "\n"
         + "diet: " + dietaryRequirements + "\n" 
         + "ingredients: " + ingredients + "\n" 
         + "instructions: " + instructions;
