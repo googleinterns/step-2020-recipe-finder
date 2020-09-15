@@ -12,15 +12,16 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-import React, { Component } from "react";
+import React from "react";
 import InputTextItems from "./InputTextItems";
 import "./InputText.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
 import { backButton } from "../../utils/Utilities";
+import ComponentWithHeader from "../../header/ComponentWithHeader";
 
-class InputText extends Component {
+class InputText extends ComponentWithHeader {
   constructor(properties) {
     super(properties);
 
@@ -74,7 +75,7 @@ class InputText extends Component {
     });
   }
 
-  render() {
+  renderContent() {
     const ingredients = this.state.items.map((item) => item.text);
     return (
       <div>

@@ -15,6 +15,7 @@
 package com.google.sps.utils;
 
 import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -24,7 +25,9 @@ import java.util.List;
 
 public final class RecipeCollector {
 
-  public static List<Recipe> getRecipes(List<Long> recipeIds, DatastoreService datastore) {
+  public static List<Recipe> getRecipes(List<Long> recipeIds) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
     List<Recipe> recipes = new ArrayList<>();
     if (recipeIds == null) return recipes;
     for (Long recipeIdLong : recipeIds) {
@@ -43,6 +46,7 @@ public final class RecipeCollector {
         String time = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_TIME);
         String calories = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_CALORIES);
         String difficulty = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_DIFFICULTY);
+        String image = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_IMAGE);
         List<String> dietaryRequirements =
             (List<String>) recipeEntity.getProperty(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS);
         List<String> ingredients =
@@ -56,6 +60,7 @@ public final class RecipeCollector {
                 time,
                 calories,
                 difficulty,
+                image,
                 dietaryRequirements,
                 ingredients,
                 instructions));

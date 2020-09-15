@@ -149,7 +149,7 @@ class Tutorial extends Component {
   }
 
   finishCooking(recipe) {
-    const request = new Request("/api/store-recipe", {
+    const request = new Request("/api/history", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

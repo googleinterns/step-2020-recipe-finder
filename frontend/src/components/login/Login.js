@@ -25,11 +25,11 @@ class Login extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      isLoggedIn: false,
+      loggedIn: false,
       logUrl: "",
       error: null,
-      isLoading: true,
-      isFirstTime: false,
+      loading: true,
+      firstTime: false,
     };
   }
 
@@ -39,10 +39,10 @@ class Login extends Component {
       .then((response) => response.json())
       .then((json) => {
         this.setState({
-          isLoggedIn: json.isLoggedIn,
+          loggedIn: json.isLoggedIn,
           logUrl: json.logUrl,
-          isLoading: false,
-          isFirstTime: json.isFirstTime,
+          loading: false,
+          firstTime: json.isFirstTime,
         });
       })
       .catch((error) => this.setState({ error: error }));
@@ -53,16 +53,16 @@ class Login extends Component {
       return errorRedirect(this.state.error);
     }
 
-    if (this.state.isLoading) {
+    if (this.state.loading) {
       return loading();
     }
 
-    if (this.state.isFirstTime) {
+    if (this.state.firstTime) {
       this.trySavingSignOutToSessionStorage();
       return <Redirect to="/sign-up" />;
     }
 
-    if (this.state.isLoggedIn) {
+    if (this.state.loggedIn) {
       this.trySavingSignOutToSessionStorage();
       return <Redirect to="/home" />;
     }
