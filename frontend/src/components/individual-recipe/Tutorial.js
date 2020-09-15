@@ -18,8 +18,6 @@ import React, { Component } from "react";
 import "./CookRecipe.css";
 import navigateNext from "../../icons/navigate_next.svg";
 import navigatePrevious from "../../icons/navigate_previous.svg";
-import speakerOn from "../../icons/speaker-on.svg";
-import speakerOff from "../../icons/speaker-off.svg";
 import { Link } from "react-router-dom";
 
 class Tutorial extends Component {
@@ -29,7 +27,6 @@ class Tutorial extends Component {
       isLastStep: false,
     };
 
-    this.switchSpeaker = this.switchSpeaker.bind(this);
     this.getSelectedStep = this.getSelectedStep.bind(this);
   }
 
@@ -49,19 +46,13 @@ class Tutorial extends Component {
       <div>
         <audio
           controls
+          controlsList="nodownload"
           id="audio"
           style={{ display: this.props.isSpeakerOn ? "block" : "none" }}
         >
           <source src="" id="source" />
           Your browser does not support the audio element.
         </audio>
-        <div className="centered-div">
-          <Button variant="primary" onClick={this.switchSpeaker}>
-            <img src={this.getSpeakerIcon()} alt="switch speaker" />
-            {this.getSpeakerMessage()}
-          </Button>
-        </div>
-
         <Carousel
           interval={null} // to disable auto play of the carousel
           onSelect={this.setSelectedStepAndMaybeRead}
@@ -150,25 +141,10 @@ class Tutorial extends Component {
             }}
             onClick={() => this.finishCooking(this.props.recipe)}
           >
-            <Button>All done!</Button>
+            <Button className="all-done-btn">All done!</Button>
           </Link>
         </div>
       );
-    }
-  }
-
-  switchSpeaker() {
-    const currentStateIsSpeakerOn = !this.props.isSpeakerOn;
-    this.props.switchSpeaker();
-    try {
-      sessionStorage.setItem("isSpeakerOn", currentStateIsSpeakerOn);
-    } catch (error) {
-      console.log(error);
-    }
-    if (currentStateIsSpeakerOn) {
-      this.readStep(this.getSelectedStep());
-    } else {
-      this.props.pauseAudio();
     }
   }
 
@@ -182,15 +158,7 @@ class Tutorial extends Component {
       body: JSON.stringify(recipe),
     });
     fetch(request).catch((err) => console.log(err));
-    sessionStorage.removeItem("tutorial-step")
-  }
-
-  getSpeakerIcon() {
-    return this.props.isSpeakerOn ? speakerOff : speakerOn;
-  }
-
-  getSpeakerMessage() {
-    return this.props.isSpeakerOn ? "Don't read steps" : "Always read steps";
+    sessionStorage.removeItem("tutorial-step");
   }
 }
 export default Tutorial;
