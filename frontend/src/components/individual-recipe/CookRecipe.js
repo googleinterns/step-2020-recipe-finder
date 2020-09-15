@@ -16,10 +16,14 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import "./CookRecipe.css";
 import Tutorial from "./Tutorial";
 import { backButton } from "../utils/Utilities";
 import Button from "react-bootstrap/Button";
+import speakerOn from "../../icons/speaker-on.svg";
+import speakerOff from "../../icons/speaker-off.svg";
 import ComponentWithHeader from "../header/ComponentWithHeader";
 
 class CookRecipe extends ComponentWithHeader {
@@ -34,7 +38,8 @@ class CookRecipe extends ComponentWithHeader {
       key: activeKey !== null ? activeKey : "ingredients",
       audioSteps: new Array(recipe.instructions.length),
       isSpeakerOn: isSpeakerOn === null ? true : isSpeakerOn,
-      showModal: isSpeakerOn === null ? true : false,
+      showModal:
+        isSpeakerOn === null && activeKey === "tutorial" ? true : false,
     };
 
     this.readStep = this.readStep.bind(this);
@@ -51,7 +56,29 @@ class CookRecipe extends ComponentWithHeader {
       <div>
         {this.getModal()}
         {backButton()}
-        <h1>{recipe.name}</h1>
+        <Row>
+          <Col lg="9" xs="12" className="text-center">
+            <h2>{recipe.name}</h2>
+          </Col>
+          <Col lg="3" xs="12" className="text-center">
+            <Button
+              className="speaker-btn"
+              variant="primary"
+              onClick={this.switchSpeaker}
+            >
+              <Row>
+                <Col xs="2">
+                  <img
+                    src={this.getSpeakerIcon()}
+                    alt="switch speaker"
+                    className="speaker-icon"
+                  />
+                </Col>
+                <Col xs="10">{this.getSpeakerMessage()}</Col>
+              </Row>
+            </Button>
+          </Col>
+        </Row>
         <Tabs activeKey={this.state.key} onSelect={(key) => this.setKey(key)}>
           <Tab eventKey="ingredients" title="Ingredients">
             <div className="tab-content">
@@ -126,16 +153,18 @@ class CookRecipe extends ComponentWithHeader {
     } catch (error) {
       console.log(error);
     }
-    if (key === "tutorial" && this.state.isSpeakerOn) {
-      this.readStep(this.getSelectedStep());
-    } else {
-      this.pauseAudio();
-    }
-  }
 
-  switchSpeaker() {
-    const currentStateIsSpeakerOn = !this.state.isSpeakerOn;
-    this.setState({ isSpeakerOn: currentStateIsSpeakerOn });
+    const isSpeakerOn = JSON.parse(sessionStorage.getItem("isSpeakerOn"));
+    if (key === "tutorial") {
+      if (isSpeakerOn === null) {
+        this.setState({ showModal: true });
+      }
+      if (this.state.isSpeakerOn) {
+        this.readStep(this.getSelectedStep());
+      } else {
+        this.pauseAudio();
+      }
+    }
   }
 
   getSelectedStep() {
@@ -205,6 +234,29 @@ class CookRecipe extends ComponentWithHeader {
           // pause was prevented
         });
     }
+  }
+
+  switchSpeaker() {
+    const currentStateIsSpeakerOn = !this.state.isSpeakerOn;
+    this.setState({ isSpeakerOn: currentStateIsSpeakerOn });
+    try {
+      sessionStorage.setItem("isSpeakerOn", currentStateIsSpeakerOn);
+    } catch (error) {
+      console.log(error);
+    }
+    if (currentStateIsSpeakerOn) {
+      this.readStep(this.getSelectedStep());
+    } else {
+      this.pauseAudio();
+    }
+  }
+
+  getSpeakerIcon() {
+    return this.state.isSpeakerOn ? speakerOff : speakerOn;
+  }
+
+  getSpeakerMessage() {
+    return this.state.isSpeakerOn ? "Don't read steps" : "Read steps";
   }
 }
 export default CookRecipe;

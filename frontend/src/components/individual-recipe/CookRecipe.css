@@ -59,3 +59,38 @@ audio {
   margin: auto;
   margin-bottom: 10px;
 }
+
+.cook-recipe-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.cook-recipe-header h2 {
+  width: 70%;
+  margin-right: 0;
+  float: left;
+}
+
+.row {
+  align-items: center;
+}
+
+.speaker-btn {
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.all-done-btn {
+  margin-bottom: 50px;
+}
+
+.speaker-icon {
+  width: 22px;
+}
+
+.col-2,
+.col-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
