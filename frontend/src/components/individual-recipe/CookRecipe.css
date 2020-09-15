@@ -72,12 +72,25 @@ audio {
   float: left;
 }
 
+.row {
+  align-items: center;
+}
+
 .speaker-btn {
-  width: 50%;
   margin: auto;
   margin-bottom: 10px;
 }
 
 .all-done-btn {
   margin-bottom: 50px;
+}
+
+.speaker-icon {
+  width: 22px;
+}
+
+.col-2,
+.col-10 {
+  padding-left: 10px;
+  padding-right: 10px;
 }

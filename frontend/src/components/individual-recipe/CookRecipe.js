@@ -56,17 +56,25 @@ class CookRecipe extends Component {
         {this.getModal()}
         {backButton()}
         <Row>
-          <Col lg="7" xs="12" className="text-center">
+          <Col lg="9" xs="12" className="text-center">
             <h2>{recipe.name}</h2>
           </Col>
-          <Col lg="5" xs="12" className="text-center">
+          <Col lg="3" xs="12" className="text-center">
             <Button
               className="speaker-btn"
               variant="primary"
               onClick={this.switchSpeaker}
             >
-              <img src={this.getSpeakerIcon()} alt="switch speaker" />
-              {this.getSpeakerMessage()}
+              <Row>
+                <Col xs="2">
+                  <img
+                    src={this.getSpeakerIcon()}
+                    alt="switch speaker"
+                    className="speaker-icon"
+                  />
+                </Col>
+                <Col xs="10">{this.getSpeakerMessage()}</Col>
+              </Row>
             </Button>
           </Col>
         </Row>
@@ -247,7 +255,7 @@ class CookRecipe extends Component {
   }
 
   getSpeakerMessage() {
-    return this.state.isSpeakerOn ? "Don't read steps" : "Always read steps";
+    return this.state.isSpeakerOn ? "Don't read steps" : "Read steps";
   }
 }
 export default CookRecipe;
