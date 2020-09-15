@@ -41,9 +41,9 @@ import org.jsoup.Jsoup;
 public class FindRecipesServlet extends AuthenticationServlet {
   private static final int MAX_NUMBER_OF_RECIPES_TO_STORE = 6;
   private static final int MAX_NUMBER_OF_RECIPES_TO_RETURN = 3;
+  private static final String API_KEY = ApiKeys.customSearchKey;
   private static final int MAX_NUMBER_OF_RESULTS_PER_PAGE = 10;
   private static final int MAX_NUMBER_OF_RESULTS_OVERALL = 100;
-  private static final String API_KEY = ApiKeys.customSearchKey;
   private int mIndexOfFirstResult = 1;
 
   @Override
