@@ -26,14 +26,14 @@ import ComponentWithHeader from "../../header/ComponentWithHeader";
 class Account extends ComponentWithHeader {
   constructor(properties) {
     super(properties);
-    const signOut = sessionStorage.getItem("signOutUrl");
+    const signOutUrl = sessionStorage.getItem("signOutUrl");
     this.state = {
       name: "",
       diets: [],
       allergies: [],
-      isLoading: true,
+      loading: true,
       error: null,
-      signOut: signOut !== null ? signOut : this.fetchSignOut(),
+      signOutUrl: signOutUrl !== null ? signOutUrl : this.fetchSignOutUrl(),
     };
   }
 
@@ -46,7 +46,7 @@ class Account extends ComponentWithHeader {
           name: json.name,
           diets: json.diets,
           allergies: json.allergies,
-          isLoading: false,
+          loading: false,
         })
       )
       .catch((error) => this.setState({ error: error }));
@@ -57,7 +57,7 @@ class Account extends ComponentWithHeader {
       return errorRedirect(this.state.error);
     }
 
-    if (this.state.isLoading) {
+    if (this.state.loading) {
       return loading("Getting account details ...");
     }
 
@@ -69,7 +69,7 @@ class Account extends ComponentWithHeader {
               <h1 className="account-page-title">My Account</h1>
             </div>
             <div className="sign-out-div">
-              <a href={this.state.signOut} onClick={this.removeSignOut}>
+              <a href={this.state.signOutUrl} onClick={this.removeSignOut}>
                 <img src={sign_out} alt="account" id="account-icon" />
                 <div id="sign-out-text">Sign Out</div>
               </a>
@@ -108,7 +108,7 @@ class Account extends ComponentWithHeader {
     );
   }
 
-  fetchSignOut() {
+  fetchSignOutUrl() {
     fetch("/api/login-status")
       .then(handleResponseError)
       .then((response) => response.json())

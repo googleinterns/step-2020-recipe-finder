@@ -25,7 +25,7 @@ class Favourites extends ComponentWithHeader {
     super(properties);
     this.state = {
       recipes: [],
-      isLoading: true,
+      loading: true,
     };
   }
 
@@ -34,7 +34,7 @@ class Favourites extends ComponentWithHeader {
   }
 
   renderContent() {
-    if (this.state.isLoading) {
+    if (this.state.loading) {
       return loading("Getting your favourite recipes ...");
     }
 
@@ -78,7 +78,7 @@ class Favourites extends ComponentWithHeader {
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json }))
       .catch((err) => console.log(err))
-      .finally(() => this.setState({ isLoading: false }));
+      .finally(() => this.setState({ loading: false }));
   }
 
   removeFavourite = (recipeId) => {

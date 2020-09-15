@@ -17,7 +17,8 @@ limitations under the License. */
 }
 
 .navbar-light .navbar-nav .nav-link,
-.navbar-light .navbar-brand {
+.navbar-light .navbar-brand,
+.navbar-light .navbar-brand:hover {
   color: white;
 }
 
@@ -35,6 +36,7 @@ limitations under the License. */
 }
 
 .navbar-brand img {
-  padding-bottom: 5px;
-  padding-right: 3px;
+  padding-bottom: 3px;
+  padding-right: 8px;
+  width: 29px;
 }

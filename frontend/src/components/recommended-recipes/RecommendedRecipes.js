@@ -26,7 +26,7 @@ class RecommendedRecipes extends ComponentWithHeader {
   constructor(properties) {
     super(properties);
     this.state = {
-      isLoading: true,
+      loading: true,
       isRedirect: false,
       recipes: [],
       chosenRecipe: {},
@@ -48,7 +48,7 @@ class RecommendedRecipes extends ComponentWithHeader {
     fetch(request)
       .then(handleResponseError)
       .then((response) => response.json())
-      .then((json) => this.setState({ recipes: json, isLoading: false }))
+      .then((json) => this.setState({ recipes: json, loading: false }))
       .catch((error) => this.setState({ error: error }));
   }
 
@@ -57,7 +57,7 @@ class RecommendedRecipes extends ComponentWithHeader {
       return errorRedirect(this.state.error);
     }
 
-    if (this.state.isLoading) {
+    if (this.state.loading) {
       return loading("Scanning recipes ...");
     }
 
