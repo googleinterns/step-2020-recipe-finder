@@ -45,7 +45,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
   private static final String API_KEY = ApiKeys.customSearchKey;
   private static final int MAX_NUMBER_OF_RESULTS_PER_PAGE = 10;
   private static final int MAX_NUMBER_OF_RESULTS_OVERALL = 100;
-  private int mIndexOfFirstResult = 1;
+  private static final int DEFAULT_INDEX = 1;
 
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -62,10 +62,11 @@ public class FindRecipesServlet extends AuthenticationServlet {
 
     List<Recipe> recipes = new ArrayList<>();
     int counter = 0;
+    int indexOfFirstResult = DEFAULT_INDEX;
 
     while (counter != MAX_NUMBER_OF_RECIPES_TO_STORE
-        && mIndexOfFirstResult <= MAX_NUMBER_OF_RESULTS_OVERALL) {
-      JsonArray items = getRecipeItemsFromCustomSearch(ingredients);
+        && indexOfFirstResult <= MAX_NUMBER_OF_RESULTS_OVERALL) {
+      JsonArray items = getRecipeItemsFromCustomSearch(ingredients, indexOfFirstResult);
 
       for (JsonElement item : items) {
         JsonObject object = item.getAsJsonObject();
@@ -76,7 +77,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
           counter++;
         }
       }
-      mIndexOfFirstResult += MAX_NUMBER_OF_RESULTS_PER_PAGE;
+      indexOfFirstResult += MAX_NUMBER_OF_RESULTS_PER_PAGE;
     }
 
     response.setCharacterEncoding("UTF8");
@@ -84,12 +85,12 @@ public class FindRecipesServlet extends AuthenticationServlet {
     response.getWriter().println(new Gson().toJson(getRandomisedRecipes(recipes)));
   }
 
-  private JsonArray getRecipeItemsFromCustomSearch(String ingredients) throws IOException {
+  private JsonArray getRecipeItemsFromCustomSearch(String ingredients, int indexOfFirstResult) throws IOException {
     try {
       String json =
           Jsoup.connect(
                     BBCGoodFoodRecipeScraper.searchRecipeLink(
-                        ingredients, API_KEY, mIndexOfFirstResult))
+                        ingredients, API_KEY, indexOfFirstResult))
               .ignoreContentType(true)
               .execute()
               .body();
