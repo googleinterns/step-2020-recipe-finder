@@ -27,7 +27,7 @@ import Login from "./components/login/Login";
 import SignUp from "./components/account/sign-up/SignUp";
 import Favourites from "./components/account/favourites/Favourites";
 import Account from "./components/account/my-account/Account";
-import History from "./components/account/history/History";
+import AccountHistory from "./components/account/history/History";
 import ReactErrorHandler from "./components/utils/ReactErrorHandler";
 import ErrorPage from "./components/utils/APIErrorHandler";
 import { PrivateRoute } from "./components/utils/PrivateRoute";
@@ -36,7 +36,6 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <div>
           <ReactErrorHandler>
             <Switch>
               <Route exact path="/" component={Login} />
@@ -48,7 +47,7 @@ function App() {
               <PrivateRoute exact path="/account" component={Account} />
               <PrivateRoute exact path="/cook" component={CookRecipe} />
               <PrivateRoute exact path="/shop" component={ShoppingList} />
-              <PrivateRoute exact path="/history" component={History} />
+              <PrivateRoute exact path="/history" component={AccountHistory} />
               <PrivateRoute exact path="/inventory" component={Inventory} />
               <PrivateRoute exact path="/favourites" component={Favourites} />
               <PrivateRoute exact path="/finished" component={FinishedRecipe} />
@@ -59,7 +58,6 @@ function App() {
               />
             </Switch>
           </ReactErrorHandler>
-        </div>
       </Router>
     </div>
   );

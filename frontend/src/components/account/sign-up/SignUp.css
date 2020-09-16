@@ -42,3 +42,27 @@ limitations under the License. */
 .form-check {
   margin-top: 10px;
 }
+
+.toast {
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.toast-body .btn img {
+  margin-right: 10px;
+}
+
+.toast-body .btn {
+  font-size: 0.875rem;
+}
+
+.toast-header .close {
+  display: none;
+}
+
+.toast-body {
+  padding: 0;
+}
+
+.toast-header {
+}
