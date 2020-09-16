@@ -17,6 +17,7 @@ limitations under the License. */
   padding-right: 20%;
   padding-top: 4%;
   font-family: "Noto Sans JP", sans-serif;
+  height: 100%;
 }
 
 @media only screen and (max-width: 600px) {

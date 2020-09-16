@@ -12,37 +12,37 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License. */
 
-html,
-body {
-  margin: 0;
-  font-family: "Noto Sans JP", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 100%;
+.walkthrough-image {
+  width: 300px;
+  border: 2px solid #6c757d;
+  border-radius: 6px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.walkthrough-step {
+  width: 100%;
+  padding-left: 15%;
+  padding-right: 15%;
+  text-align: center;
 }
 
-.centered-container {
-  margin: auto;
-  width: 80%;
+.walkthrough-text {
+  margin-top: 8px;
+  width: 100%;
+  height: 56px;
+  font-weight: 700;
 }
 
-#root {
-  height: 100%;
+.walkthrough-carousel .modal-dialog {
+  top: 70px;
 }
-
-@media only screen and (max-width: 1442px) {
-  .centered-container {
-    width: 90%;
+.walkthrough-carousel .modal-dialog .modal-content .modal-footer {
+  padding-top: 0;
+}
+@media only screen and (max-width: 600px) {
+  .walkthrough-carousel .modal-dialog {
+    top: 0;
   }
-}
-
-@media only screen and (max-width: 800px) {
-  .centered-container {
-    width: 100%;
+  .walkthrough-image {
+    width: 200px;
   }
 }

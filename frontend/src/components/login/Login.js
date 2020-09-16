@@ -20,6 +20,7 @@ import { errorRedirect } from "../utils/APIErrorHandler";
 import { loading } from "../utils/Utilities";
 import "./Login.css";
 import { getBackground } from "../../utils/Background";
+import Walkthrough from "./Walkthrough";
 
 class Login extends Component {
   constructor(properties) {
@@ -28,9 +29,14 @@ class Login extends Component {
       loggedIn: false,
       logUrl: "",
       error: null,
+      showModal: false,
+      background: getBackground(),
       loading: true,
       firstTime: false,
     };
+
+    this.handleClose = this.handleClose.bind(this);
+    this.setShowModal = this.setShowModal.bind(this);
   }
 
   componentDidMount() {
@@ -54,7 +60,7 @@ class Login extends Component {
     }
 
     if (this.state.loading) {
-      return loading();
+      return loading("Welcome! Checking if you're logged in ...", true);
     }
 
     if (this.state.firstTime) {
@@ -68,16 +74,35 @@ class Login extends Component {
     }
 
     return (
-      <div>
-        {getBackground()}
-        <h1 className="white-text">Recipe Finder</h1>
+      <div id="login-div">
+        <Walkthrough
+          handleClose={this.handleClose}
+          showModal={this.state.showModal}
+        />
+        {this.state.background}
+        <h1 className="white-text text-center">Recipe Finder</h1>
         <div className="login-div">
+          <Button
+            variant="secondary"
+            onClick={this.setShowModal}
+            className="walkthrough-btn"
+          >
+            Show me how Recipe Finder works
+          </Button>
           <a href={this.state.logUrl}>
             <Button className="login-btn">Login</Button>
           </a>
         </div>
       </div>
     );
+  }
+
+  handleClose() {
+    this.setState({ showModal: false });
+  }
+
+  setShowModal() {
+    this.setState({ showModal: true });
   }
 
   trySavingSignOutToSessionStorage() {
