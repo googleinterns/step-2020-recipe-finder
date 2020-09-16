@@ -57,8 +57,8 @@ public class FindRecipesServlet extends AuthenticationServlet {
     String ingredients = request.getReader().readLine().replaceAll(" ", "%20");
     Entity userEntity = DatastoreUtils.getUserEntity();
     List<String> diets = DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_DIETS);
-    List<String> allergies =
-        DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_ALLERGIES);
+    ArrayList<String> allergies = new ArrayList<>
+        (DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_ALLERGIES));
 
     List<Recipe> recipes = new ArrayList<>();
     int counter = 0;
@@ -85,18 +85,23 @@ public class FindRecipesServlet extends AuthenticationServlet {
   }
 
   private JsonArray getRecipeItemsFromCustomSearch(String ingredients) throws IOException {
-    String json =
-        Jsoup.connect(
-                BBCGoodFoodRecipeScraper.searchRecipeLink(
-                    ingredients, API_KEY, mIndexOfFirstResult))
-            .ignoreContentType(true)
-            .execute()
-            .body();
-    JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-    return jsonObject.get("items").getAsJsonArray();
+    try {
+      String json =
+          Jsoup.connect(
+                    BBCGoodFoodRecipeScraper.searchRecipeLink(
+                        ingredients, API_KEY, mIndexOfFirstResult))
+              .ignoreContentType(true)
+              .execute()
+              .body();
+      JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+      return jsonObject.get("items").getAsJsonArray();
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return new JsonArray();
   }
 
-  private boolean isDietFriendly(Recipe recipe, List<String> diets, List<String> allergies) {
+  private boolean isDietFriendly(Recipe recipe, List<String> diets, ArrayList<String> allergies) {
     if (diets.isEmpty() && allergies.isEmpty()) {
       return true;
     }

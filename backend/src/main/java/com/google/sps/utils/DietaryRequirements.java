@@ -14,8 +14,9 @@
 
 package com.google.sps.utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -41,10 +42,10 @@ public final class DietaryRequirements {
     return Arrays.asList(RECIPE_LABELLED_DIETS).contains(diet);
   }
 
-  public static void addRestrictedIngredientsToAllergies(String diet, List<String> allergies) {
+  public static void addRestrictedIngredientsToAllergies(String diet, ArrayList<String> allergies) {
     for (Pair<String, String[]> dietAndRestrictions : NON_RECIPE_LABELLED_DIETS) {
       if (diet.equals(dietAndRestrictions.getLeft())) {
-        allergies.addAll(Arrays.asList(dietAndRestrictions.getRight()));
+        Collections.addAll(allergies, dietAndRestrictions.getRight());
         return;
       }
     }
