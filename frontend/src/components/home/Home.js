@@ -22,7 +22,7 @@ import { getBackground } from "../../utils/Background";
 class Home extends Component {
   render() {
     return (
-      <div>
+      <div id="home-div">
         {getBackground()}
         <div className="home-header">
           <h1 id="home-title" className="white-text">
