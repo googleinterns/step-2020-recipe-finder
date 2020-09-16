@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License. */
 
 import React, {Component} from 'react';
-import './InputText.css';
+import '../text/InputText.css';
 import MicRecorder from 'mic-recorder-to-mp3';
 
 
@@ -42,6 +42,7 @@ class InputAudio extends Component {
               }).catch((e) => console.error(e));
           }
         };
+    
     stop = () => {
         console.log(this.state.recorder);
         this.state.recorder
@@ -57,7 +58,43 @@ class InputAudio extends Component {
           this.setState({ blobURL, isRecording: false });
           }).catch((e) => console.log(e));
     };
+    transcribe = () => {
+    const fs = require('fs');
+    // Imports the Google Cloud client library
+    const speech = require('@google-cloud/speech');
+    // Creates a client
+    const client = new speech.SpeechClient();
+    /**
+    * TODO(developer): Uncomment the following lines before running the sample.
+    */
+    const filename = this.state.blobURL;
+    const encoding = 'LINEAR16';
+    const sampleRateHertz = 16000;
+    const languageCode = 'en-US';
 
+    const request = {
+    config: {
+        encoding: encoding,
+        sampleRateHertz: sampleRateHertz,
+        languageCode: languageCode,
+    },
+    interimResults: false, // If you want interim results, set this to true
+    };
+
+    // Stream the audio to the Google Cloud Speech API
+    const recognizeStream = client
+    .streamingRecognize(request)
+    .on('error', console.error)
+    .on('data', data => {
+        localStorage.setItem("transcript", data.results[0].alternatives[0].transcript)
+        console.log(
+        `Transcription: ${data.results[0].alternatives[0].transcript}`
+        );
+    });
+
+    // Stream an audio file from disk to the Speech API, e.g. "./resources/audio.raw"
+    fs.createReadStream(filename).pipe(recognizeStream);
+    }
 
     componentDidMount() {
       navigator.getUserMedia({ audio: true },
@@ -80,8 +117,12 @@ class InputAudio extends Component {
             <button onClick={this.stop} disabled={!this.state.isRecording}>
             Stop
             </button>
+            <button onClick={this.transcribe} disabled={this.state.isRecording}>
+            Transcribe
+            </button>
             <audio src={this.state.blobURL} controls="controls" />
             <a href={localStorage.getItem("file")} download="audioFile">download</a>
+            <p>{localStorage.getItem("transcript")}</p>
           </div>
         );
       }
