@@ -59,7 +59,7 @@ export function Recipe(props) {
         <div className="dish-contents">
           <Row>
             <Col lg="5">
-              <img src={recipe.image} alt="recipe" className="recipe-image" />
+              <img src={recipe.imageUrl} alt="recipe" className="recipe-image" />
             </Col>
             <Col lg="7" xs="12">
               <p>

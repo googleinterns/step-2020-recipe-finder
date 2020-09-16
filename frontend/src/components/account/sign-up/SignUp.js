@@ -45,7 +45,6 @@ class SignUp extends Component {
     this.setShowModal = this.setShowModal.bind(this);
     this.closeModalAndToast = this.closeModalAndToast.bind(this);
     this.closeToast = this.closeToast.bind(this);
-    this.submitForm = this.submitForm.bind(this);
   }
 
   render() {
@@ -59,7 +58,7 @@ class SignUp extends Component {
         {this.state.isSignUp ? "" : <AccountHeader />}
         <div className="centered-container">
           <h1>{title}</h1>
-          <Form action="/api/sign-up" method="POST" onSubmit={this.submitForm}>
+          <Form action="/api/account" method="POST">
             <Form.Control
               type="hidden"
               name="redirectLink"
@@ -172,10 +171,6 @@ class SignUp extends Component {
     this.setState({ showModal: true });
   }
   
-  submitForm(event) {
-    event.preventDefault();
-  }
-
   addAllergy() {
     const previousAllergies = this.state.allergies;
     previousAllergies.push("");
