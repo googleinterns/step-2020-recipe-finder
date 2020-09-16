@@ -67,7 +67,7 @@ class RecommendedRecipes extends ComponentWithHeader {
       return errorRedirect(this.state.error);
     }
 
-    if (this.state.isLoading) {
+    if (this.state.loading) {
       return loading("Scanning recipes...", /** withBackground*/ true);
     }
 
