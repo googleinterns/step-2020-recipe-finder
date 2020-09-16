@@ -41,8 +41,8 @@ function App() {
               <Route exact path="/" component={Login} />
               <Route exact path="/error" component={ErrorPage} />
               <PrivateRoute exact path="/sign-up" component={SignUp} />
-              <Route exact path="/home" component={Home} />
-              <Route exact path="/text" component={InputText} />
+              <PrivateRoute exact path="/home" component={Home} />
+              <PrivateRoute exact path="/text" component={InputText} />
               <Route exact path="/audio" component={InputAudio} />
               <PrivateRoute exact path="/account" component={Account} />
               <PrivateRoute exact path="/cook" component={CookRecipe} />
