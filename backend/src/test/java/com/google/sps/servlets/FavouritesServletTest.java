@@ -19,16 +19,22 @@ import static org.mockito.Mockito.when;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.gson.Gson;
+import com.google.sps.data.Recipe;
 import com.google.sps.data.LoginInfo;
+import com.google.sps.utils.RecipeConstants;
+import com.google.sps.utils.TestUtils;
 import com.google.sps.utils.UserConstants;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+
+import java.io.*;
+import java.util.Arrays;
+import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.After;
@@ -45,6 +51,30 @@ public class FavouritesServletTest {
     private static final User USER = new User("email@email.com", "authDomain", USER_ID);
     private static final Gson GSON = new Gson();
 
+    private static final String NAME = "Recipe";
+    private static final String TIME = "10 min ";
+    private static final String CALORIES = "140 calories";
+    private static final String DIFFICULTY = "Easy";
+    private static final String IMAGE = "imageUrl";
+    private static final String[] DIET = {"vegetarian"};
+    private static final String[] INGREDIENTS = {"3 lemons", "140g caster sugar", "1l cold water"};
+    private static final String[] INSTRUCTIONS = {
+            "Tip the lemons, sugar and half the water "
+                    + "into a food processor and blend until the lemon is finely chopped.",
+            "Pour the mixture into a sieve over a bowl, then press through as much "
+                    + "juice as you can. Top up with the remaining water and serve with plain "
+                    + "ice or frozen with slices of lemon and lime."
+    };
+    private static final Recipe RECIPE =
+            new Recipe(
+                    NAME,
+                    TIME,
+                    CALORIES,
+                    DIFFICULTY,
+                    IMAGE,
+                    Arrays.asList(DIET),
+                    Arrays.asList(INGREDIENTS),
+                    Arrays.asList(INSTRUCTIONS));
     private final LocalServiceTestHelper datastoreHelper =
             new LocalServiceTestHelper(
                     new LocalDatastoreServiceTestConfig()
@@ -72,6 +102,40 @@ public class FavouritesServletTest {
 
     private FavouritesServlet getFavouritesServlet() {
         return new FavouritesServlet(userService);
+    }
+
+    private HistoryServlet getHistoryServlet() {
+        return new HistoryServlet(userService);
+    }
+
+    @Test
+    public void getReturnsFavouriteRecipes() throws Exception {
+        FavouritesServlet favouritesServlet = getFavouritesServlet();
+        Entity user = AccountServletTest.getUserEntityWithName();
+        user.setProperty(UserConstants.PROPERTY_FAVOURITES, Collections.singletonList(RECIPE.hashCode()));
+        datastore.put(user);
+
+        Entity recipe = getHistoryServlet().getRecipeEntity(GSON.toJsonTree(RECIPE).getAsJsonObject());
+        datastore.put(recipe);
+
+        String result =
+                TestUtils.getResultFromAuthenticatedGetRequest(favouritesServlet, request, response);
+        assertEquals(GSON.toJson(Collections.singletonList(RECIPE)), result);
+    }
+
+    @Test
+    public void postAddsRecipeToFavourites() throws Exception {
+        Reader inputString = new StringReader(GSON.toJson(RECIPE.hashCode()));
+        BufferedReader reader = new BufferedReader(inputString);
+        when(request.getReader()).thenReturn(reader);
+        FavouritesServlet favouritesServlet = getFavouritesServlet();
+        favouritesServlet.doPost(request, response);
+
+        Entity updatedUser = datastore.prepare(new Query(UserConstants.ENTITY_USER)).asSingleEntity();
+        Entity expectedUser = AccountServletTest.getUserEntityWithName();
+        expectedUser.setProperty(
+                UserConstants.PROPERTY_FAVOURITES, Collections.singletonList(RECIPE.hashCode()));
+        assertEquals(expectedUser, updatedUser);
     }
 
 }
