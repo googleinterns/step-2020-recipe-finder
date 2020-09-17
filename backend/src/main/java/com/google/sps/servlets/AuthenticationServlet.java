@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  * - if a user is logged in, it executes corresponding abstract method get or post
  */
 public abstract class AuthenticationServlet extends HttpServlet {
-  private static final int AUTHENTICATION_ERROR_CODE = 401;
+  public static final int AUTHENTICATION_ERROR_CODE = 401;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
