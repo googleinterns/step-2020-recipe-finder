@@ -20,7 +20,7 @@ public final class RecipeConstants {
   public static final String PROPERTY_TIME = "time";
   public static final String PROPERTY_CALORIES = "calories";
   public static final String PROPERTY_DIFFICULTY = "difficulty";
-  public static final String PROPERTY_IMAGE = "image";
+  public static final String PROPERTY_IMAGE_URL = "imageUrl";
   public static final String PROPERTY_DIETARY_REQUIREMENTS = "dietaryRequirements";
   public static final String PROPERTY_INGREDIENTS = "ingredients";
   public static final String PROPERTY_INSTRUCTIONS = "instructions";

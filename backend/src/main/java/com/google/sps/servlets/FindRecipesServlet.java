@@ -65,7 +65,6 @@ public class FindRecipesServlet extends AuthenticationServlet {
 
     while (counter != MAX_NUMBER_OF_RECIPES_TO_STORE
         && mIndexOfFirstResult <= MAX_NUMBER_OF_RESULTS_OVERALL) {
-
       JsonArray items = getRecipeItemsFromCustomSearch(ingredients);
 
       for (JsonElement item : items) {

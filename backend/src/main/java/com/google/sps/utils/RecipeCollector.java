@@ -46,7 +46,7 @@ public final class RecipeCollector {
         String time = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_TIME);
         String calories = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_CALORIES);
         String difficulty = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_DIFFICULTY);
-        String image = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_IMAGE);
+        String imageUrl = (String) recipeEntity.getProperty(RecipeConstants.PROPERTY_IMAGE_URL);
         List<String> dietaryRequirements =
             (List<String>) recipeEntity.getProperty(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS);
         List<String> ingredients =
@@ -60,7 +60,7 @@ public final class RecipeCollector {
                 time,
                 calories,
                 difficulty,
-                image,
+                imageUrl,
                 dietaryRequirements,
                 ingredients,
                 instructions));

@@ -21,7 +21,7 @@ import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { handleResponseError } from "../utils/APIErrorHandler";
 import { errorRedirect } from "../utils/APIErrorHandler";
-import { loading, backButton, renderHTML } from "../utils/Utilities";
+import { loading, backButton } from "../utils/Utilities";
 import { Recipe } from "../recipe/Recipe";
 import ComponentWithHeader from "../header/ComponentWithHeader";
 
@@ -67,7 +67,7 @@ class RecommendedRecipes extends ComponentWithHeader {
       return errorRedirect(this.state.error);
     }
 
-    if (this.state.isLoading) {
+    if (this.state.loading) {
       return loading("Scanning recipes...", /** withBackground*/ true);
     }
 
@@ -115,6 +115,10 @@ class RecommendedRecipes extends ComponentWithHeader {
   }
 
   ingredientsPopover(recipe) {
+    const renderHTML = (rawHTML) =>
+      React.createElement("div", {
+        dangerouslySetInnerHTML: { __html: rawHTML },
+      });
     return (
       <Popover>
         <Popover.Title as="h3">Ingredients</Popover.Title>
