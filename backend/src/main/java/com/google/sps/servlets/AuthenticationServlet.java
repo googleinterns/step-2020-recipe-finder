@@ -29,12 +29,21 @@ import javax.servlet.http.HttpServletResponse;
  * - if a user is logged in, it executes corresponding abstract method get or post
  */
 public abstract class AuthenticationServlet extends HttpServlet {
-  private static final int AUTHENTICATION_ERROR_CODE = 401;
+  public static final int AUTHENTICATION_ERROR_CODE = 401;
+  protected static UserService mUserService;
+
+  public AuthenticationServlet() {
+    mUserService = UserServiceFactory.getUserService();
+  }
+
+  public AuthenticationServlet(UserService userService) {
+    mUserService = userService;
+  }
+
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    if (!userService.isUserLoggedIn()) {
+    if (!mUserService.isUserLoggedIn()) {
       response.setStatus(AUTHENTICATION_ERROR_CODE);
       return;
     }
@@ -43,8 +52,7 @@ public abstract class AuthenticationServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    if (!userService.isUserLoggedIn()) {
+    if (!mUserService.isUserLoggedIn()) {
       response.setStatus(AUTHENTICATION_ERROR_CODE);
       return;
     }

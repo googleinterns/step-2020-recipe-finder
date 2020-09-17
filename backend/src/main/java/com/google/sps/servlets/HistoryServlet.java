@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -37,10 +38,14 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/history")
 public class HistoryServlet extends AuthenticationServlet {
+  public HistoryServlet(UserService userService) {
+    super(userService);
+  }
+
   /** Returns user's past recipes that they cooked */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Entity userEntity = DatastoreUtils.getUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
 
     List<Long> history =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_HISTORY);
@@ -61,7 +66,7 @@ public class HistoryServlet extends AuthenticationServlet {
     datastore.put(recipeEntity);
 
     Long recipeId = Long.parseLong(recipe.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString());
-    Entity userEntity = DatastoreUtils.getUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
 
     UserCollector.addRecipeToUserRecipeList(
         userEntity, UserConstants.PROPERTY_HISTORY, recipeId);
@@ -75,7 +80,7 @@ public class HistoryServlet extends AuthenticationServlet {
     return list;
   }
 
-  private Entity getRecipeEntity(JsonObject recipe) {
+  protected Entity getRecipeEntity(JsonObject recipe) {
     String recipeId = recipe.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString();
     String name = recipe.get(RecipeConstants.PROPERTY_NAME).getAsString();
     String time = recipe.get(RecipeConstants.PROPERTY_TIME).getAsString();

@@ -22,4 +22,5 @@ public final class UserConstants {
   public static final String PROPERTY_FAVOURITES = "favourites";
   public static final String PROPERTY_DIETS = "diets";
   public static final String PROPERTY_ALLERGIES = "allergies";
+  public static final String REDIRECT_LINK =  "redirectLink";
 }
