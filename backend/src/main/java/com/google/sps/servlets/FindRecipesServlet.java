@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,8 +56,8 @@ public class FindRecipesServlet extends AuthenticationServlet {
     String ingredients = request.getReader().readLine().replaceAll(" ", "%20");
     Entity userEntity = DatastoreUtils.getUserEntity();
     List<String> diets = DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_DIETS);
-    List<String> allergies = new ArrayList<>
-        (DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_ALLERGIES));
+    List<String> allergies =
+        DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_ALLERGIES);
 
     List<Recipe> recipes = new ArrayList<>();
     int counter = 0;
@@ -89,8 +88,8 @@ public class FindRecipesServlet extends AuthenticationServlet {
     try {
       String json =
           Jsoup.connect(
-                    BBCGoodFoodRecipeScraper.searchRecipeLink(
-                        ingredients, API_KEY, indexOfFirstResult))
+                  BBCGoodFoodRecipeScraper.searchRecipeLink(
+                      ingredients, API_KEY, indexOfFirstResult))
               .ignoreContentType(true)
               .execute()
               .body();

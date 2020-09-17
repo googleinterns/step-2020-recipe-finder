@@ -19,7 +19,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class DatastoreUtils {
@@ -33,7 +33,7 @@ public final class DatastoreUtils {
   public static <T> List<T> getPropertyAsList(Entity entity, String property) {
     List<T> list = (List<T>) entity.getProperty(property);
     if (list == null) {
-      return Collections.emptyList();
+      return new ArrayList<T>();
     }
     return list;
   }
