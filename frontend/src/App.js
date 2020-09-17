@@ -56,8 +56,8 @@ function App() {
                 path="/recommendations"
                 component={RecommendedRecipes}
               />
-            </Switch>
-          </ReactErrorHandler>
+          </Switch>
+        </ReactErrorHandler>
       </Router>
     </div>
   );

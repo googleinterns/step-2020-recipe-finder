@@ -23,12 +23,20 @@ limitations under the License. */
 
 #input-btn {
   width: 300px;
-  margin-top: 525px;
+  margin: 0;
+}
+
+#home-div {
+  height: 100%;
   position: relative;
 }
 
 .input-div {
   text-align: center;
+  bottom: 40px;
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 .account-div {
@@ -45,10 +53,4 @@ limitations under the License. */
 .home-header {
   float: left;
   width: 100%;
-}
-
-@media only screen and (max-width: 600px) {
-  #input-btn {
-    width: 100%;
-  }
 }
