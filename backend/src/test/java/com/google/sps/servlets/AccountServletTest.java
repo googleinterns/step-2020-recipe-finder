@@ -87,13 +87,13 @@ public class AccountServletTest {
     return new AccountServlet(userService);
   }
 
-  private static Entity getEmptyUserEntity() {
+  public static Entity getEmptyUserEntity() {
     Entity user = new Entity(UserConstants.ENTITY_USER, USER_ID);
     user.setProperty(UserConstants.PROPERTY_USER_ID, USER_ID);
     return user;
   }
 
-  private static Entity getUserEntityWithName() {
+  public static Entity getUserEntityWithName() {
     Entity user = getEmptyUserEntity();
     user.setProperty(UserConstants.PROPERTY_NAME, NAME);
     return user;
@@ -178,8 +178,7 @@ public class AccountServletTest {
   public void postCreatesNewUserAndAddsToDatastore() throws Exception {
     when(request.getParameter(UserConstants.REDIRECT_LINK)).thenReturn(HOME_LINK);
     when(request.getParameter(UserConstants.PROPERTY_NAME)).thenReturn(NAME);
-    when(request.getParameterValues(UserConstants.PROPERTY_DIETS))
-        .thenReturn(UNFORMATTED_DIETS);
+    when(request.getParameterValues(UserConstants.PROPERTY_DIETS)).thenReturn(UNFORMATTED_DIETS);
     when(request.getParameterValues(UserConstants.PROPERTY_ALLERGIES))
         .thenReturn(UNFORMATTED_ALLERGIES);
 
@@ -199,10 +198,9 @@ public class AccountServletTest {
 
     when(request.getParameter(UserConstants.REDIRECT_LINK)).thenReturn(ACCOUNT_LINK);
     when(request.getParameter(UserConstants.PROPERTY_NAME)).thenReturn(NAME);
-    when(request.getParameterValues(UserConstants.PROPERTY_DIETS))
-            .thenReturn(UNFORMATTED_DIETS);
+    when(request.getParameterValues(UserConstants.PROPERTY_DIETS)).thenReturn(UNFORMATTED_DIETS);
     when(request.getParameterValues(UserConstants.PROPERTY_ALLERGIES))
-            .thenReturn(UNFORMATTED_ALLERGIES);
+        .thenReturn(UNFORMATTED_ALLERGIES);
 
     getAccountServlet().doPost(request, response);
     verify(response).sendRedirect(ACCOUNT_LINK);

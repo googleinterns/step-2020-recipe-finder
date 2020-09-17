@@ -35,26 +35,34 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/api/login-status")
 public class LoginServlet extends HttpServlet {
+  private static UserService mUserService;
+  public static final String REDIRECT_URL = "/";
+
+  public LoginServlet() {
+    mUserService = UserServiceFactory.getUserService();
+  }
+
+  public LoginServlet(UserService userService) {
+    mUserService = userService;
+  }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    String redirectUrl = "/";
     String logUrl;
     boolean isFirstTime = false;
 
-    if (userService.isUserLoggedIn()) {
-      logUrl = userService.createLogoutURL(redirectUrl);
-      isFirstTime = getIsFirstTime(userService.getCurrentUser().getUserId());
+    if (mUserService.isUserLoggedIn()) {
+      logUrl = mUserService.createLogoutURL(REDIRECT_URL);
+      isFirstTime = getIsFirstTime(mUserService.getCurrentUser().getUserId());
     } else {
-      logUrl = userService.createLoginURL(redirectUrl);
+      logUrl = mUserService.createLoginURL(REDIRECT_URL);
     }
 
     response.setContentType("application/json;");
     response
         .getWriter()
         .println(
-            new Gson().toJson(new LoginInfo(userService.isUserLoggedIn(), isFirstTime, logUrl)));
+            new Gson().toJson(new LoginInfo(mUserService.isUserLoggedIn(), isFirstTime, logUrl)));
   }
 
   private boolean getIsFirstTime(String userId) {
@@ -65,6 +73,7 @@ public class LoginServlet extends HttpServlet {
                 new Query.FilterPredicate(
                     UserConstants.PROPERTY_USER_ID, Query.FilterOperator.EQUAL, userId));
     PreparedQuery results = datastore.prepare(query);
-    return results.asSingleEntity() == null;
+    Entity result = results.asSingleEntity();
+    return result == null || result.getProperty(UserConstants.PROPERTY_NAME) == null;
   }
 }

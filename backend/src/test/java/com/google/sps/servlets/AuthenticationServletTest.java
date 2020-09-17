@@ -61,12 +61,15 @@ public class AuthenticationServletTest {
     MockitoAnnotations.openMocks(this);
   }
 
+  private AuthenticationServlet getTestAuthenticationServlet() {
+    return new TestAuthenticationServlet(userService);
+  }
+
   @Test
   public void notLoggedInGetStatusUnauthorised() throws IOException {
     when(userService.isUserLoggedIn()).thenReturn(false);
 
-    AuthenticationServlet servlet = new TestAuthenticationServlet(userService);
-    servlet.doGet(request, response);
+    getTestAuthenticationServlet().doGet(request, response);
     verify(response).setStatus(AuthenticationServlet.AUTHENTICATION_ERROR_CODE);
   }
 
@@ -74,8 +77,7 @@ public class AuthenticationServletTest {
   public void notLoggedInPostStatusUnauthorised() throws IOException {
     when(userService.isUserLoggedIn()).thenReturn(false);
 
-    AuthenticationServlet servlet = new TestAuthenticationServlet(userService);
-    servlet.doPost(request, response);
+    getTestAuthenticationServlet().doPost(request, response);
     verify(response).setStatus(AuthenticationServlet.AUTHENTICATION_ERROR_CODE);
   }
 
@@ -88,8 +90,7 @@ public class AuthenticationServletTest {
 
     when(response.getWriter()).thenReturn(pw);
 
-    AuthenticationServlet servlet = new TestAuthenticationServlet(userService);
-    servlet.doGet(request, response);
+    getTestAuthenticationServlet().doGet(request, response);
 
     String result = sw.getBuffer().toString().trim();
     assertEquals(result, "in get");
@@ -104,8 +105,7 @@ public class AuthenticationServletTest {
 
     when(response.getWriter()).thenReturn(pw);
 
-    AuthenticationServlet servlet = new TestAuthenticationServlet(userService);
-    servlet.doPost(request, response);
+    getTestAuthenticationServlet().doPost(request, response);
 
     String result = sw.getBuffer().toString().trim();
     assertEquals(result, "in post");
