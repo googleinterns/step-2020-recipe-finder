@@ -85,7 +85,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
     response.getWriter().println(new Gson().toJson(getRandomisedRecipes(recipes)));
   }
 
-  private JsonArray getRecipeItemsFromCustomSearch(String ingredients, int indexOfFirstResult) throws IOException {
+  private JsonArray getRecipeItemsFromCustomSearch(String ingredients, int indexOfFirstResult) {
     try {
       String json =
           Jsoup.connect(
