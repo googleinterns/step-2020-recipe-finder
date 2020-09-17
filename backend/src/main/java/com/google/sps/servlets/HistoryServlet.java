@@ -80,7 +80,7 @@ public class HistoryServlet extends AuthenticationServlet {
     return list;
   }
 
-  private Entity getRecipeEntity(JsonObject recipe) {
+  protected Entity getRecipeEntity(JsonObject recipe) {
     String recipeId = recipe.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString();
     String name = recipe.get(RecipeConstants.PROPERTY_NAME).getAsString();
     String time = recipe.get(RecipeConstants.PROPERTY_TIME).getAsString();

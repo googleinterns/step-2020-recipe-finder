@@ -62,6 +62,7 @@ public class FavouritesServletTest {
         datastore = DatastoreServiceFactory.getDatastoreService();
         MockitoAnnotations.openMocks(this);
         when(userService.getCurrentUser()).thenReturn(USER);
+        when(userService.isUserLoggedIn()).thenReturn(true);
     }
 
     @After
