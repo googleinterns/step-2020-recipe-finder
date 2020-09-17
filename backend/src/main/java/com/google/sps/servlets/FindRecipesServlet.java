@@ -57,7 +57,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
     String ingredients = request.getReader().readLine().replaceAll(" ", "%20");
     Entity userEntity = DatastoreUtils.getUserEntity();
     List<String> diets = DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_DIETS);
-    ArrayList<String> allergies = new ArrayList<>
+    List<String> allergies = new ArrayList<>
         (DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_ALLERGIES));
 
     List<Recipe> recipes = new ArrayList<>();
@@ -102,7 +102,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
     return new JsonArray();
   }
 
-  private boolean isDietFriendly(Recipe recipe, List<String> diets, ArrayList<String> allergies) {
+  private boolean isDietFriendly(Recipe recipe, List<String> diets, List<String> allergies) {
     if (diets.isEmpty() && allergies.isEmpty()) {
       return true;
     }
