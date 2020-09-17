@@ -29,6 +29,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.gson.Gson;
 import com.google.sps.data.UserInfo;
+import com.google.sps.utils.TestUtils;
 import com.google.sps.utils.UserConstants;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -124,12 +125,7 @@ public class AccountServletTest {
     datastore.put(user);
     assertEquals(1, datastore.prepare(new Query(UserConstants.ENTITY_USER)).countEntities());
 
-    StringWriter stringWriter = new StringWriter();
-    PrintWriter printWriter = new PrintWriter(stringWriter);
-
-    when(response.getWriter()).thenReturn(printWriter);
-    getAccountServlet().doGet(request, response);
-    String result = stringWriter.getBuffer().toString().trim();
+    String result = TestUtils.getResultFromAuthenticatedGetRequest(getAccountServlet(), request, response);
     assertEquals(GSON.toJson(expectedUser), result);
   }
 

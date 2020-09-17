@@ -19,9 +19,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.appengine.api.users.UserService;
+import com.google.sps.utils.TestUtils;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.Before;
@@ -68,7 +67,6 @@ public class AuthenticationServletTest {
   @Test
   public void notLoggedInGetStatusUnauthorised() throws IOException {
     when(userService.isUserLoggedIn()).thenReturn(false);
-
     getTestAuthenticationServlet().doGet(request, response);
     verify(response).setStatus(AuthenticationServlet.AUTHENTICATION_ERROR_CODE);
   }
@@ -76,38 +74,25 @@ public class AuthenticationServletTest {
   @Test
   public void notLoggedInPostStatusUnauthorised() throws IOException {
     when(userService.isUserLoggedIn()).thenReturn(false);
-
     getTestAuthenticationServlet().doPost(request, response);
     verify(response).setStatus(AuthenticationServlet.AUTHENTICATION_ERROR_CODE);
   }
 
   @Test
-  public void loggedInGetIsExecuted() throws IOException {
+  public void loggedInGetIsExecuted() throws Exception {
     when(userService.isUserLoggedIn()).thenReturn(true);
-
-    StringWriter sw = new StringWriter();
-    PrintWriter pw = new PrintWriter(sw);
-
-    when(response.getWriter()).thenReturn(pw);
-
-    getTestAuthenticationServlet().doGet(request, response);
-
-    String result = sw.getBuffer().toString().trim();
+    String result =
+        TestUtils.getResultFromAuthenticatedGetRequest(
+            getTestAuthenticationServlet(), request, response);
     assertEquals(result, "in get");
   }
 
   @Test
-  public void loggedInPostIsExecuted() throws IOException {
+  public void loggedInPostIsExecuted() throws Exception {
     when(userService.isUserLoggedIn()).thenReturn(true);
-
-    StringWriter sw = new StringWriter();
-    PrintWriter pw = new PrintWriter(sw);
-
-    when(response.getWriter()).thenReturn(pw);
-
-    getTestAuthenticationServlet().doPost(request, response);
-
-    String result = sw.getBuffer().toString().trim();
+    String result =
+        TestUtils.getResultFromAuthenticatedPostRequest(
+            getTestAuthenticationServlet(), request, response);
     assertEquals(result, "in post");
   }
 }

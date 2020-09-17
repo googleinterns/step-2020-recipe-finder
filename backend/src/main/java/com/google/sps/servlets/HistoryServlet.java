@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -37,6 +38,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/history")
 public class HistoryServlet extends AuthenticationServlet {
+  public HistoryServlet(UserService userService) {
+    super(userService);
+  }
+
   /** Returns user's past recipes that they cooked */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
