@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
 import com.google.sps.utils.DatastoreUtils;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
@@ -27,6 +28,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/remove-favourite")
 public class RemoveFavouriteServlet extends AuthenticationServlet {
+  public RemoveFavouriteServlet(UserService userService) {
+    super(userService);
+  }
+
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // no get request
