@@ -16,13 +16,13 @@ package com.google.sps.data;
 
 import java.util.List;
 
-public final class User {
+public final class UserInfo {
 
   private final String name;
   private final List<String> diets;
   private final List<String> allergies;
 
-  public User(String name, List<String> diets, List<String> allergies) {
+  public UserInfo(String name, List<String> diets, List<String> allergies) {
     this.name = name;
     this.diets = diets;
     this.allergies = allergies;

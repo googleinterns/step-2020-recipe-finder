@@ -32,7 +32,7 @@ public class FavouritesServlet extends AuthenticationServlet {
   /** Returns user's list of favourite recipes */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Entity userEntity = DatastoreUtils.getUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
     List<Long> favourites =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_FAVOURITES);
 
@@ -46,7 +46,7 @@ public class FavouritesServlet extends AuthenticationServlet {
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Long recipeId = Long.parseLong(request.getReader().readLine());
-    Entity userEntity = DatastoreUtils.getUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
     UserCollector.addRecipeToUserRecipeList(
         userEntity, UserConstants.PROPERTY_FAVOURITES, recipeId);
   }
