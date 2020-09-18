@@ -68,9 +68,10 @@ public class RemoveFavouriteServletTest {
     DATASTORE_HELPER.tearDown();
   }
 
-  private RemoveFavouriteServlet removeFavouriteServlet() {
-    return new RemoveFavouriteServlet(userService);
-  }
+  private RemoveFavouriteServlet getRemoveFavouriteServlet() {
+    RemoveFavouriteServlet servlet = new RemoveFavouriteServlet();
+    servlet.setUserServiceForTesting(userService);
+    return servlet;  }
 
   @Test
   public void postRemovesRecipeFromFavouritesIfExists() throws Exception {
@@ -82,7 +83,7 @@ public class RemoveFavouriteServletTest {
     Reader jsonReader = new StringReader(GSON.toJson(RECIPE.hashCode()));
     BufferedReader requestReader = new BufferedReader(jsonReader);
     when(request.getReader()).thenReturn(requestReader);
-    RemoveFavouriteServlet removeFavouriteServlet = removeFavouriteServlet();
+    RemoveFavouriteServlet removeFavouriteServlet = getRemoveFavouriteServlet();
     removeFavouriteServlet.doPost(request, response);
 
     Entity updatedUser = datastore.prepare(new Query(UserConstants.ENTITY_USER)).asSingleEntity();
@@ -98,7 +99,7 @@ public class RemoveFavouriteServletTest {
     Reader jsonReader = new StringReader(GSON.toJson(RECIPE.hashCode()));
     BufferedReader requestReader = new BufferedReader(jsonReader);
     when(request.getReader()).thenReturn(requestReader);
-    RemoveFavouriteServlet removeFavouriteServlet = removeFavouriteServlet();
+    RemoveFavouriteServlet removeFavouriteServlet = getRemoveFavouriteServlet();
     removeFavouriteServlet.doPost(request, response);
 
     Entity updatedUser = datastore.prepare(new Query(UserConstants.ENTITY_USER)).asSingleEntity();

@@ -69,7 +69,9 @@ public class FavouritesServletTest {
   }
 
   private FavouritesServlet getFavouritesServlet() {
-    return new FavouritesServlet(userService);
+    FavouritesServlet servlet = new FavouritesServlet();
+    servlet.setUserServiceForTesting(userService);
+    return servlet;
   }
 
   @Test

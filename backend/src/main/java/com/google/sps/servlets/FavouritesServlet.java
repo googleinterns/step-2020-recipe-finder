@@ -30,10 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/favourites")
 public class FavouritesServlet extends AuthenticationServlet {
-  public FavouritesServlet(UserService userService) {
-    super(userService);
-  }
-
   /** Returns user's list of favourite recipes */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -28,10 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/remove-favourite")
 public class RemoveFavouriteServlet extends AuthenticationServlet {
-  public RemoveFavouriteServlet(UserService userService) {
-    super(userService);
-  }
-
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // no get request
