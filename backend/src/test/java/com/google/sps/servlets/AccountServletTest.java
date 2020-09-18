@@ -19,7 +19,10 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.gson.Gson;
@@ -66,7 +69,9 @@ public class AccountServletTest {
   }
 
   private AccountServlet getAccountServlet() {
-    return new AccountServlet(userService);
+    AccountServlet servlet = new AccountServlet();
+    servlet.setUserServiceForTesting(userService);
+    return servlet;
   }
 
   private void getReturnsUserDetails(Entity user, UserInfo expectedUser) throws Exception {
