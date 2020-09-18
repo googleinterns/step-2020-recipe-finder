@@ -16,6 +16,7 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.common.annotations.VisibleForTesting;
 import java.io.IOException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,14 +31,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class AuthenticationServlet extends HttpServlet {
   public static final int AUTHENTICATION_ERROR_CODE = 401;
-  protected static UserService mUserService;
+  protected static UserService mUserService = UserServiceFactory.getUserService();
 
-  public AuthenticationServlet() {
-    mUserService = UserServiceFactory.getUserService();
-  }
-
-  // For testing, UserService is mocked
-  public AuthenticationServlet(UserService userService) {
+  @VisibleForTesting
+  protected void setUserServiceForTesting(UserService userService) {
     mUserService = userService;
   }
 

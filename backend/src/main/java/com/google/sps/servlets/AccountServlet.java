@@ -36,10 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 public class AccountServlet extends AuthenticationServlet {
   public static final String SIGN_UP_LINK = "/sign-up";
 
-  public AccountServlet(UserService userService) {
-    super(userService);
-  }
-
   /** Returns user's account details */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
