@@ -34,10 +34,6 @@ import org.mockito.MockitoAnnotations;
 public class AuthenticationServletTest {
 
   private class TestAuthenticationServlet extends AuthenticationServlet {
-    public TestAuthenticationServlet(UserService userService) {
-      super(userService);
-    }
-
     @Override
     protected void post(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
@@ -61,7 +57,9 @@ public class AuthenticationServletTest {
   }
 
   private AuthenticationServlet getTestAuthenticationServlet() {
-    return new TestAuthenticationServlet(userService);
+    AuthenticationServlet servlet = new TestAuthenticationServlet();
+    servlet.setUserServiceForTesting(userService);
+    return servlet;
   }
 
   @Test
