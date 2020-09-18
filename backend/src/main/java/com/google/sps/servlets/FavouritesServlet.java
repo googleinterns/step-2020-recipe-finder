@@ -15,7 +15,6 @@
 package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.users.UserService;
 import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import com.google.sps.utils.DatastoreUtils;
