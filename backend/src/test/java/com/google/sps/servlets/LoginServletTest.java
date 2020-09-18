@@ -68,7 +68,9 @@ public class LoginServletTest {
   }
 
   private LoginServlet getLoginServlet() {
-    return new LoginServlet(userService);
+    LoginServlet servlet = new LoginServlet();
+    servlet.setUserServiceForTesting(userService);
+    return servlet;
   }
 
   private String getResultFromGetRequest() throws Exception {
@@ -100,7 +102,8 @@ public class LoginServletTest {
   @Test
   public void loggedInNotFirstTimeButNoName() throws Exception {
     datastore.put(TestUtils.getEmptyUserEntity());
-    assertEquals(1, datastore.prepare(new Query(UserConstants.ENTITY_USER)).countEntities(withLimit(10)));
+    assertEquals(
+        1, datastore.prepare(new Query(UserConstants.ENTITY_USER)).countEntities(withLimit(10)));
 
     when(userService.isUserLoggedIn()).thenReturn(true);
     String result = getResultFromGetRequest();
@@ -111,7 +114,8 @@ public class LoginServletTest {
   @Test
   public void loggedInNotFirstTimeAndHasName() throws Exception {
     datastore.put(TestUtils.getUserEntityWithName());
-    assertEquals(1, datastore.prepare(new Query(UserConstants.ENTITY_USER)).countEntities(withLimit(10)));
+    assertEquals(
+        1, datastore.prepare(new Query(UserConstants.ENTITY_USER)).countEntities(withLimit(10)));
 
     when(userService.isUserLoggedIn()).thenReturn(true);
     String result = getResultFromGetRequest();

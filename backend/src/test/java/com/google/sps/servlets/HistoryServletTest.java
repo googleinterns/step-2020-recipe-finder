@@ -70,7 +70,9 @@ public class HistoryServletTest {
   }
 
   private HistoryServlet getHistoryServlet() {
-    return new HistoryServlet(userService);
+    HistoryServlet servlet = new HistoryServlet();
+    servlet.setUserServiceForTesting(userService);
+    return servlet;
   }
 
   @Test
