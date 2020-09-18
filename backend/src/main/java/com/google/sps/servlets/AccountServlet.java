@@ -17,8 +17,9 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
 import com.google.gson.Gson;
-import com.google.sps.data.User;
+import com.google.sps.data.UserInfo;
 import com.google.sps.utils.DatastoreUtils;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
@@ -33,12 +34,18 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/account")
 public class AccountServlet extends AuthenticationServlet {
+  public static final String SIGN_UP_LINK = "/sign-up";
+
+  public AccountServlet(UserService userService) {
+    super(userService);
+  }
+
   /** Returns user's account details */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Entity userEntity = DatastoreUtils.getUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
     if (userEntity.getProperty(UserConstants.PROPERTY_NAME) == null) {
-      response.sendRedirect("/sign-up");
+      response.sendRedirect(SIGN_UP_LINK);
       return;
     }
 
@@ -47,15 +54,15 @@ public class AccountServlet extends AuthenticationServlet {
     List<String> allergies =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_ALLERGIES);
 
-    User user = new User(name, diets, allergies);
+    UserInfo user = new UserInfo(name, diets, allergies);
     response.setContentType("application/json;");
     response.getWriter().println(new Gson().toJson(user));
   }
 
-  /** Creates a user entity in datastore */
+  /** Creates/updates a user entity in datastore */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String redirectLink = request.getParameter("redirectLink");
+    String redirectLink = request.getParameter(UserConstants.REDIRECT_LINK);
     String name = request.getParameter(UserConstants.PROPERTY_NAME);
     String[] dietsArray = request.getParameterValues(UserConstants.PROPERTY_DIETS);
     String[] allergiesArray = request.getParameterValues(UserConstants.PROPERTY_ALLERGIES);
@@ -69,7 +76,7 @@ public class AccountServlet extends AuthenticationServlet {
 
     Set<String> allergies = getFormattedDietaryRequirements(allergiesArray);
 
-    Entity userEntity = DatastoreUtils.getUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
     userEntity.setProperty(UserConstants.PROPERTY_NAME, name);
     userEntity.setProperty(UserConstants.PROPERTY_DIETS, diets);
     userEntity.setProperty(UserConstants.PROPERTY_ALLERGIES, allergies);
