@@ -16,10 +16,10 @@ import React from "react";
 import "./Utilities.css";
 import navigatePrevious from "../../icons/navigate_previous.svg";
 import Button from "react-bootstrap/Button";
-import { getBackground } from "../../utils/Background";
+import { getRandomBackground } from "../../utils/Background";
 
 export function loading(text = "Loading...", withBackground = false) {
-  const background = withBackground ? getBackground() : "";
+  const background = withBackground ? getRandomBackground() : "";
   return (
     <div>
       {background}

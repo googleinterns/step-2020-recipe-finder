@@ -19,7 +19,7 @@ import { handleResponseError } from "../utils/APIErrorHandler";
 import { errorRedirect } from "../utils/APIErrorHandler";
 import { loading } from "../utils/Utilities";
 import "./Login.css";
-import { getBackground } from "../../utils/Background";
+import { getRandomBackground } from "../../utils/Background";
 import Walkthrough from "./Walkthrough";
 
 class Login extends Component {
@@ -30,7 +30,7 @@ class Login extends Component {
       logUrl: "",
       error: null,
       showModal: false,
-      background: getBackground(),
+      background: getRandomBackground(),
       loading: true,
       firstTime: false,
     };
