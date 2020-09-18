@@ -40,7 +40,7 @@ public class HistoryServlet extends AuthenticationServlet {
   /** Returns user's past recipes that they cooked */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Entity userEntity = DatastoreUtils.getUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
 
     List<Long> history =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_HISTORY);
@@ -61,7 +61,7 @@ public class HistoryServlet extends AuthenticationServlet {
     datastore.put(recipeEntity);
 
     Long recipeId = Long.parseLong(recipe.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString());
-    Entity userEntity = DatastoreUtils.getUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
 
     UserCollector.addRecipeToUserRecipeList(
         userEntity, UserConstants.PROPERTY_HISTORY, recipeId);
