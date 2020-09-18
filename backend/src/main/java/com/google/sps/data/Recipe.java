@@ -65,6 +65,38 @@ public final class Recipe {
     return false;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public String getTime() {
+    return time;
+  }
+
+  public String getCalories() {
+    return calories;
+  }
+
+  public String getDifficulty() {
+    return difficulty;
+  }
+
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public List<String> getDietaryRequirements() {
+    return dietaryRequirements;
+  }
+
+  public List<String> getIngredients() {
+    return ingredients;
+  }
+
+  public List<String> getInstructions() {
+    return instructions;
+  }
+
   @Override
   public boolean equals(Object other) {
     if (this == other) return true;
