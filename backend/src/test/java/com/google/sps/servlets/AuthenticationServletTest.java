@@ -32,18 +32,20 @@ import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
 public class AuthenticationServletTest {
-
+  private static final String IN_GET = "in get";
+  private static final String IN_POST = "in post";
+  
   private class TestAuthenticationServlet extends AuthenticationServlet {
     @Override
     protected void post(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
-      response.getWriter().println("in post");
+      response.getWriter().println(IN_POST);
     }
 
     @Override
     protected void get(HttpServletRequest request, HttpServletResponse response)
         throws IOException {
-      response.getWriter().println("in get");
+      response.getWriter().println(IN_GET);
     }
   }
 
@@ -82,7 +84,7 @@ public class AuthenticationServletTest {
     String result =
         TestUtils.getResultFromAuthenticatedGetRequest(
             getTestAuthenticationServlet(), request, response);
-    assertEquals(result, "in get");
+    assertEquals(result, IN_GET);
   }
 
   @Test
@@ -91,6 +93,6 @@ public class AuthenticationServletTest {
     String result =
         TestUtils.getResultFromAuthenticatedPostRequest(
             getTestAuthenticationServlet(), request, response);
-    assertEquals(result, "in post");
+    assertEquals(result, IN_POST);
   }
 }
