@@ -44,7 +44,7 @@ import org.mockito.MockitoAnnotations;
 @RunWith(JUnit4.class)
 public class RemoveFavouriteServletTest {
   private static final Gson GSON = new Gson();
-  private static final Recipe RECIPE = TestUtils.getRecipe();
+  private static final Recipe RECIPE = TestUtils.createTestRecipe();
 
   private static final LocalServiceTestHelper DATASTORE_HELPER = TestUtils.getDatastoreHelper();
 

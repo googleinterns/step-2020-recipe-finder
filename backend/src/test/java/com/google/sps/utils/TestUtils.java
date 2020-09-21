@@ -101,7 +101,7 @@ public class TestUtils {
     return user;
   }
 
-  public static Recipe getRecipe() {
+  public static Recipe createTestRecipe() {
     String name = "Recipe";
     String time = "10 min ";
     String calories = "140 calories";
@@ -119,8 +119,8 @@ public class TestUtils {
     return new Recipe(name, time, calories, difficulty, imageUrl, diet, ingredients, instructions);
   }
 
-  public static Entity getRecipeEntity() {
-    Recipe recipe = getRecipe();
+  public static Entity createTestRecipeEntity() {
+    Recipe recipe = createTestRecipe();
     Entity recipeEntity =
         new Entity(RecipeConstants.ENTITY_RECIPE, Integer.toString(recipe.hashCode()));
 

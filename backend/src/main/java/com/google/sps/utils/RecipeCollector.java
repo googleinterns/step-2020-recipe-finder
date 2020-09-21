@@ -19,12 +19,14 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.sps.data.Recipe;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class RecipeCollector {
-
+  @SuppressWarnings("unchecked")
   public static List<Recipe> getRecipes(List<Long> recipeIds) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
@@ -67,5 +69,42 @@ public final class RecipeCollector {
       }
     }
     return recipes;
+  }
+
+  public static Entity getRecipeEntity(JsonObject recipe) {
+    String recipeId = recipe.get(RecipeConstants.PROPERTY_RECIPE_ID).getAsString();
+    String name = recipe.get(RecipeConstants.PROPERTY_NAME).getAsString();
+    String time = recipe.get(RecipeConstants.PROPERTY_TIME).getAsString();
+    String calories = recipe.get(RecipeConstants.PROPERTY_CALORIES).getAsString();
+    String difficulty = recipe.get(RecipeConstants.PROPERTY_DIFFICULTY).getAsString();
+    String imageUrl = recipe.get(RecipeConstants.PROPERTY_IMAGE_URL).getAsString();
+    List<String> diet =
+        splitJsonArrayIntoList(
+            recipe.get(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS).getAsJsonArray());
+    List<String> ingredients =
+        splitJsonArrayIntoList(recipe.get(RecipeConstants.PROPERTY_INGREDIENTS).getAsJsonArray());
+    List<String> instructions =
+        splitJsonArrayIntoList(recipe.get(RecipeConstants.PROPERTY_INSTRUCTIONS).getAsJsonArray());
+
+    Entity recipeEntity = new Entity(RecipeConstants.ENTITY_RECIPE, recipeId);
+
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_NAME, name);
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_TIME, time);
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_CALORIES, calories);
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_DIFFICULTY, difficulty);
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_IMAGE_URL, imageUrl);
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS, diet);
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_INGREDIENTS, ingredients);
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_INSTRUCTIONS, instructions);
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_RECIPE_ID, recipeId);
+    return recipeEntity;
+  }
+
+  private static List<String> splitJsonArrayIntoList(JsonArray jsonArray) {
+    List<String> list = new ArrayList<String>();
+    for (int i = 0; i < jsonArray.size(); i++) {
+      list.add(jsonArray.get(i).getAsString());
+    }
+    return list;
   }
 }
