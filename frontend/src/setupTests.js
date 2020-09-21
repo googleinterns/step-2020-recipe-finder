@@ -17,7 +17,6 @@ import { Router } from "react-router-dom";
 import { render } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import '@testing-library/jest-dom/extend-expect';
-import {server} from './mocks/server.js'
 
 export const renderWithRouter = (
   ui,
@@ -32,6 +31,8 @@ export const renderWithRouter = (
   };
 };
 
-beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
+require('jest-fetch-mock').enableMocks()
+
+beforeEach(() => {
+  fetch.resetMocks();
+})

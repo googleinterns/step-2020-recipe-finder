@@ -17,50 +17,33 @@ import { rest } from "msw";
 import { renderWithRouter } from "../../setupTests";
 import { screen } from "@testing-library/react";
 import App from "../../App";
-import { server } from "../../mocks/server";
+
+test("renders error page if backend returned error", async () => {
+  fetch.once({ status: 500 });
+  renderWithRouter(<App />);
+  expect(await screen.findByText("Error")).toBeInTheDocument();
+});
 
 test("renders home page if user is logged in", async () => {
-  server.use(
-    rest.get("/api/login-status", (req, res, ctx) => {
-      return res.once(
-        ctx.json({ isFirstTime: false, isLoggedIn: true, logUrl: "url" })
-      );
-    })
+  fetch.once(
+    JSON.stringify({ isFirstTime: false, isLoggedIn: true, logUrl: "url" })
   );
-  const { history } = renderWithRouter(<App />);
+  renderWithRouter(<App />);
   expect(await screen.findByText("Input Ingredients")).toBeInTheDocument();
 });
 
 test("renders sign up page if user is logged in and this their first time", async () => {
-  server.use(
-    rest.get("/api/login-status", (req, res, ctx) => {
-      return res.once(
-        ctx.json({ isFirstTime: true, isLoggedIn: true, logUrl: "url" })
-      );
-    })
+  fetch.once(
+    JSON.stringify({ isFirstTime: true, isLoggedIn: true, logUrl: "url" })
   );
-  const { history } = renderWithRouter(<App />);
+  renderWithRouter(<App />);
   expect(await screen.findByText("Sign Up")).toBeInTheDocument();
 });
 
-test("renders error page if backend returned error", async () => {
-  server.use(
-    rest.get("/api/login-status", (req, res, ctx) => {
-      return res.once(ctx.status(500));
-    })
-  );
-  const { history } = renderWithRouter(<App />);
-  expect(await screen.findByText("Error")).toBeInTheDocument();
-});
-
 test("renders login page if user is not logged in", async () => {
-  server.use(
-    rest.get("/api/login-status", (req, res, ctx) => {
-      return res.once(
-        ctx.json({ isFirstTime: false, isLoggedIn: false, logUrl: "url" })
-      );
-    })
+  fetch.once(
+    JSON.stringify({ isFirstTime: false, isLoggedIn: false, logUrl: "url" })
   );
-  const { history } = renderWithRouter(<App />);
+  renderWithRouter(<App />);
   expect(await screen.findByText("Login")).toBeInTheDocument();
 });
