@@ -101,7 +101,7 @@ public class TestUtils {
     return user;
   }
 
-  public static Recipe getRecipe() {
+  public static Recipe createTestRecipe() {
     String name = "Recipe";
     String time = "10 min ";
     String calories = "140 calories";
@@ -117,5 +117,24 @@ public class TestUtils {
                 + "juice as you can. Top up with the remaining water and serve with plain "
                 + "ice or frozen with slices of lemon and lime.");
     return new Recipe(name, time, calories, difficulty, imageUrl, diet, ingredients, instructions);
+  }
+
+  public static Entity createTestRecipeEntity() {
+    Recipe recipe = createTestRecipe();
+    Entity recipeEntity =
+        new Entity(RecipeConstants.ENTITY_RECIPE, Integer.toString(recipe.hashCode()));
+
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_NAME, recipe.getName());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_TIME, recipe.getTime());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_CALORIES, recipe.getCalories());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_DIFFICULTY, recipe.getDifficulty());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_IMAGE_URL, recipe.getImageUrl());
+    recipeEntity.setProperty(
+        RecipeConstants.PROPERTY_DIETARY_REQUIREMENTS, recipe.getDietaryRequirements());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_INGREDIENTS, recipe.getIngredients());
+    recipeEntity.setProperty(RecipeConstants.PROPERTY_INSTRUCTIONS, recipe.getInstructions());
+    recipeEntity.setProperty(
+        RecipeConstants.PROPERTY_RECIPE_ID, Integer.toString(recipe.hashCode()));
+    return recipeEntity;
   }
 }

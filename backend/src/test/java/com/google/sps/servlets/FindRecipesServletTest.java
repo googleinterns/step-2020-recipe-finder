@@ -19,7 +19,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.google.appengine.api.users.UserService;
-import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
 import com.google.sps.utils.TestUtils;
 import java.util.Collections;
@@ -34,8 +33,7 @@ import org.mockito.MockitoAnnotations;
 public class FindRecipesServletTest {
   @Mock UserService userService;
 
-  private static final Gson GSON = new Gson();
-  private static final Recipe recipe = TestUtils.getRecipe();
+  private static final Recipe recipe = TestUtils.createTestRecipe();
   private final FindRecipesServlet findRecipesServlet = new FindRecipesServlet();
 
   @Before
