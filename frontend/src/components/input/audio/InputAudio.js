@@ -23,7 +23,8 @@ class InputAudio extends Component {
         this.state = {
             isRecording: false,
             recorder: '',
-            blobURL: '',
+            audio: [],
+            transcript: '',
             isBlocked: false,
         };
         
@@ -53,13 +54,47 @@ class InputAudio extends Component {
                 type: blob.type,
                 lastModified: Date.now()
             });
-          const blobURL = URL.createObjectURL(file)
-          localStorage.setItem("file", blobURL);
-          this.setState({ blobURL, isRecording: false });
-          }).catch((e) => console.log(e));
-    };
+          this.getByteArray(file).then((byteArray) => {
+            console.log(byteArray);
+            const request = new Request("/api/speech-to-text", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify(byteArray),
+            });
+            fetch(request)
+            //   .then(handleResponseError)
+            .then((response) => response.json())
+            .then((json) =>
+                this.setState({
+                isRecording: false,
+                audio: byteArray,
+                transcript: json,
+                })
+            )
+            .catch((error) => this.setState({ error: error }));
+          }); 
+          });
+    }
     
- 
+    getByteArray(file) {
+        let fileReader = new FileReader();
+        return new Promise(function(resolve, reject) {
+            fileReader.readAsArrayBuffer(file);
+            fileReader.onload = function(ev) {
+                const array = new Int8Array(ev.target.result);
+                const fileByteArray = [];
+                for (let i = 0; i < array.length; i++) {
+                    fileByteArray.push(array[i]);
+                }
+                resolve(array);  // successful
+            }
+            fileReader.onerror = reject; // call reject if error
+        })
+        }
+
     componentDidMount() {
       navigator.getUserMedia({ audio: true },
         () => {
@@ -81,7 +116,7 @@ class InputAudio extends Component {
             <button onClick={this.stop} disabled={!this.state.isRecording}>
             Stop
             </button>
-            <audio src={this.state.blobURL} controls="controls" />
+            <p>{this.state.transcript}</p>
           </div>
         );
       }
