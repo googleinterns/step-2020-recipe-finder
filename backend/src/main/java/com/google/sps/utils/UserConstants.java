@@ -20,6 +20,7 @@ public final class UserConstants {
   public static final String PROPERTY_NAME = "name";
   public static final String PROPERTY_HISTORY = "history";
   public static final String PROPERTY_FAVOURITES = "favourites";
+  public static final String PROPERTY_INVENTORY = "inventory";
   public static final String PROPERTY_DIETS = "diets";
   public static final String PROPERTY_ALLERGIES = "allergies";
   public static final String REDIRECT_LINK = "redirectLink";

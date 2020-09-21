@@ -75,8 +75,7 @@ public class AccountServlet extends AuthenticationServlet {
     Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
     userEntity.setProperty(UserConstants.PROPERTY_NAME, name);
     userEntity.setProperty(UserConstants.PROPERTY_DIETS, diets);
-    userEntity.setProperty(UserConstants.PROPERTY_ALLERGIES, allergies);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+z    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(userEntity);
     response.sendRedirect(redirectLink);
   }

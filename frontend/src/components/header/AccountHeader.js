@@ -31,6 +31,7 @@ class AccountHeader extends Component {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               <Nav.Link href="/account">My Account</Nav.Link>
+              <Nav.Link href="/inventory">Inventory</Nav.Link>
               <Nav.Link href="/favourites">Favourites</Nav.Link>
               <Nav.Link href="/history">History</Nav.Link>
             </Nav>
