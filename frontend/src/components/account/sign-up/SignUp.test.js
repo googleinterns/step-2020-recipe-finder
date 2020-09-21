@@ -12,26 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React from "react";
-import { Router } from "react-router-dom";
+import React, { Component } from "react";
 import { render } from "@testing-library/react";
-import { createMemoryHistory } from "history";
-import '@testing-library/jest-dom/extend-expect';
-import {server} from './mocks/server.js'
+import SignUp from "./SignUp";
 
-export const renderWithRouter = (
-  ui,
-  {
-    route = "/",
-    history = createMemoryHistory({ initialEntries: [route] }),
-  } = {}
-) => {
-  return {
-    ...render(<Router history={history}>{ui}</Router>),
-    history,
-  };
-};
+test("renders 'sign up' page", () => {
+  const location = { state: undefined };
+  const { getByText } = render(<SignUp location={location} />);
+  const title = getByText("Sign Up");
+  expect(title).toBeInTheDocument();
+});
 
-beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
+test("renders 'change account details' page", () => {
+  const location = { state: { name: "name", diets: [], allergies: [] } };
+  const { getByText } = render(<SignUp location={location} />);
+  const title = getByText("Change account details");
+  expect(title).toBeInTheDocument();
+});
