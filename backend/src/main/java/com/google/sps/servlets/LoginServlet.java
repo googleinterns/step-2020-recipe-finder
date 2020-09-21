@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
 import com.google.sps.data.LoginInfo;
 import com.google.sps.utils.UserConstants;
@@ -35,15 +36,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/api/login-status")
 public class LoginServlet extends HttpServlet {
-  private static UserService mUserService;
   public static final String REDIRECT_URL = "/";
+  protected static UserService mUserService = UserServiceFactory.getUserService();
 
-  public LoginServlet() {
-    mUserService = UserServiceFactory.getUserService();
-  }
-  
-  // For testing, UserService is mocked
-  public LoginServlet(UserService userService) {
+  @VisibleForTesting
+  protected void setUserServiceForTesting(UserService userService) {
     mUserService = userService;
   }
 

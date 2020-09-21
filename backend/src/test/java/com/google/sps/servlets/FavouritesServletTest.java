@@ -25,12 +25,10 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.gson.Gson;
 import com.google.sps.data.Recipe;
-import com.google.sps.utils.RecipeConstants;
+import com.google.sps.utils.RecipeCollector;
 import com.google.sps.utils.TestUtils;
 import com.google.sps.utils.UserConstants;
-import java.io.BufferedReader;
-import java.io.Reader;
-import java.io.StringReader;
+import java.io.*;
 import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,9 +41,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 @RunWith(JUnit4.class)
-public class HistoryServletTest {
+public class FavouritesServletTest {
   private static final Gson GSON = new Gson();
   private static final Recipe RECIPE = TestUtils.createTestRecipe();
+
   private static final LocalServiceTestHelper DATASTORE_HELPER = TestUtils.getDatastoreHelper();
 
   private static DatastoreService datastore;
@@ -69,97 +68,71 @@ public class HistoryServletTest {
     DATASTORE_HELPER.tearDown();
   }
 
-  private HistoryServlet getHistoryServlet() {
-    HistoryServlet servlet = new HistoryServlet();
+  private FavouritesServlet getFavouritesServlet() {
+    FavouritesServlet servlet = new FavouritesServlet();
     servlet.setUserServiceForTesting(userService);
     return servlet;
   }
 
   @Test
-  public void getReturnsEmptyListIfNoPastRecipes() throws Exception {
-    HistoryServlet historyServlet = getHistoryServlet();
+  public void getReturnsEmptyListIfNoFavouriteRecipes() throws Exception {
+    FavouritesServlet favouritesServlet = getFavouritesServlet();
     Entity user = TestUtils.getUserEntityWithName();
     datastore.put(user);
 
     String result =
-        TestUtils.getResultFromAuthenticatedGetRequest(historyServlet, request, response);
+        TestUtils.getResultFromAuthenticatedGetRequest(favouritesServlet, request, response);
     assertEquals(GSON.toJson(Collections.emptyList()), result);
   }
 
   @Test
-  public void getReturnsPastRecipes() throws Exception {
-    HistoryServlet historyServlet = getHistoryServlet();
+  public void getReturnsFavouriteRecipes() throws Exception {
+    FavouritesServlet favouritesServlet = getFavouritesServlet();
     Entity user = TestUtils.getUserEntityWithName();
-    user.setProperty(UserConstants.PROPERTY_HISTORY, Collections.singletonList(RECIPE.hashCode()));
+    user.setProperty(
+        UserConstants.PROPERTY_FAVOURITES, Collections.singletonList(RECIPE.hashCode()));
     datastore.put(user);
 
-    datastore.put(TestUtils.createTestRecipeEntity());
+    Entity recipe = TestUtils.createTestRecipeEntity();
+    datastore.put(recipe);
 
     String result =
-        TestUtils.getResultFromAuthenticatedGetRequest(historyServlet, request, response);
+        TestUtils.getResultFromAuthenticatedGetRequest(favouritesServlet, request, response);
     assertEquals(GSON.toJson(Collections.singletonList(RECIPE)), result);
   }
 
   @Test
-  public void postStoresNonExistingRecipeAndAddsToUserHistory() throws Exception {
-    Reader jsonReader = new StringReader(GSON.toJson(RECIPE));
+  public void postAddsRecipeToUserFavourites() throws Exception {
+    Reader jsonReader = new StringReader(GSON.toJson(RECIPE.hashCode()));
     BufferedReader requestReader = new BufferedReader(jsonReader);
     when(request.getReader()).thenReturn(requestReader);
-    HistoryServlet historyServlet = getHistoryServlet();
-    historyServlet.doPost(request, response);
-    Entity actualRecipe =
-        datastore.prepare(new Query(RecipeConstants.ENTITY_RECIPE)).asSingleEntity();
-    assertEquals(TestUtils.createTestRecipeEntity(), actualRecipe);
+    FavouritesServlet favouritesServlet = getFavouritesServlet();
+    favouritesServlet.doPost(request, response);
 
     Entity updatedUser = datastore.prepare(new Query(UserConstants.ENTITY_USER)).asSingleEntity();
     Entity expectedUser = TestUtils.getUserEntityWithName();
     expectedUser.setProperty(
-        UserConstants.PROPERTY_HISTORY, Collections.singletonList(RECIPE.hashCode()));
+        UserConstants.PROPERTY_FAVOURITES, Collections.singletonList(RECIPE.hashCode()));
     assertEquals(expectedUser, updatedUser);
   }
 
   @Test
-  public void postDoesNotStoreExistingRecipeButAddsToUserHistoryIfDoesNotExist() throws Exception {
-    Entity expectedRecipe = TestUtils.createTestRecipeEntity();
-    datastore.put(expectedRecipe);
+  public void postDoesNotAddRecipeToFavouritesIfAlreadyExists() throws Exception {
+    FavouritesServlet favouritesServlet = getFavouritesServlet();
+    Entity user = TestUtils.getUserEntityWithName();
+    user.setProperty(
+        UserConstants.PROPERTY_FAVOURITES, Collections.singletonList(RECIPE.hashCode()));
+    datastore.put(user);
 
-    Reader jsonReader = new StringReader(GSON.toJson(RECIPE));
+    Reader jsonReader = new StringReader(GSON.toJson(RECIPE.hashCode()));
     BufferedReader requestReader = new BufferedReader(jsonReader);
     when(request.getReader()).thenReturn(requestReader);
-    HistoryServlet historyServlet = getHistoryServlet();
-    historyServlet.doPost(request, response);
-    Entity actualRecipe =
-        datastore.prepare(new Query(RecipeConstants.ENTITY_RECIPE)).asSingleEntity();
-    assertEquals(expectedRecipe, actualRecipe);
+    favouritesServlet.doPost(request, response);
 
     Entity updatedUser = datastore.prepare(new Query(UserConstants.ENTITY_USER)).asSingleEntity();
     Entity expectedUser = TestUtils.getUserEntityWithName();
     expectedUser.setProperty(
-        UserConstants.PROPERTY_HISTORY, Collections.singletonList(RECIPE.hashCode()));
-    assertEquals(expectedUser, updatedUser);
-  }
-
-  @Test
-  public void postDoesNotStoreExistingRecipeAndDoesNotAddToUserHistoryIfExists() throws Exception {
-    Entity expectedRecipe = TestUtils.createTestRecipeEntity();
-    datastore.put(expectedRecipe);
-
-    Entity expectedUser = TestUtils.getUserEntityWithName();
-    expectedUser.setProperty(
-        UserConstants.PROPERTY_HISTORY, Collections.singletonList(RECIPE.hashCode()));
-    datastore.put(expectedUser);
-
-    Reader jsonReader = new StringReader(GSON.toJson(RECIPE));
-    BufferedReader requestReader = new BufferedReader(jsonReader);
-    when(request.getReader()).thenReturn(requestReader);
-    HistoryServlet historyServlet = getHistoryServlet();
-    historyServlet.doPost(request, response);
-
-    Entity actualRecipe =
-        datastore.prepare(new Query(RecipeConstants.ENTITY_RECIPE)).asSingleEntity();
-    assertEquals(expectedRecipe, actualRecipe);
-
-    Entity updatedUser = datastore.prepare(new Query(UserConstants.ENTITY_USER)).asSingleEntity();
+        UserConstants.PROPERTY_FAVOURITES, Collections.singletonList(RECIPE.hashCode()));
     assertEquals(expectedUser, updatedUser);
   }
 }
