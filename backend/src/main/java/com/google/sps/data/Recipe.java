@@ -14,6 +14,7 @@
 
 package com.google.sps.data;
 
+import com.google.common.annotations.VisibleForTesting;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,34 +66,42 @@ public final class Recipe {
     return false;
   }
 
+  @VisibleForTesting
   public String getName() {
     return name;
   }
 
+  @VisibleForTesting
   public String getTime() {
     return time;
   }
 
+  @VisibleForTesting
   public String getCalories() {
     return calories;
   }
 
+  @VisibleForTesting
   public String getDifficulty() {
     return difficulty;
   }
 
+  @VisibleForTesting
   public String getImageUrl() {
     return imageUrl;
   }
 
+  @VisibleForTesting
   public List<String> getDietaryRequirements() {
     return dietaryRequirements;
   }
 
+  @VisibleForTesting
   public List<String> getIngredients() {
     return ingredients;
   }
 
+  @VisibleForTesting
   public List<String> getInstructions() {
     return instructions;
   }

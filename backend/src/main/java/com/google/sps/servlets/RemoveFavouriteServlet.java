@@ -36,7 +36,7 @@ public class RemoveFavouriteServlet extends AuthenticationServlet {
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Long recipeId = Long.parseLong(request.getReader().readLine());
-    Entity userEntity = DatastoreUtils.getUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
 
     List<Long> favourites =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_FAVOURITES);

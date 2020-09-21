@@ -14,26 +14,22 @@
 
 package com.google.sps.utils;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class DatastoreUtils {
-  public static Entity getUserEntity() {
-    UserService userService = UserServiceFactory.getUserService();
+  public static Entity getUserEntity(UserService userService) {
     String userId = userService.getCurrentUser().getUserId();
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     return UserCollector.getUserEntity(userId);
   }
 
+  @SuppressWarnings("unchecked")
   public static <T> List<T> getPropertyAsList(Entity entity, String property) {
     List<T> list = (List<T>) entity.getProperty(property);
     if (list == null) {
-      return Collections.emptyList();
+      return new ArrayList<>();
     }
     return list;
   }

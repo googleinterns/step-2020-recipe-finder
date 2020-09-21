@@ -16,6 +16,7 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.common.annotations.VisibleForTesting;
 import java.io.IOException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,12 +30,18 @@ import javax.servlet.http.HttpServletResponse;
  * - if a user is logged in, it executes corresponding abstract method get or post
  */
 public abstract class AuthenticationServlet extends HttpServlet {
-  private static final int AUTHENTICATION_ERROR_CODE = 401;
+  public static final int AUTHENTICATION_ERROR_CODE = 401;
+  protected static UserService mUserService = UserServiceFactory.getUserService();
+
+  @VisibleForTesting
+  protected void setUserServiceForTesting(UserService userService) {
+    mUserService = userService;
+  }
+
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    if (!userService.isUserLoggedIn()) {
+    if (!mUserService.isUserLoggedIn()) {
       response.setStatus(AUTHENTICATION_ERROR_CODE);
       return;
     }
@@ -43,8 +50,7 @@ public abstract class AuthenticationServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    UserService userService = UserServiceFactory.getUserService();
-    if (!userService.isUserLoggedIn()) {
+    if (!mUserService.isUserLoggedIn()) {
       response.setStatus(AUTHENTICATION_ERROR_CODE);
       return;
     }

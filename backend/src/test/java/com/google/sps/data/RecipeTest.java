@@ -7,7 +7,7 @@ import com.google.sps.utils.TestUtils;
 import org.junit.Test;
 
 public class RecipeTest {
-  private static final Recipe RECIPE = TestUtils.getRecipe();
+  private static final Recipe RECIPE = TestUtils.createTestRecipe();
 
   @Test
   public void testExistingContainsDietaryRequirement() {
