@@ -17,6 +17,9 @@ import { render, screen } from "@testing-library/react";
 import SignUp from "./SignUp";
 import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
 
+/**
+ * Sign Up page
+ */
 test("renders 'sign up' page", () => {
   const location = { state: undefined };
   const { getByText } = render(<SignUp location={location} />);
@@ -24,6 +27,14 @@ test("renders 'sign up' page", () => {
   expect(title).toBeInTheDocument();
 });
 
+/**
+ * Change account details
+ * 
+ * The following tests ensure that SignUp.js renders correctly for
+ * Change account details. It gets rendered from ../my-account/Account.js
+ * on pressing "Change account details" button. The form in SignUp.js
+ * is pre-filled with user details.
+ */
 test("renders 'change account details' page", () => {
   const location = { state: { name: "name", diets: [], allergies: [] } };
   const { getByText } = render(<SignUp location={location} />);
@@ -31,7 +42,7 @@ test("renders 'change account details' page", () => {
   expect(title).toBeInTheDocument();
 });
 
-test("displays user diets if 'change account details' page", () => {
+test("pre-fills user diets on 'change account details'", () => {
   const location = {
     state: { name: "name", diets: ["vegetarian"], allergies: [] },
   };
@@ -48,7 +59,7 @@ test("displays user diets if 'change account details' page", () => {
   }
 });
 
-test("displays user allergies if 'change account details' page", () => {
+test("pre-fills user allergies on 'change account details'", () => {
   const location = {
     state: { name: "name", diets: [], allergies: ["eggs", "nuts"] },
   };
