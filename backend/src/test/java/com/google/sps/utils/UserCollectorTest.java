@@ -74,7 +74,7 @@ public class UserCollectorTest {
   @SuppressWarnings("unchecked")
   @Test
   public void testAddRecipeToUserRecipeList() {
-    Recipe recipe = TestUtils.getRecipe();
+    Recipe recipe = TestUtils.createTestRecipe();
     Entity user = TestUtils.getUserEntityWithName();
     UserCollector.addRecipeToUserRecipeList(
         user, UserConstants.PROPERTY_FAVOURITES, (long) recipe.hashCode());
