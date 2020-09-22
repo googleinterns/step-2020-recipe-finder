@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import React, { Component } from "react";
-import { render } from "@testing-library/react";
+import React from "react";
+import { render, screen } from "@testing-library/react";
 import SignUp from "./SignUp";
+import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
 
 test("renders 'sign up' page", () => {
   const location = { state: undefined };
@@ -28,4 +29,30 @@ test("renders 'change account details' page", () => {
   const { getByText } = render(<SignUp location={location} />);
   const title = getByText("Change account details");
   expect(title).toBeInTheDocument();
+});
+
+test("displays user diets if 'change account details' page", () => {
+  const location = {
+    state: { name: "name", diets: ["vegetarian"], allergies: [] },
+  };
+  render(<SignUp location={location} />);
+  const diets = getDietaryRequirements();
+  for (let i = 0; i < diets.length; i++) {
+    const dietValue = diets[i].value;
+    const checkbox = screen.getByDisplayValue(dietValue);
+    if (dietValue === "vegetarian") {
+      expect(checkbox.checked).toEqual(true);
+    } else {
+      expect(checkbox.checked).toEqual(false);
+    }
+  }
+});
+
+test("displays user allergies if 'change account details' page", () => {
+  const location = {
+    state: { name: "name", diets: [], allergies: ["eggs", "nuts"] },
+  };
+  render(<SignUp location={location} />);
+  expect(screen.getByDisplayValue("eggs")).toBeInTheDocument();
+  expect(screen.getByDisplayValue("nuts")).toBeInTheDocument();
 });
