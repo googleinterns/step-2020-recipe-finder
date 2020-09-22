@@ -15,57 +15,35 @@ self.addEventListener("activate", (event) =>
   event.waitUntil(self.clients.claim())
 );
 
-//   self.addEventListener('fetch', (event) => {
-//     const {request} = event;
-//     const url = new URL(request.url);
+workbox.routing.registerRoute(
+  ({ url }) =>
+    url.origin === "https://fonts.googleapis.com" ||
+    url.origin === "https://fonts.gstatic.com",
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: "google-fonts",
+  })
+);
 
-//     if (url.origin === location.origin && url.pathname === '/') {
-//       event.respondWith(new workbox.strategies.NetworkFirst().handle({event, request}));
-//     }
-//   });
+workbox.routing.registerRoute(
+  ({ url }) => url.pathname.startsWith("/api/"),
+  new workbox.strategies.NetworkOnly()
+);
 
-//   self.addEventListener('fetch', function(event) {
-//     event.respondWith(
-//       fetch(event.request).catch(function() {
-//         return caches.match(event.request);
-//       })
-//     );
-//   });
+workbox.routing.registerRoute(
+  "/",
+  new workbox.strategies.StaleWhileRevalidate()
+);
 
-//   event.respondWith(
-//     caches.match(event.request)
-//     .then(response => {
-//       if (response) {
-//         console.log('Found ', event.request.url, ' in cache');
-//         return response;
-//       }
-//       console.log('Network request for ', event.request.url);
-//       return fetch(event.request)
-//       .then(response => {
-//         if (response.status === 404) {
-//           return caches.match('pages/404.html');
-//         }
-//         return caches.open(staticCacheName)
-//         .then(cache => {
-//           cache.put(event.request.url, response.clone());
-//           return response;
-//         });
-//       });
-//     }).catch(error => {
-//       console.log('Error, ', error);
-//       return caches.match('pages/offline.html');
-//     })
-//   );
+workbox.routing.setCatchHandler(({ url, event, params }) => {
+  console.log("In catch handler");
+  console.log(url);
+  console.log(event);
+  console.log(params);
+});
 
-const FALLBACK_URL = "/offline";
-
-const urlHandler = new workbox.strategies.networkFirst();
-
-workbox.routing.registerRoute("/", ({ event }) => {
-  return urlHandler
-    .handle({ event })
-    .then((response) => {
-      return response || caches.match(FALLBACK_URL);
-    })
-    .catch(() => caches.match(FALLBACK_URL));
+workbox.routing.setDefaultHandler(({ url, event, params }) => {
+  console.log("In default handler");
+  console.log(url);
+  console.log(event);
+  console.log(params);
 });

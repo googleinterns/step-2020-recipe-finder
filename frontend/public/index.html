@@ -65,7 +65,7 @@ limitations under the License.  -->
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     <script>
-      if ("serviceWorker" in navigator) {
+      if ('%NODE_ENV%' === 'production' && "serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker
             .register("./service worker.js")

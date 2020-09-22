@@ -55,9 +55,9 @@ class Login extends Component {
   }
 
   render() {
-    if (this.state.error !== null) {
-      return errorRedirect(this.state.error);
-    }
+    // if (this.state.error !== null) {
+    //   return errorRedirect(this.state.error);
+    // }
 
     if (this.state.loading) {
       return loading("Welcome! Checking if you're logged in ...", true);
