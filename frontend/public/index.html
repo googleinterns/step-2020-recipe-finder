@@ -68,7 +68,7 @@ limitations under the License.  -->
       if ('%NODE_ENV%' === 'production' && "serviceWorker" in navigator) {
         window.addEventListener("load", function () {
           navigator.serviceWorker
-            .register("./service worker.js")
+            .register("./serviceWorker.js")
             .then(
               function (registration) {
                 console.log(
