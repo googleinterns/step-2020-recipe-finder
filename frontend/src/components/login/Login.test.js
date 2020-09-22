@@ -13,37 +13,47 @@
 // limitations under the License.
 
 import React from "react";
-import { rest } from "msw";
 import { renderWithRouter } from "../../setupTests";
-import { screen } from "@testing-library/react";
-import App from "../../App";
+import { screen, waitFor } from "@testing-library/react";
+import Login from "./Login";
 
-test("renders error page if backend returned error", async () => {
-  fetch.once({ status: 500 });
-  renderWithRouter(<App />);
-  expect(await screen.findByText("Error")).toBeInTheDocument();
+test("renders loading before fetching", () => {
+  renderWithRouter(<Login />);
+  expect(
+    screen.getByText("Welcome! Checking if you're logged in ...")
+  ).toBeInTheDocument();
 });
 
-test("renders home page if user is logged in", async () => {
+test("redirects to home page if user is logged in", async () => {
   fetch.once(
     JSON.stringify({ isFirstTime: false, isLoggedIn: true, logUrl: "url" })
   );
-  renderWithRouter(<App />);
-  expect(await screen.findByText("Input Ingredients")).toBeInTheDocument();
+  const { history } = renderWithRouter(<Login />);
+  await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+  expect(history.location.pathname).toMatch("/home");
 });
 
-test("renders sign up page if user is logged in and this their first time", async () => {
+test("redirects to sign up page if user is logged in and it's their first time", async () => {
   fetch.once(
     JSON.stringify({ isFirstTime: true, isLoggedIn: true, logUrl: "url" })
   );
-  renderWithRouter(<App />);
-  expect(await screen.findByText("Sign Up")).toBeInTheDocument();
+  const { history } = renderWithRouter(<Login />);
+  await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+  expect(history.location.pathname).toMatch("/sign-up");
 });
 
 test("renders login page if user is not logged in", async () => {
   fetch.once(
     JSON.stringify({ isFirstTime: false, isLoggedIn: false, logUrl: "url" })
   );
-  renderWithRouter(<App />);
-  expect(await screen.findByText("Login")).toBeInTheDocument();
+  const { history } = renderWithRouter(<Login />);
+  await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+  expect(history.location.pathname).toMatch("/");
+});
+
+test("redirects to error page if backend returned error", async () => {
+  fetch.once({ status: 500 });
+  const { history } = renderWithRouter(<Login />);
+  await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+  expect(history.location.pathname).toMatch("/error");
 });

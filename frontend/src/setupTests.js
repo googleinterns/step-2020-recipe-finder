@@ -17,6 +17,7 @@ import { Router } from "react-router-dom";
 import { render } from "@testing-library/react";
 import { createMemoryHistory } from "history";
 import "@testing-library/jest-dom/extend-expect";
+import { unmountComponentAtNode } from "react-dom";
 
 export const renderWithRouter = (
   ui,
@@ -33,6 +34,17 @@ export const renderWithRouter = (
 
 require("jest-fetch-mock").enableMocks();
 
+let container = null;
+
 beforeEach(() => {
+  jest.resetModules();
   fetch.resetMocks();
+  container = document.createElement("div");
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  unmountComponentAtNode(container);
+  container.remove();
+  container = null;
 });
