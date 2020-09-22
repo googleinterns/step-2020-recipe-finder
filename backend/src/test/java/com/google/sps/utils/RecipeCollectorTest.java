@@ -74,7 +74,7 @@ public class RecipeCollectorTest {
   }
 
   @Test
-  public void testcreateTestRecipeEntity() {
+  public void testGetRecipeEntity() {
     Entity expectedRecipe = TestUtils.createTestRecipeEntity();
     Entity actualRecipe =
         RecipeCollector.getRecipeEntity(GSON.toJsonTree(TestUtils.createTestRecipe()).getAsJsonObject());
