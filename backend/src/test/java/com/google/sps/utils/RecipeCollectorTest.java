@@ -58,8 +58,8 @@ public class RecipeCollectorTest {
 
   @Test
   public void testGetExistingRecipes() {
-    Recipe recipe = TestUtils.getRecipe();
-    datastore.put(TestUtils.getRecipeEntity());
+    Recipe recipe = TestUtils.createTestRecipe();
+    datastore.put(TestUtils.createTestRecipeEntity());
     List<Recipe> result =
         RecipeCollector.getRecipes(Collections.singletonList((long) recipe.hashCode()));
     assertEquals(Collections.singletonList(recipe), result);
@@ -67,17 +67,17 @@ public class RecipeCollectorTest {
 
   @Test
   public void testGetNonExistingRecipes() {
-    Recipe recipe = TestUtils.getRecipe();
+    Recipe recipe = TestUtils.createTestRecipe();
     List<Recipe> result =
         RecipeCollector.getRecipes(Collections.singletonList((long) recipe.hashCode()));
     assertEquals(Collections.emptyList(), result);
   }
 
   @Test
-  public void testGetRecipeEntity() {
-    Entity expectedRecipe = TestUtils.getRecipeEntity();
+  public void testcreateTestRecipeEntity() {
+    Entity expectedRecipe = TestUtils.createTestRecipeEntity();
     Entity actualRecipe =
-        RecipeCollector.getRecipeEntity(GSON.toJsonTree(TestUtils.getRecipe()).getAsJsonObject());
+        RecipeCollector.getRecipeEntity(GSON.toJsonTree(TestUtils.createTestRecipe()).getAsJsonObject());
     assertEquals(expectedRecipe, actualRecipe);
   }
 }
