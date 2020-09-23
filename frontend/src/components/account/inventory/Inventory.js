@@ -100,7 +100,7 @@ class Inventory extends ComponentWithHeader {
 
           <InventoryItems entries={this.state.inventory} delete={this.deleteItem} />
           </div>
-          <Button type="confirm" onClick={this.saveToInventory(inventory)} href="/inventory">Confirm</Button>
+          <Button type="confirm" onClick={this.saveToInventory(inventory)} href="/home">Confirm</Button>
         </div>
     )
   }
