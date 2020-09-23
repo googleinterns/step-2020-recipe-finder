@@ -56,4 +56,17 @@ public final class UserCollector {
       datastore.put(userEntity);
     }
   }
+
+  public static void addInventoryToUser(Entity userEntity, String ingredient) {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    List<String> inventory = (List<String>) userEntity.getProperty(UserConstants.PROPERTY_INVENTORY);
+    if (inventory == null) {
+      inventory = new ArrayList<>();
+    }
+    if (!inventory.contains(ingredient)) {
+      inventory.add(ingredient);
+      userEntity.setProperty(UserConstants.PROPERTY_INVENTORY, ingredient);
+      datastore.put(userEntity);
+    }
+  }
 }

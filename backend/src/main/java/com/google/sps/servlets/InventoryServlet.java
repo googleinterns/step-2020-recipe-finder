@@ -45,7 +45,7 @@ public class InventoryServlet extends AuthenticationServlet {
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String ingredient = request.getReader().readLine();
     Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
-    UserCollector.addRecipeToUserRecipeList(
-        userEntity, UserConstants.PROPERTY_INVENTORY, ingredient);
+    UserCollector.addInventoryToUser(
+        userEntity, ingredient);
   }
 }

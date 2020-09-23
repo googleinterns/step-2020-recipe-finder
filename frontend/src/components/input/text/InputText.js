@@ -27,12 +27,17 @@ class InputText extends ComponentWithHeader {
 
     this.state = {
       items: [],
+      inventory: [],
     };
 
     this.addItem = this.addItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
   }
 
+  componentDidMount() {
+    const { inventory } = this.props.location.state;
+    this.setState({inventory: inventory});
+  }
   addItem(event) {
     const value = this._inputElement.value;
     if (value === "") {
