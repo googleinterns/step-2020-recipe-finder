@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-const { override, addWebpackPlugin } = require('customize-cra');
-const { InjectManifest } = require('workbox-webpack-plugin');
+const { override, addWebpackPlugin } = require("customize-cra");
+const { InjectManifest } = require("workbox-webpack-plugin");
 module.exports = (webpack, ...args) => {
   // remove GenerateSW plugin
   webpack.plugins.pop();
   const overridenConf = override(
     addWebpackPlugin(
       new InjectManifest({
-        swSrc: './src/serviceWorker.js',
-        swDest: './serviceWorker.js',
-      }),
-    ),
-)(webpack, ...args);
+        swSrc: "./src/serviceWorker.js",
+        swDest: "./serviceWorker.js",
+      })
+    )
+  )(webpack, ...args);
   return overridenConf;
 };

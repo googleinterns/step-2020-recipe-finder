@@ -21,9 +21,15 @@ if (workbox) {
 // Precache static files
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
-self.addEventListener("install", (event) =>
-  event.waitUntil(self.skipWaiting())
-);
+// Cache offline page
+const offlinePage = "/static/js/3.25e69870.chunk.js";
+const offlineCache = "offline-page";
+
+self.addEventListener("install", async (event) => {
+  event.waitUntil(
+    caches.open(offlineCache).then((cache) => cache.add(offlinePage))
+  );
+});
 
 self.addEventListener("activate", (event) =>
   event.waitUntil(self.clients.claim())
@@ -46,10 +52,15 @@ workbox.routing.registerRoute(
 );
 
 // Use a stale-while-revalidate strategy for all other requests.
-workbox.routing.setDefaultHandler(new workbox.strategies.StaleWhileRevalidate());
+workbox.routing.setDefaultHandler(
+  new workbox.strategies.StaleWhileRevalidate()
+);
 
-workbox.routing.setCatchHandler(({event}) => {
+workbox.routing.setCatchHandler(({ event }) => {
   console.log(event);
-  return workbox.precaching.getCacheKeyForURL("/static/js/3.25e69870.chunk.js");
+  return caches.match(offlinePage, {
+    cacheName: offlineCache,
+  });
+  // return workbox.precaching.getCacheKeyForURL("/static/js/3.25e69870.chunk.js");
   // return workbox.precaching.matchPrecache("/static/js/3.25e69870.chunk.js");
 });
