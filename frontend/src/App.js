@@ -44,17 +44,17 @@ function App() {
             <Route exact path="/" component={Login} />
             <Route exact path="/error" component={ErrorPage} />
             <Route exact path="/offline" component={OfflinePage} />
-            <Route exact path="/sign-up" component={SignUp} />
-            <Route exact path="/home" component={Home} />
-            <Route exact path="/text" component={InputText} />
-            <Route exact path="/account" component={Account} />
-            <Route exact path="/cook" component={CookRecipe} />
-            <Route exact path="/shop" component={ShoppingList} />
-            <Route exact path="/history" component={AccountHistory} />
-            <Route exact path="/inventory" component={Inventory} />
-            <Route exact path="/favourites" component={Favourites} />
-            <Route exact path="/finished" component={FinishedRecipe} />
-            <Route
+            <PrivateRoute exact path="/sign-up" component={SignUp} />
+            <PrivateRoute exact path="/home" component={Home} />
+            <PrivateRoute exact path="/text" component={InputText} />
+            <PrivateRoute exact path="/account" component={Account} />
+            <PrivateRoute exact path="/cook" component={CookRecipe} />
+            <PrivateRoute exact path="/shop" component={ShoppingList} />
+            <PrivateRoute exact path="/history" component={AccountHistory} />
+            <PrivateRoute exact path="/inventory" component={Inventory} />
+            <PrivateRoute exact path="/favourites" component={Favourites} />
+            <PrivateRoute exact path="/finished" component={FinishedRecipe} />
+            <PrivateRoute
               exact
               path="/recommendations"
               component={RecommendedRecipes}
