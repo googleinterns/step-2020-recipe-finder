@@ -8,7 +8,6 @@ This application allows users to input ingredients and be given a selection of r
   - Java Servlets: backend
   - React.js: frontend
   - Google Cloud Text-To-Speech API: reading recipes aloud
-  - Google Cloud Speech-To-Text API: audio input
   - Datastore API: storing user data and recipes
   - Google User Service API: authenticating and identifying users based on their google accounts
   - Google Custom Search JSON API: receiving recipe links from BBCGoodFood
