@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +44,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
   private static final String API_KEY = ApiKeys.customSearchKey;
   private static final int MAX_NUMBER_OF_RESULTS_PER_PAGE = 10;
   private static final int MAX_NUMBER_OF_RESULTS_OVERALL = 100;
-  private int mIndexOfFirstResult = 1;
+  private static final int DEFAULT_INDEX = 1;
 
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -55,17 +54,18 @@ public class FindRecipesServlet extends AuthenticationServlet {
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String ingredients = request.getReader().readLine().replaceAll(" ", "%20");
-    Entity userEntity = DatastoreUtils.getUserEntity();
+    Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
     List<String> diets = DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_DIETS);
     List<String> allergies =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_ALLERGIES);
 
     List<Recipe> recipes = new ArrayList<>();
     int counter = 0;
+    int indexOfFirstResult = DEFAULT_INDEX;
 
     while (counter != MAX_NUMBER_OF_RECIPES_TO_STORE
-        && mIndexOfFirstResult <= MAX_NUMBER_OF_RESULTS_OVERALL) {
-      JsonArray items = getRecipeItemsFromCustomSearch(ingredients);
+        && indexOfFirstResult <= MAX_NUMBER_OF_RESULTS_OVERALL) {
+      JsonArray items = getRecipeItemsFromCustomSearch(ingredients, indexOfFirstResult);
 
       for (JsonElement item : items) {
         JsonObject object = item.getAsJsonObject();
@@ -76,7 +76,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
           counter++;
         }
       }
-      mIndexOfFirstResult += MAX_NUMBER_OF_RESULTS_PER_PAGE;
+      indexOfFirstResult += MAX_NUMBER_OF_RESULTS_PER_PAGE;
     }
 
     response.setCharacterEncoding("UTF8");
@@ -84,19 +84,24 @@ public class FindRecipesServlet extends AuthenticationServlet {
     response.getWriter().println(new Gson().toJson(getRandomisedRecipes(recipes)));
   }
 
-  private JsonArray getRecipeItemsFromCustomSearch(String ingredients) throws IOException {
-    String json =
-        Jsoup.connect(
-                BBCGoodFoodRecipeScraper.searchRecipeLink(
-                    ingredients, API_KEY, mIndexOfFirstResult))
-            .ignoreContentType(true)
-            .execute()
-            .body();
-    JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
-    return jsonObject.get("items").getAsJsonArray();
+  private JsonArray getRecipeItemsFromCustomSearch(String ingredients, int indexOfFirstResult) {
+    try {
+      String json =
+          Jsoup.connect(
+                  BBCGoodFoodRecipeScraper.searchRecipeLink(
+                      ingredients, API_KEY, indexOfFirstResult))
+              .ignoreContentType(true)
+              .execute()
+              .body();
+      JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+      return jsonObject.get("items").getAsJsonArray();
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    return new JsonArray();
   }
 
-  private boolean isDietFriendly(Recipe recipe, List<String> diets, List<String> allergies) {
+  protected boolean isDietFriendly(Recipe recipe, List<String> diets, List<String> allergies) {
     if (diets.isEmpty() && allergies.isEmpty()) {
       return true;
     }

@@ -19,8 +19,9 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
+@SuppressWarnings("unchecked")
 public final class DietaryRequirements {
-  private static final String[] RECIPE_LABELLED_DIETS = {"vegetarian", "vegan", "glutenfree"};
+  public static final String[] RECIPE_LABELLED_DIETS = {"vegetarian", "vegan", "glutenfree"};
 
   private static final String[] HALAL_RESTRICTIONS = {"pork"};
   private static final String[] DAIRY_FREE_RESTRICTIONS = {
@@ -35,7 +36,7 @@ public final class DietaryRequirements {
   private static final Pair<String, String[]> KOSHER =
       new MutablePair("kosher", KOSHER_RESTRICTIONS);
 
-  private static final Pair[] NON_RECIPE_LABELLED_DIETS = {HALAL, DAIRY_FREE, KOSHER};
+  public static final Pair[] NON_RECIPE_LABELLED_DIETS = {HALAL, DAIRY_FREE, KOSHER};
 
   public static boolean isRecipeLabelledDiet(String diet) {
     return Arrays.asList(RECIPE_LABELLED_DIETS).contains(diet);
