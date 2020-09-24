@@ -1,0 +1,11 @@
+.edit-inventory {
+    display: block;
+}
+
+.hidden-inventory {
+    display: none;
+}
+
+.edit-button {
+    margin-top: 10px;
+}

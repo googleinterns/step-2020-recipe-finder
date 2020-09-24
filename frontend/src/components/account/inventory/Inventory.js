@@ -25,12 +25,32 @@ class Inventory extends ComponentWithHeader {
     super(properties);
     this.state = {
       inventory: [],
+      edit: false,
     };
 
     this.addItem = this.addItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
   }
   
+  setEdit() {
+    this.getInventory();
+    const previousEdit = this.state.edit;
+    this.setState({edit: !previousEdit});
+  }
+  editLabel(){
+      if (this.state.edit){
+        return "Cancel";
+      } else {
+        return "Edit"
+      }
+  }
+  editCssLabel(){
+      if (this.state.edit){
+        return "edit-inventory";
+      } else {
+        return "hidden-inventory"
+      }
+  }
   addItem(event) {
     const value = this._inputElement.value;
     if (value === "") {
@@ -77,12 +97,14 @@ class Inventory extends ComponentWithHeader {
   }
     
   renderContent() {
+      console.log(this.state.inventory);
     const inventory = this.state.inventory.map((item) => item.text);
     return(
       <div>
         <div className="centered-container">
-          <h1 className="inventory-page-title">Inventory</h1>
-          <Form onSubmit={this.addItem}>
+          <h1 className="account-page-title">Inventory</h1>
+          <Button className="edit-button" onClick={()=>this.setEdit()}>{this.editLabel()}</Button>
+          <Form className={this.editCssLabel()} onSubmit={this.addItem}>
             <Form.Row>
               <div className="input">
                 <Form.Control
@@ -96,18 +118,21 @@ class Inventory extends ComponentWithHeader {
               </div>
             </Form.Row>
           </Form>
-          <p>{this.getMessageIfNoInventory()}</p>
+        <InventoryItems editState={this.editCssLabel()} entries={this.state.inventory} delete={this.deleteItem} />
+          {/* <p>{this.getMessageIfNoInventory()}</p> */}
+        <Button className={this.editCssLabel()} type="confirm" onClick={()=>this.saveToInventory(inventory)}>Confirm</Button>
 
-          <InventoryItems entries={this.state.inventory} delete={this.deleteItem} />
           </div>
-          <Button type="confirm" onClick={this.saveToInventory(inventory)} href="/home">Confirm</Button>
         </div>
     )
   }
   getInventory() {
     fetch("/api/inventory")
       .then((response) => response.json())
-      .then((json) => this.setState({ inventory: json }))
+      .then((json) => { const inventory = [];
+        let index = 0;
+        json.map((item) => inventory.push({text: item, key: index++}));
+        this.setState({inventory: inventory});})
       .catch((err) => console.log(err))
       .finally(() => this.setState({ loading: false }));
   }
@@ -116,18 +141,19 @@ class Inventory extends ComponentWithHeader {
       return "Empty Pantry?";
     }
   }
-  saveToInventory(ingredient) {
-    console.log(ingredient);
+  saveToInventory(ingredients) {
+    console.log(ingredients);
     const request = new Request("/api/inventory", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(ingredient),
+      body: JSON.stringify(ingredients),
     });
-    fetch(request).catch((err) => console.log(err));
+    fetch(request).then(()=>this.setEdit()).catch((err) => console.log(err));
   }
+  
 }
 
 export default Inventory;

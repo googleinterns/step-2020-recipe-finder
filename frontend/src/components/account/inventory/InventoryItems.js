@@ -27,10 +27,11 @@ class InventoryItems extends Component {
   }
 
   createItems(item) {
+    const deleteClassName = "remove-ingredient-div " + this.props.editState;
     return (
       <li key={item.key}>
         <div className="ingredient-text">{item.text}</div>
-        <div className="remove-ingredient-div">
+        <div className={deleteClassName}>
           <Button variant="link" onClick={() => this.delete(item.key)}>X</Button>
         </div>
       </li>

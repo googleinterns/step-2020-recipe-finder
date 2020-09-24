@@ -57,16 +57,9 @@ public final class UserCollector {
     }
   }
 
-  public static void addInventoryToUser(Entity userEntity, String ingredient) {
+  public static void addInventoryToUser(Entity userEntity, List<String> inventory) {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    List<String> inventory = (List<String>) userEntity.getProperty(UserConstants.PROPERTY_INVENTORY);
-    if (inventory == null) {
-      inventory = new ArrayList<>();
-    }
-    if (!inventory.contains(ingredient)) {
-      inventory.add(ingredient);
-      userEntity.setProperty(UserConstants.PROPERTY_INVENTORY, ingredient);
-      datastore.put(userEntity);
-    }
+    userEntity.setProperty(UserConstants.PROPERTY_INVENTORY, inventory);
+    datastore.put(userEntity);
   }
 }
