@@ -22,6 +22,7 @@ import com.google.sps.utils.RecipeCollector;
 import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.annotation.WebServlet;
@@ -41,14 +42,17 @@ public class InventoryServlet extends AuthenticationServlet {
     response.getWriter().println(new Gson().toJson(inventory));
   }
 
-  /** Adds an ingredient to user's inventory */
+  /** Adds a list of ingredients to user's inventory */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String ingredients = request.getReader().readLine().replaceAll("\\[|\\]|\"", ""); 
-    System.out.println(ingredients);
-    List<String> inventory = Arrays.asList(ingredients.split("\\s*,\\s*"));
-    System.out.println(inventory);
     Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
+    List<String> inventory;
+    if (ingredients.isEmpty()) {
+        inventory = null;
+    } else{
+        inventory = Arrays.asList(ingredients.split("\\s*,\\s*"));
+    }
     UserCollector.addInventoryToUser(
         userEntity, inventory);
   }
