@@ -17,6 +17,7 @@ import React, { Component } from "react";
 import { getOneBackground } from "../../utils/Background";
 import "./OfflinePage.css";
 import Walkthrough from "../login/Walkthrough";
+import { Link, Redirect } from "react-router-dom";
 
 class OfflinePage extends Component {
   constructor(properties) {
@@ -24,12 +25,25 @@ class OfflinePage extends Component {
     this.state = {
       background: getOneBackground(),
       showModal: false,
+      favouritesInCache: false,
+      redirect: false,
     };
     this.handleClose = this.handleClose.bind(this);
     this.setShowModal = this.setShowModal.bind(this);
   }
 
+  componentDidMount() {
+    // Check if favourite recipes are in cache
+    fetch("/api/favourites")
+      .then(() => this.setState({ favouritesInCache: true }))
+      .catch((error) => console.log(error));
+  }
+
   render() {
+    if (this.state.redirect) {
+      return <Redirect to="/favourites" />;
+    }
+
     return (
       <div id="offline-div">
         <Walkthrough
@@ -49,6 +63,7 @@ class OfflinePage extends Component {
           >
             Show me how Recipe Finder works
           </Button>
+          {this.getFavouritesButtonIfTheyAreInCache()}
         </div>
       </div>
     );
@@ -60,6 +75,19 @@ class OfflinePage extends Component {
 
   setShowModal() {
     this.setState({ showModal: true });
+  }
+
+  getFavouritesButtonIfTheyAreInCache() {
+    if (this.state.favouritesInCache) {
+      return (
+        <Button
+          className="walkthrough-btn"
+          onClick={() => this.setState({ redirect: true })}
+        >
+          My favourite recipes
+        </Button>
+      );
+    }
   }
 }
 export default OfflinePage;

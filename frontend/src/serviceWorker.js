@@ -21,9 +21,13 @@ if (workbox) {
 // Precache static files
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
-self.addEventListener("install", (event) =>
-  event.waitUntil(self.skipWaiting())
-);
+self.addEventListener("install", function (event) {
+  event.waitUntil(
+    caches.open(cacheName).then(function (cache) {
+      return cache.addAll(["/offline.html"]);
+    })
+  );
+});
 
 self.addEventListener("activate", (event) =>
   event.waitUntil(self.clients.claim())
@@ -39,6 +43,12 @@ workbox.routing.registerRoute(
   })
 );
 
+// Network first strategy for getting favourite recipes
+workbox.routing.registerRoute(
+  ({ url }) => url.pathname === "/api/favourites",
+  new workbox.strategies.NetworkFirst()
+);
+
 // Network only strategy for backend requests
 workbox.routing.registerRoute(
   ({ url }) => url.pathname.startsWith("/api/"),
@@ -49,11 +59,3 @@ workbox.routing.registerRoute(
 workbox.routing.setDefaultHandler(
   new workbox.strategies.StaleWhileRevalidate()
 );
-
-workbox.routing.setCatchHandler(({ event }) => {
-  console.log(event);
-  switch (event.request.destination) {
-    case 'document':
-      return "/offline";
-  }
-});

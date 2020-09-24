@@ -28,9 +28,7 @@ import Favourites from "./components/account/favourites/Favourites";
 import Account from "./components/account/my-account/Account";
 import AccountHistory from "./components/account/history/History";
 import ReactErrorHandler from "./components/utils/ReactErrorHandler";
-import ErrorPage from "./components/utils/APIErrorHandler";
 import { PrivateRoute } from "./components/utils/PrivateRoute";
-import OfflinePage from "./components/offline/OfflinePage";
 
 function App() {
   return (

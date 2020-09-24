@@ -25,6 +25,7 @@ class History extends ComponentWithHeader {
     super(properties);
     this.state = {
       recipes: [],
+      error: null,
       loading: true,
     };
   }

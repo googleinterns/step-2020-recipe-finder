@@ -17,16 +17,11 @@ import AccountHeader from "./AccountHeader";
 import {errorRedirect} from "../utils/APIErrorHandler";
 
 class ComponentWithHeader extends Component {
-  constructor(properties) {
-    super(properties);
-    this.state = {
-      error: null,
-    };
-  }
   render() {
-    if (this.state.error !== null) {
+    if (this.state.error !== undefined && this.state.error !== null) {
       return errorRedirect(this.state.error);
     }
+
     return (
       <div>
         <AccountHeader />
