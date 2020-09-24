@@ -33,7 +33,7 @@ class History extends ComponentWithHeader {
     fetch("/api/history")
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json }))
-      .catch((err) => console.log(err))
+      .catch((error) => this.setState({error: error}))
       .finally(() => this.setState({ loading: false }));
   }
 

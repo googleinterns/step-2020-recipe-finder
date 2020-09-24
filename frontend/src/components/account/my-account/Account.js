@@ -17,7 +17,6 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { getDietaryRequirements } from "../../../utils/DietaryRequirements";
 import { handleResponseError } from "../../utils/APIErrorHandler";
-import { errorRedirect } from "../../utils/APIErrorHandler";
 import { loading } from "../../utils/Utilities";
 import sign_out from "../../../icons/sign_out.svg";
 import "./Account.css";
@@ -32,7 +31,6 @@ class Account extends ComponentWithHeader {
       diets: [],
       allergies: [],
       loading: true,
-      error: null,
       signOutUrl: signOutUrl !== null ? signOutUrl : this.fetchSignOutUrl(),
     };
   }
@@ -53,10 +51,6 @@ class Account extends ComponentWithHeader {
   }
 
   renderContent() {
-    if (this.state.error !== null) {
-      return errorRedirect(this.state.error);
-    }
-
     if (this.state.loading) {
       return loading("Getting account details ...");
     }

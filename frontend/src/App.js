@@ -30,12 +30,9 @@ import AccountHistory from "./components/account/history/History";
 import ReactErrorHandler from "./components/utils/ReactErrorHandler";
 import ErrorPage from "./components/utils/APIErrorHandler";
 import { PrivateRoute } from "./components/utils/PrivateRoute";
+import OfflinePage from "./components/offline/OfflinePage";
 
 function App() {
-  // to enable code splitting of JS bundle
-  // OfflinePage can be accessed by the serviceWorker whenever the network is offline
-  const OfflinePage = React.lazy(() => import('./components/offline/OfflinePage'));
-
   return (
     <div className="App">
       <Router>

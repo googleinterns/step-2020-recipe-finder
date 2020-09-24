@@ -21,15 +21,9 @@ if (workbox) {
 // Precache static files
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
-// Cache offline page
-const offlinePage = "/static/js/3.25e69870.chunk.js";
-const offlineCache = "offline-page";
-
-self.addEventListener("install", async (event) => {
-  event.waitUntil(
-    caches.open(offlineCache).then((cache) => cache.add(offlinePage))
-  );
-});
+self.addEventListener("install", (event) =>
+  event.waitUntil(self.skipWaiting())
+);
 
 self.addEventListener("activate", (event) =>
   event.waitUntil(self.clients.claim())
@@ -58,9 +52,8 @@ workbox.routing.setDefaultHandler(
 
 workbox.routing.setCatchHandler(({ event }) => {
   console.log(event);
-  return caches.match(offlinePage, {
-    cacheName: offlineCache,
-  });
-  // return workbox.precaching.getCacheKeyForURL("/static/js/3.25e69870.chunk.js");
-  // return workbox.precaching.matchPrecache("/static/js/3.25e69870.chunk.js");
+  switch (event.request.destination) {
+    case 'document':
+      return "/offline";
+  }
 });

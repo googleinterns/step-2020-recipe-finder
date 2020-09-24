@@ -24,6 +24,9 @@ export function handleResponseError(response) {
 }
 
 export function errorRedirect(error) {
+  if (error && error.message === "Failed to fetch") {
+    return <Redirect to="/offline" />;
+  }
   return <Redirect to={{ pathname: "/error", state: { error: error } }} />;
 }
 
@@ -34,7 +37,7 @@ class ErrorPage extends Component {
       <div>
         {backButton()}
         <h1>Error</h1>
-        <p>{error.message}</p>
+        <p>{error && error.message}</p>
       </div>
     );
   }
