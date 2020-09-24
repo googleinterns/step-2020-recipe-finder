@@ -30,8 +30,8 @@ class Account extends ComponentWithHeader {
       name: "",
       diets: [],
       allergies: [],
-      error: null,
       loading: true,
+      error: null,
       signOutUrl: signOutUrl !== null ? signOutUrl : this.fetchSignOutUrl(),
     };
   }

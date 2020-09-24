@@ -37,8 +37,6 @@ function App() {
         <ReactErrorHandler>
           <Switch>
             <Route exact path="/" component={Login} />
-            <Route exact path="/error" component={ErrorPage} />
-            <Route exact path="/offline" component={OfflinePage} />
             <PrivateRoute exact path="/sign-up" component={SignUp} />
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />

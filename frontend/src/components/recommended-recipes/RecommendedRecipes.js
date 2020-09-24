@@ -31,8 +31,8 @@ class RecommendedRecipes extends ComponentWithHeader {
       loading: true,
       isRedirect: false,
       recipes: [],
-      error: null,
       chosenRecipe: {},
+      error: null,
       ingredients: [],
     };
   }
