@@ -117,9 +117,11 @@ class Inventory extends ComponentWithHeader {
               </div>
             </Form.Row>
           </Form>
-        <InventoryItems editState={this.editCssLabel()} entries={this.state.inventory} delete={this.deleteItem} />
+        <InventoryItems editState={this.editCssLabel()} entries={this.state.inventory}
+            delete={this.deleteItem} />
           <h3>{this.getMessageIfNoInventory()}</h3>
-        <Button className={this.editCssLabel()} type="confirm" onClick={()=>this.saveToInventory(inventory)}>Confirm</Button>
+        <Button className={this.editCssLabel()} type="confirm"
+            onClick={()=>this.saveToInventory(inventory)}>Confirm</Button>
 
           </div>
         </div>

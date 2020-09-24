@@ -54,7 +54,8 @@ public class FindRecipesServlet extends AuthenticationServlet {
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
-    List<String> inventoryList = DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_INVENTORY);
+    List<String> inventoryList = 
+        DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_INVENTORY);
     String ingredients = request.getReader().readLine();
     for (String item: inventoryList) {
         ingredients += " ";
