@@ -97,7 +97,6 @@ class Inventory extends ComponentWithHeader {
   }
     
   renderContent() {
-      console.log(this.state.inventory);
     const inventory = this.state.inventory.map((item) => item.text);
     return(
       <div>
@@ -119,7 +118,7 @@ class Inventory extends ComponentWithHeader {
             </Form.Row>
           </Form>
         <InventoryItems editState={this.editCssLabel()} entries={this.state.inventory} delete={this.deleteItem} />
-          {/* <p>{this.getMessageIfNoInventory()}</p> */}
+          <h3>{this.getMessageIfNoInventory()}</h3>
         <Button className={this.editCssLabel()} type="confirm" onClick={()=>this.saveToInventory(inventory)}>Confirm</Button>
 
           </div>
@@ -137,12 +136,11 @@ class Inventory extends ComponentWithHeader {
       .finally(() => this.setState({ loading: false }));
   }
   getMessageIfNoInventory() {
-    if (this.state.inventory.length === 0) {
+    if (this.state.inventory.length === 0 && this.state.edit === false) {
       return "Empty Pantry?";
     }
   }
   saveToInventory(ingredients) {
-    console.log(ingredients);
     const request = new Request("/api/inventory", {
       method: "POST",
       headers: {
