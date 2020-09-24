@@ -56,10 +56,4 @@ public final class UserCollector {
       datastore.put(userEntity);
     }
   }
-
-  public static void addInventoryToUser(Entity userEntity, List<String> inventory) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    userEntity.setProperty(UserConstants.PROPERTY_INVENTORY, inventory);
-    datastore.put(userEntity);
-  }
 }

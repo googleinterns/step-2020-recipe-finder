@@ -37,6 +37,7 @@ class Inventory extends ComponentWithHeader {
     const previousEdit = this.state.edit;
     this.setState({edit: !previousEdit});
   }
+
   editLabel(){
       if (this.state.edit){
         return "Cancel";
@@ -44,6 +45,7 @@ class Inventory extends ComponentWithHeader {
         return "Edit"
       }
   }
+
   editCssLabel(){
       if (this.state.edit){
         return "edit-inventory";
@@ -51,6 +53,7 @@ class Inventory extends ComponentWithHeader {
         return "hidden-inventory"
       }
   }
+
   addItem(event) {
     const value = this._inputElement.value;
     if (value === "") {
@@ -92,6 +95,7 @@ class Inventory extends ComponentWithHeader {
       inventory: filteredinventory,
     });
   }
+
   componentDidMount() {
     this.getInventory();
   }
@@ -102,6 +106,8 @@ class Inventory extends ComponentWithHeader {
       <div>
         <div className="centered-container">
           <h1 className="account-page-title">Inventory</h1>
+          <h4>These are the items you always have in your kitchen</h4>
+          <h3>{this.getMessageIfNoInventory()}</h3>
           <Button className="edit-button" onClick={()=>this.setEdit()}>{this.editLabel()}</Button>
           <Form className={this.editCssLabel()} onSubmit={this.addItem}>
             <Form.Row>
@@ -119,7 +125,6 @@ class Inventory extends ComponentWithHeader {
           </Form>
         <InventoryItems editState={this.editCssLabel()} entries={this.state.inventory}
             delete={this.deleteItem} />
-          <h3>{this.getMessageIfNoInventory()}</h3>
         <Button className={this.editCssLabel()} type="confirm"
             onClick={()=>this.saveToInventory(inventory)}>Confirm</Button>
 
@@ -127,6 +132,7 @@ class Inventory extends ComponentWithHeader {
         </div>
     )
   }
+
   getInventory() {
     fetch("/api/inventory")
       .then((response) => response.json())
@@ -137,11 +143,13 @@ class Inventory extends ComponentWithHeader {
       .catch((err) => console.log(err))
       .finally(() => this.setState({ loading: false }));
   }
+
   getMessageIfNoInventory() {
     if (this.state.inventory.length === 0 && this.state.edit === false) {
       return "Empty Pantry?";
     }
   }
+
   saveToInventory(ingredients) {
     const request = new Request("/api/inventory", {
       method: "POST",

@@ -58,8 +58,7 @@ public class FindRecipesServlet extends AuthenticationServlet {
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_INVENTORY);
     String ingredients = request.getReader().readLine();
     for (String item: inventoryList) {
-        ingredients += " ";
-        ingredients += item;
+        ingredients += " " + item;
     }
     ingredients = ingredients.replaceAll(" ", "%20");
     List<String> diets = DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_DIETS);

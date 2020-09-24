@@ -14,12 +14,11 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
-import com.google.sps.data.Recipe;
 import com.google.sps.utils.DatastoreUtils;
-import com.google.sps.utils.RecipeCollector;
-import com.google.sps.utils.UserCollector;
 import com.google.sps.utils.UserConstants;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +44,10 @@ public class InventoryServlet extends AuthenticationServlet {
   /** Adds a list of ingredients to user's inventory */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     String ingredients = request.getReader().readLine().replaceAll("\\[|\\]|\"", ""); 
+    /*replaceAll is used to remove [ ] and " characters from ingredients as it
+    initally looks like: '["ingredient 1", "ingredient2"]'*/
     Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
     List<String> inventory;
     if (ingredients.isEmpty()) {
@@ -53,7 +55,7 @@ public class InventoryServlet extends AuthenticationServlet {
     } else{
         inventory = Arrays.asList(ingredients.split("\\s*,\\s*"));
     }
-    UserCollector.addInventoryToUser(
-        userEntity, inventory);
+    userEntity.setProperty(UserConstants.PROPERTY_INVENTORY, inventory);
+    datastore.put(userEntity);
   }
 }
