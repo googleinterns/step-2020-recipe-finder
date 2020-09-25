@@ -18,6 +18,7 @@ import Nav from "react-bootstrap/Nav";
 import home from "../../icons/home.svg";
 import "./AccountHeader.css";
 import account from "../../icons/account.svg";
+import inventory from "../../icons/inventory.svg";
 import favourite from "../../icons/favourite.svg";
 import history from "../../icons/history.svg";
 import tour from "../../icons/tour.svg";
@@ -61,6 +62,10 @@ class AccountHeader extends Component {
               <Nav.Link href="/history">
                 <img src={history} alt="history" className="header-icon" />
                 History
+              </Nav.Link>
+              <Nav.Link href="/pantry">
+                  <img src={inventory} alt="pantry" className="header-icon" />
+                  Pantry
               </Nav.Link>
               <Button className="walkthrough-link" onClick={this.showModal}>
                 <img src={tour} alt="walkthrough" className="header-icon" />

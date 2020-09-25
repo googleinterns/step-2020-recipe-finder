@@ -46,7 +46,7 @@ function App() {
             <PrivateRoute exact path="/cook" component={CookRecipe} />
             <PrivateRoute exact path="/shop" component={ShoppingList} />
             <PrivateRoute exact path="/history" component={AccountHistory} />
-            <PrivateRoute exact path="/inventory" component={Inventory} />
+            <PrivateRoute exact path="/pantry" component={Inventory} />
             <PrivateRoute exact path="/favourites" component={Favourites} />
             <PrivateRoute exact path="/finished" component={FinishedRecipe} />
             <PrivateRoute
