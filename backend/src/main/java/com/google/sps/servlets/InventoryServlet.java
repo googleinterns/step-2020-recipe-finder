@@ -44,10 +44,9 @@ public class InventoryServlet extends AuthenticationServlet {
   /** Adds a list of ingredients to user's inventory */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    // Request body: '["ingredient 1", "ingredient2"]'
+    // replaceAll removes 3 following characters from the body: [ ] "
     String ingredients = request.getReader().readLine().replaceAll("\\[|\\]|\"", ""); 
-    /*replaceAll is used to remove [ ] and " characters from ingredients as it
-    initally looks like: '["ingredient 1", "ingredient2"]'*/
     Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
     List<String> inventory;
     if (ingredients.isEmpty()) {
@@ -56,6 +55,7 @@ public class InventoryServlet extends AuthenticationServlet {
         inventory = Arrays.asList(ingredients.split("\\s*,\\s*"));
     }
     userEntity.setProperty(UserConstants.PROPERTY_INVENTORY, inventory);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(userEntity);
   }
 }

@@ -40,19 +40,11 @@ class Inventory extends ComponentWithHeader {
   }
 
   editLabel(){
-      if (this.state.edit){
-        return "Cancel";
-      } else {
-        return "Edit"
-      }
+    return this.state.edit ? "Cancel" : "Edit";
   }
 
   editCssLabel(){
-      if (this.state.edit){
-        return "edit-inventory";
-      } else {
-        return "hidden-inventory"
-      }
+    return this.state.edit ? "edit-inventory" : "hidden-inventory";
   }
 
   addItem(event) {
