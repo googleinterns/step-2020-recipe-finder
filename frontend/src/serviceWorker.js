@@ -12,6 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+if (workbox) {
+  console.log(`Workbox is loaded 🎉`);
+} else {
+  console.log(`Workbox didn't load `);
+}
+
 // Precache static files
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
 

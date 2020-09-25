@@ -18,10 +18,11 @@
     "workbox-webpack-plugin": "^4.3.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
+    "start": "serve -s build -l 8080",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject"
+    "eject": "react-app-rewired eject",
+    "start-test": "react-app-rewired start"
   },
   "eslintConfig": {
     "extends": "react-app"
