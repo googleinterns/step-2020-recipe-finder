@@ -24,6 +24,7 @@ class Inventory extends ComponentWithHeader {
   constructor(properties) {
     super(properties);
     this.state = {
+      error: null,
       inventory: [],
       edit: false,
     };
@@ -140,7 +141,7 @@ class Inventory extends ComponentWithHeader {
         let index = 0;
         json.map((item) => inventory.push({text: item, key: index++}));
         this.setState({inventory: inventory});})
-      .catch((err) => console.log(err))
+      .catch((error) => this.setState({ error: error }))
       .finally(() => this.setState({ loading: false }));
   }
 
@@ -159,7 +160,7 @@ class Inventory extends ComponentWithHeader {
       },
       body: JSON.stringify(ingredients),
     });
-    fetch(request).then(()=>this.setEdit()).catch((err) => console.log(err));
+    fetch(request).then(()=>this.setEdit()).catch((error) => this.setState({ error: error }));
   }
   
 }
