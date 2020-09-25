@@ -98,7 +98,7 @@ class Inventory extends ComponentWithHeader {
     return(
       <div>
         <div className="centered-container">
-          <h1 className="account-page-title">Inventory</h1>
+          <h1 className="account-page-title">Pantry</h1>
           <h4>These are the items you always have in your kitchen</h4>
           <h3>{this.getMessageIfNoInventory()}</h3>
           <Button className="edit-button" onClick={()=>this.setEdit()}>{this.editLabel()}</Button>

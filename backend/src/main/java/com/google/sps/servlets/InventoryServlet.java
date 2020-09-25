@@ -30,9 +30,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/api/inventory")
 public class InventoryServlet extends AuthenticationServlet {
-  /** Returns user's list of inventory items */
   @Override
   protected void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      /** Returns user's list of inventory items */
     Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
     List<String> inventory =
         DatastoreUtils.getPropertyAsList(userEntity, UserConstants.PROPERTY_INVENTORY);
@@ -41,21 +41,19 @@ public class InventoryServlet extends AuthenticationServlet {
     response.getWriter().println(new Gson().toJson(inventory));
   }
 
-  /** Adds a list of ingredients to user's inventory */
   @Override
   protected void post(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Request body: '["ingredient 1", "ingredient2"]'
-    // replaceAll removes 3 following characters from the body: [ ] "
+    /** Adds a list of ingredients to user's inventory */
+    // needed to sanitise the request because it was an array converted directly to a json
     String ingredients = request.getReader().readLine().replaceAll("\\[|\\]|\"", ""); 
     Entity userEntity = DatastoreUtils.getUserEntity(mUserService);
     List<String> inventory;
     if (ingredients.isEmpty()) {
         inventory = null;
-    } else{
+    } else {
         inventory = Arrays.asList(ingredients.split("\\s*,\\s*"));
     }
     userEntity.setProperty(UserConstants.PROPERTY_INVENTORY, inventory);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(userEntity);
+    DatastoreServiceFactory.getDatastoreService().put(userEntity);
   }
 }

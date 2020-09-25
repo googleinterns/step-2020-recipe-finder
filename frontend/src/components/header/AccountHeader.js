@@ -63,9 +63,9 @@ class AccountHeader extends Component {
                 <img src={history} alt="history" className="header-icon" />
                 History
               </Nav.Link>
-              <Nav.Link href="/inventory">
-                  <img src={inventory} alt="inventory" className="header-icon" />
-                  Inventory
+              <Nav.Link href="/pantry">
+                  <img src={inventory} alt="pantry" className="header-icon" />
+                  Pantry
               </Nav.Link>
               <Button className="walkthrough-link" onClick={this.showModal}>
                 <img src={tour} alt="walkthrough" className="header-icon" />

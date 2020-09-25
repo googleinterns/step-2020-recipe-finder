@@ -41,8 +41,8 @@ class Home extends Component {
           </Link>
           <br></br>
           <br></br>
-          <Link to="/inventory">
-              <Button variant="secondary" id="inventory-btn">Update Inventory</Button>
+          <Link to="/pantry">
+              <Button variant="secondary" id="inventory-btn">Update Pantry</Button>
           </Link>
         </div>
       </div>
