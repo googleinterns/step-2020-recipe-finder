@@ -17,7 +17,7 @@ import React, { Component } from "react";
 import { getOneBackground } from "../../utils/Background";
 import "./OfflinePage.css";
 import Walkthrough from "../login/Walkthrough";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 class OfflinePage extends Component {
   constructor(properties) {

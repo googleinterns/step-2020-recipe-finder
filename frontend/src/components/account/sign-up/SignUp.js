@@ -48,7 +48,7 @@ class SignUp extends Component {
   }
 
   render() {
-    const title = this.state.isSignUp ? "Sign Up" : "Change acount details";
+    const title = this.state.isSignUp ? "Sign Up" : "Change account details";
     const redirectLink = this.state.isSignUp ? "/home" : "/account";
 
     return (
