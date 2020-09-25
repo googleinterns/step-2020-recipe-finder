@@ -26,6 +26,11 @@ limitations under the License. */
   margin: 0;
 }
 
+#inventory-btn {
+  width: 300px;
+  margin: 0;
+}
+
 #home-div {
   height: 100%;
   position: relative;
