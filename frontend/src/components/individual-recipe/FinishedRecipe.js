@@ -19,6 +19,12 @@ import "./FinishedRecipe.css";
 import ComponentWithHeader from "../header/ComponentWithHeader";
 
 class FinishedRecipe extends ComponentWithHeader {
+  constructor(properties) {
+    super(properties);
+    this.state = {
+      error: null
+    }
+  }
   renderContent() {
     return (
       <div>
@@ -50,7 +56,7 @@ class FinishedRecipe extends ComponentWithHeader {
       },
       body: JSON.stringify(recipeId),
     });
-    fetch(request).catch((err) => console.log(err));
+    fetch(request).catch((error) => this.setState({error: error}));
   }
 }
 export default FinishedRecipe;

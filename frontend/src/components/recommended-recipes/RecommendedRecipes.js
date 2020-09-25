@@ -20,7 +20,6 @@ import fridge from "../../icons/fridge.svg";
 import Popover from "react-bootstrap/Popover";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import { handleResponseError } from "../utils/APIErrorHandler";
-import { errorRedirect } from "../utils/APIErrorHandler";
 import { loading, backButton } from "../utils/Utilities";
 import { Recipe } from "../recipe/Recipe";
 import ComponentWithHeader from "../header/ComponentWithHeader";
@@ -63,10 +62,6 @@ class RecommendedRecipes extends ComponentWithHeader {
   }
 
   renderContent() {
-    if (this.state.error !== null) {
-      return errorRedirect(this.state.error);
-    }
-
     if (this.state.loading) {
       return loading("Scanning recipes...", /** withBackground*/ true);
     }

@@ -17,13 +17,13 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import account from "../../icons/account.svg";
 import "./Home.css";
-import { getBackground } from "../../utils/Background";
+import { getRandomBackground } from "../../utils/Background";
 
 class Home extends Component {
   render() {
     return (
       <div id="home-div">
-        {getBackground()}
+        {getRandomBackground()}
         <div className="home-header">
           <h1 id="home-title" className="white-text">
             Recipe Finder

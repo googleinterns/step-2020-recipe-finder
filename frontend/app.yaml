@@ -34,6 +34,24 @@ handlers:
   - url: /
     static_files: build/index.html
     upload: build/index.html
+  - url: /serviceWorker.js
+    static_files: build/serviceWorker.js
+    upload: build/serviceWorker.js
+  - url: /logo192.png
+    static_files: build/logo192.png
+    upload: build/logo192.png
+  - url: /logo512.png
+    static_files: build/logo512.png
+    upload: build/logo512.png
+  - url: /manifest.json
+    static_files: build/manifest.json
+    upload: build/manifest.json
+  - url: /asset-manifest.json
+    static_files: build/asset-manifest.json
+    upload: build/asset-manifest.json
+  - url: /precache-manifest(.*)
+    static_files: build/precache-manifest\1
+    upload: build/precache-manifest(.*)
   - url: /.*
     static_files: build/index.html
     upload: build/index.html

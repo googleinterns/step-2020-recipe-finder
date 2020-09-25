@@ -18,11 +18,19 @@ import bg_5 from "../background-images/smoothie-bowl.jpeg";
 
 const backgrounds = [bg_1, bg_2, bg_3, bg_4, bg_5];
 
-export function getBackground() {
+export function getRandomBackground() {
   const index = Math.floor(Math.random() * backgrounds.length);
   return (
     <div className="background-div">
       <img className="bg-image" src={backgrounds[index]} alt="bg" />
+    </div>
+  );
+}
+
+export function getFirstBackground() {
+  return (
+    <div className="background-div">
+      <img className="bg-image" src={backgrounds[0]} alt="bg" />
     </div>
   );
 }

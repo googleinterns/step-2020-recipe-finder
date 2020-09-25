@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import OfflinePage from "../offline/OfflinePage";
 import { backButton } from "./Utilities";
 
 export function handleResponseError(response) {
@@ -24,17 +24,20 @@ export function handleResponseError(response) {
 }
 
 export function errorRedirect(error) {
-  return <Redirect to={{ pathname: "/error", state: { error: error } }} />;
+  if (error && error.message === "Failed to fetch") {
+    return <OfflinePage />;
+  }
+  return <ErrorPage error={error}/>;
 }
 
 class ErrorPage extends Component {
   render() {
-    const error = this.props.location.state.error;
+    const error = this.props.error;
     return (
       <div>
         {backButton()}
         <h1>Error</h1>
-        <p>{error.message}</p>
+        <p>{error && error.message}</p>
       </div>
     );
   }

@@ -40,6 +40,7 @@ class CookRecipe extends ComponentWithHeader {
       isSpeakerOn: isSpeakerOn === null ? true : isSpeakerOn,
       showModal:
         isSpeakerOn === null && activeKey === "tutorial" ? true : false,
+        error: null
     };
 
     this.readStep = this.readStep.bind(this);

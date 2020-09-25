@@ -28,7 +28,6 @@ import Favourites from "./components/account/favourites/Favourites";
 import Account from "./components/account/my-account/Account";
 import AccountHistory from "./components/account/history/History";
 import ReactErrorHandler from "./components/utils/ReactErrorHandler";
-import ErrorPage from "./components/utils/APIErrorHandler";
 import { PrivateRoute } from "./components/utils/PrivateRoute";
 
 function App() {
@@ -38,7 +37,6 @@ function App() {
         <ReactErrorHandler>
           <Switch>
             <Route exact path="/" component={Login} />
-            <Route exact path="/error" component={ErrorPage} />
             <PrivateRoute exact path="/sign-up" component={SignUp} />
             <PrivateRoute exact path="/home" component={Home} />
             <PrivateRoute exact path="/text" component={InputText} />

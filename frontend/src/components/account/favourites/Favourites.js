@@ -26,6 +26,7 @@ class Favourites extends ComponentWithHeader {
     this.state = {
       recipes: [],
       loading: true,
+      error: null,
     };
   }
 
@@ -77,7 +78,7 @@ class Favourites extends ComponentWithHeader {
     fetch("/api/favourites")
       .then((response) => response.json())
       .then((json) => this.setState({ recipes: json }))
-      .catch((err) => console.log(err))
+      .catch((error) => this.setState({ error: error }))
       .finally(() => this.setState({ loading: false }));
   }
 
