@@ -39,6 +39,11 @@ class Home extends Component {
           <Link to="/text">
             <Button id="input-btn">Input Ingredients</Button>
           </Link>
+          <br></br>
+          <br></br>
+          <Link to="/pantry">
+              <Button variant="secondary" id="inventory-btn">Update Pantry</Button>
+          </Link>
         </div>
       </div>
     );
