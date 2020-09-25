@@ -14,7 +14,7 @@
 
 import Button from "react-bootstrap/Button";
 import React, { Component } from "react";
-import { getOneBackground } from "../../utils/Background";
+import { getFirstBackground } from "../../utils/Background";
 import "./OfflinePage.css";
 import Walkthrough from "../login/Walkthrough";
 import { Redirect } from "react-router-dom";
@@ -23,7 +23,7 @@ class OfflinePage extends Component {
   constructor(properties) {
     super(properties);
     this.state = {
-      background: getOneBackground(),
+      background: getFirstBackground(),
       showModal: false,
       favouritesInCache: false,
       redirect: false,

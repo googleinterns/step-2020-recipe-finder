@@ -27,7 +27,7 @@ export function getRandomBackground() {
   );
 }
 
-export function getOneBackground() {
+export function getFirstBackground() {
   return (
     <div className="background-div">
       <img className="bg-image" src={backgrounds[0]} alt="bg" />

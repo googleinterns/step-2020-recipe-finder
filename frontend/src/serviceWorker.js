@@ -12,21 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-if (workbox) {
-  console.log(`Workbox is loaded 🎉`);
-} else {
-  console.log(`Workbox didn't load `);
-}
-
 // Precache static files
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
 
-self.addEventListener("install", function (event) {
-  event.waitUntil(
-    caches.open(cacheName).then(function (cache) {
-      return cache.addAll(["/offline.html"]);
-    })
-  );
+self.addEventListener("install", (event) => {
+  event.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener("activate", (event) =>
